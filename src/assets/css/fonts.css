@@ -1,0 +1,197 @@
+/* Variable Css Start Here */
+/* Font cdn starts here */
+@font-face {
+	font-family: "Inter-Medium";
+	src: url("../fonts/inter/Inter-Medium.ttf");
+}
+@font-face {
+	font-family: "Inter-Regular";
+	src: url("../fonts/inter/Inter-Regular.ttf");
+}
+@font-face {
+	font-family: "Inter-Semibold";
+	src: url("../fonts/inter/Inter-SemiBold.ttf");
+}
+@font-face {
+	font-family: "Inter-Bold";
+	src: url("../fonts/inter/Inter-Bold.ttf");
+}
+@font-face {
+	font-family: "recoleta-regulardemo";
+	src: url("../fonts/recolata/recoleta-regulardemo.otf");
+}
+@font-face {
+	font-family: "poppins-regular";
+	src: url("../fonts/poppins/Poppins-Regular.ttf");
+}
+@font-face {
+	font-family: "Acme-Regular";
+	src: url("../fonts/Acme-Regular.ttf");
+}
+
+/* 👉 Calibri fonts added here */
+@font-face {
+	font-family: "Calibri-Regular";
+	src: url("../fonts/calibri-font-family/calibri-italic.ttf");
+}
+@font-face {
+	font-family: "Calibri-Bold";
+	src: url("../fonts/calibri-font-family/calibri-bold.ttf");
+	font-weight: bold;
+}
+@font-face {
+	font-family: "Calibri-Italic";
+	src: url("../fonts/calibri-font-family/calibri-italic.ttf");
+	font-style: italic;
+}
+@font-face {
+	font-family: "Calibri-BoldItalic";
+	src: url("../fonts/calibri-font-family/calibri-bold-italic.ttf");
+	font-weight: bold;
+	font-style: italic;
+}
+/* Font cdn ends here */
+
+:root {
+	/* Typography starts here */
+	--primary-regular-font: "Inter-Regular";
+	--primary-medium-font: "Inter-Medium";
+	--primary-semibold-font: "Inter-Semibold";
+	--secondary-bold-font: "Inter-Bold";
+	--primary-black-font: "gabarito-black";
+	--poppins-regular: "poppins-regular";
+	--recoleta-regulat: "recoleta-regulardemo";
+	--acme-regulat: "acme-regular";
+
+	/* 👉 Calibri Variables Added */
+	--calibri-regular: "Calibri-Regular";
+	--calibri-bold: "Calibri-Bold";
+	--calibri-italic: "Calibri-Italic";
+	--calibri-bolditalic: "Calibri-BoldItalic";
+	/* Typography ends here */
+}
+
+.primary-regular-font {
+	font-family: var(--primary-regular-font);
+}
+
+.secondary-bold-font,
+.heading-font {
+	font-family: var(--secondary-bold-font);
+}
+
+.primary-medium-font {
+	font-family: var(--primary-medium-font);
+}
+
+.primary-semibold-font {
+	font-family: var(--primary-semibold-font);
+}
+
+.primary-black-font {
+	font-family: var(--primary-black-font);
+}
+
+.review-user-font {
+	font-family: var(--poppins-regular);
+}
+.main-heading-font {
+	font-family: var(--acme-regulat);
+}
+
+/* 👉 Calibri font classes */
+.calibri-regular {
+	font-family: var(--calibri-regular);
+}
+.calibri-bold {
+	font-family: var(--calibri-bold);
+}
+.calibri-italic {
+	font-family: var(--calibri-italic);
+}
+.calibri-bolditalic {
+	font-family: var(--calibri-bolditalic);
+}
+
+/* Font Sizes Here */
+.xxl-font-level {
+	font-size: 60px;
+}
+.level-1 {
+	font-size: 50px;
+}
+.level-2 {
+	font-size: 45px;
+}
+.level-4 {
+	font-size: 34px;
+}
+.level-3 {
+	font-size: 30px;
+}
+.level-5 {
+	font-size: 26px;
+}
+.level-6-lg {
+	font-size: 22px;
+}
+.level-6 {
+	font-size: 20px;
+}
+.level-7-lg {
+	font-size: 18px;
+}
+.level-7 {
+	font-size: 16px;
+}
+.level-8 {
+	font-size: 14px;
+}
+.level-9 {
+	font-size: 13px;
+}
+.level-10 {
+	font-size: 11px;
+}
+
+@media (max-width: 1367px) {
+	.xxl-font-level {
+		font-size: 50px;
+	}
+	.level-1 {
+		font-size: 40px;
+	}
+	.level-2 {
+		font-size: 35px;
+	}
+	.level-4 {
+		font-size: 30px;
+	}
+	.level-3 {
+		font-size: 26px;
+	}
+	.level-5 {
+		font-size: 23px;
+	}
+	.level-6-lg {
+		font-size: 20px;
+	}
+	.level-6 {
+		font-size: 18px;
+	}
+	.level-7-lg {
+		font-size: 16px;
+	}
+	.level-7 {
+		font-size: 14px;
+	}
+	.level-8 {
+		font-size: 13px;
+	}
+	.level-9 {
+		font-size: 12px;
+	}
+	.level-10 {
+		font-size: 10px;
+	}
+}
