@@ -34,10 +34,22 @@ import meetimg from "../assets/img/meetimg.png";
 import meetimg1 from "../assets/img/meetimg1.png";
 import meetimg2 from "../assets/img/meetimg2.png";
 import meetimg3 from "../assets/img/meetimg3.png";
-
-
+import programs from "../assets/img/programs.png";
+import programs1 from "../assets/img/programs1.png";
+import programs2 from "../assets/img/programs2.png";
+import programs3 from "../assets/img/programs3.png";
+import programs4 from "../assets/img/programs4.png";
+import programs5 from "../assets/img/programs5.png";
+import programs6 from "../assets/img/programs6.png";
 
 export {
+	programs,
+	programs1,
+	programs2,
+	programs3,
+	programs4,
+	programs5,
+	programs6,
 	meetimg,
 	meetimg1,
 	meetimg2,

@@ -13,6 +13,7 @@ const Header = () => {
 	const toggleLanguage = () => {
 		setLanguage((prevLang) => (prevLang === "ENG" ? "اردو" : "ENG"));
 		router.push("/aboutus"); // ✅ Navigate to /aboutus
+		router.push("/ourprogram"); // ✅ Navigate to /ourprogram
 	};
 
 	return (
@@ -39,32 +40,50 @@ const Header = () => {
 							<div className="d-lg-flex align-items-center gap-3 d-none">
 								<ul className="header-link list-unstyled d-md-flex flex-lg-row align-items-center gap-5 mb-0 z-index-1 d-none">
 									<li className="single-item">
-										<Link href="/" className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6">
+										<Link
+											href="/"
+											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
+										>
 											Home
 										</Link>
 									</li>
 									<li className="single-item">
-										<Link href="/aboutus" className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6">
+										<Link
+											href="/aboutus"
+											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
+										>
 											About Us
 										</Link>
 									</li>
 									<li className="single-item">
-										<Link href="/howitwork" className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6">
+										<Link
+											href="/ourprogram"
+											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
+										>
 											Program
 										</Link>
 									</li>
 									<li className="single-item">
-										<Link href="/contactus" className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6">
+										<Link
+											href="/contactus"
+											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
+										>
 											Get Involved
 										</Link>
 									</li>
 									<li className="single-item">
-										<Link href="/contactus" className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6">
+										<Link
+											href="/contactus"
+											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
+										>
 											Contact Us
 										</Link>
 									</li>
 									<li className="single-item">
-										<Link href="/contactus" className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6">
+										<Link
+											href="/contactus"
+											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
+										>
 											Calendar
 										</Link>
 									</li>
