@@ -8,27 +8,52 @@ import PageHeader from "@/Components/PageHeader";
 import Image from "next/image";
 import Link from "next/link";
 import {
-	about,
-	about1,
-	about2,
-	about3,
-	about4,
-	about5,
-	meetimg,
-	meetimg1,
-	meetimg2,
-	meetimg3,
-} from "@/Constant/Index";
-import {
-	FaPlay,
-	FaFacebookF,
-	FaTwitter,
-	FaInstagram,
-	FaBehance,
-} from "react-icons/fa";
+	programs,
+	programs2,
+	programs3,
+	programs4,
+	programs5,
+	programs6,
+	testemonialarrow,
 
+} from "@/Constant/Index";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	faTwitter,
+	faFacebookF,
+	faInstagram,
+	faLinkedinIn,
+	faYoutube,
+} from "@fortawesome/free-brands-svg-icons";
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 const AboutUs = () => {
-	const [showModal, setShowModal] = useState(false);
+	const [selected, setSelected] = useState('Foods'); // Default selected
+
+	const ourprograms = [
+		'Community',
+		'Educations',
+		'Fundraising',
+		'Foods',
+		'Medical Help',
+		'Water Support',
+	];
+	const activities = [
+		{
+			img: programs2,
+			date: '23 June, 2025',
+			title: 'Charity Of The Month Golden Futures...'
+		},
+		{
+			img: programs3,
+			date: '23 June, 2025',
+			title: 'Partner For Good Corporate Sponsor'
+		},
+		{
+			img: programs4,
+			date: '23 June, 2025',
+			title: 'Every Contribution Counts Difference'
+		}
+	];
 
 	return (
 		<>
@@ -37,764 +62,168 @@ const AboutUs = () => {
 			<section className="about-one">
 				<div className="container">
 					<div className="row mt-5 mb-5 pt-5">
-						<div className="col-lg-6">
-							<div className="position-relative">
-								<div className="position-about">
-									<Image
-										src={about1}
-										className="img-fluid w-100 "
-										alt="Lang Icon"
-									/>{" "}
-								</div>
+						<div className="col-lg-8">
+							<div className="position-relative main-wrapper-program radius-30">
+
 								<Image
-									src={about2}
-									className="img-fluid w-100 about-main"
+									src={programs}
+									className="img-fluid w-100 radius-30"
 									alt="Lang Icon"
 								/>{" "}
-								<div className="position-about1">
-									<Image
-										src={about}
-										className="img-fluid w-100 "
-										alt="Lang Icon"
-									/>{" "}
+								<div className="wrapper-content-programm">
+									<h2 className="dark-color mt-3 calibri-bold level-5">
+										See Your Impact: Transparent Donation Tracking
+									</h2>
+									<p className="color-16 line-height-wrapper">
+										Explore the variety of volunteer opportunities available. From event planning and fundraising to fieldwork
+										and administrative support, there are many ways to lend your talents. Find the perfect fit for your skills and
+										interests. Volunteers are the heart of our organization. Join our team to make a hands-on difference in your
+										community. Whether you have a few hours or a few days, your time and skills can help us achieve our
+										goals and support those we serve.
+									</p>
+									<div className="specialized-content position-relative">
+										<div className="arrowimg position-absolute  p-3 bg-white
+										" ><Image
+												src={testemonialarrow}
+												className="img-fluid w-100 radius-30"
+												alt="Lang Icon"
+											/>{" "}</div>
+										<h4 className="color-16 ps-4 level-6 calibri-bold level-5">Specialized cleaning to remove construction dust, debris, and residues left after
+											renovation or remodeling projects.</h4>
+										<div className="clippath mb-0" >  <h5 className="mb-0">Michel Clarck</h5> </div>
+									</div>
+									<p className="color-16 line-height-wrapper mt-5">
+										Our secure online donation platform allows you to make contributions quickly and safely. Choose from
+										various payment methods and set up one-time or recurring donations with ease. Your support helps us
+										continue our mission and reach those in need.
+
+									</p>
+									<div className="row mt-5">
+										<div className="col-lg-6"><Image
+											src={programs5}
+											className="img-fluid w-100 radius-30"
+											alt="Lang Icon"
+										/></div>
+										<div className="col-lg-6"><Image
+											src={programs6}
+											className="img-fluid w-100 radius-30"
+											alt="Lang Icon"
+										/></div>
+									</div>
+									<p className="color-16 line-height-wrapper mt-5 border-bottom pb-4">
+										Our secure online donation platform allows you to make contributions quickly and safely. Choose from
+										various payment methods and set up one-time or recurring donations with ease. Your support helps us
+										continue our mission and reach those in need.
+
+									</p>
+									<div className="row mt-3">
+										<div className="col-lg-6"><div className="d-flex align-items-center gap-3">
+											<h4 className=" level-6 calibri-bold level-5">Tags:</h4>
+											<button className="border radius-40 px-4	 py-2 color-16 calibri-bold bg-transparent">Donations</button>
+											<button className="border radius-40 px-4	 py-2 color-16 calibri-bold bg-transparent">Educations</button>
+										</div></div>
+										<div className="col-lg-6 d-flex align-items-center gap-3 justify-content-end">											<h4 className=" level-6 calibri-bold level-5">Share:</h4>
+											<div className="program-lists ">
+												<ul className="list-unstyled d-flex ps-0 mb-0 gap-2">
+													<li>
+														<Link
+															href="#"
+															className="icon-badge  radius-40 border p-4 dark-color"
+														>
+															<FontAwesomeIcon icon={faTwitter} />
+														</Link>
+													</li>
+													<li>
+														<Link
+															href="#"
+															className="icon-badge  radius-40 border p-4 dark-color"
+														>
+															<FontAwesomeIcon icon={faFacebookF} />
+														</Link>
+													</li>
+													<li>
+														<Link
+															href="#"
+															className="icon-badge  radius-40 border p-4 dark-color"
+														>
+															<FontAwesomeIcon icon={faYoutube} />
+														</Link>
+													</li>
+													<li>
+														<Link
+															href="#"
+															className="icon-badge  radius-40 border p-4 dark-color"
+														>
+															<FontAwesomeIcon icon={faInstagram} />
+														</Link>
+													</li>
+													<li>
+														<Link
+															href="#"
+															className="icon-badge  radius-40 border p-4 dark-color"
+														>
+															<FontAwesomeIcon icon={faLinkedinIn} />
+														</Link>
+													</li>
+												</ul>
+											</div>
+										</div>
+									</div>
+
 								</div>
 							</div>
 						</div>
-						<div className="col-lg-6">
-							<div className="about-content mt-5 pt-4">
-								<div className="d-flex align-items-center gap-2">
-									{" "}
-									<Image src={about5} className="img-fluid " alt="Lang Icon" />
-									<h4 className="level-7 mb-0 color-12 primary-semibold-font">
-										Who We Are
-									</h4>
-								</div>
-								<h2 className="dark-color primary-semibold-font level-2">
-									Introduce M1U’s mission, core values,
-								</h2>
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-									do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-									irure dolor in reprehender
-								</p>
-							</div>
-							<div className="about-content ps-lg-5 ms-lg-5 ps-md-5 ms-md-5 mt-4">
-								<p>
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-									do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-									irure dolor in reprehender
-								</p>
-								<div className="d-flex align-items-start gap-3">
-									<Image src={about4} className="img-fluid " alt="Lang Icon" />
-									<div>
-										<h4>Our Vision & Mission</h4>
-										<p>
-											Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-											sed do eiusmod tempor incididun
-										</p>
-									</div>
+						<div className="col-lg-4">
+							<div className="position-relative radius-20 p-4 bg-17">
+								<div className="programs-container">
+									<h3 className="heading">Our Programs</h3>
+									<form className="program-form">
+										{ourprograms.map((program) => (
+											<label key={program} className="program-label">
+												<input
+													type="radio"
+													name="program"
+													value={program}
+													checked={selected === program}
+													onChange={() => setSelected(program)}
+												/>
+												<span className={`program-btn ${selected === program ? 'active' : ''}`}>
+													{program}
+												</span>
+											</label>
+										))}
+									</form>
+									<button className="donate-btn">Donate Now</button>
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</section>
-			<section className="about-two">
-				<div className="container-fluid p-0">
-					<div className="row align-items-center">
-						<div className="col-lg-6 paragraph-pading">
-							<h2 className="text-white primary-semibold-font level-2">
-								What Drives Us <br /> Forward
-							</h2>
-							<p className="text-white mt-3 mb-3">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-								eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-								enim ad minim veniam, quis nostrud exercitation ullamc.
-							</p>
-							<div className="row mb-3">
-								<div className="col-lg-5 ">
-									<Link href="">
-										<button className="btn-wrapper text-white border-white view">
-											View All Donation
-										</button>
-									</Link>
-								</div>
-							</div>
-						</div>
-						<div className="col-lg-6 position-relative video-wrapper">
-							<Image src={about3} className="img-fluid" alt="About Image" />
-							<div
-								className="play-button-wrapper"
-								onClick={() => setShowModal(true)}
-							>
-								<div className="wave" />
-								<button className="play-button">
-									{" "}
-									<FaPlay />
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				{/* Modal */}
-				{showModal && (
-					<div className="video-modal">
-						<div className="modal-content">
-							<span
-								className="close-button"
-								onClick={() => setShowModal(false)}
-							>
-								×
-							</span>
-							<video controls autoPlay>
-								<source src="/video.mp4" type="video/mp4" />
-								Your browser does not support the video tag.
-							</video>
-						</div>
-					</div>
-				)}
-			</section>
-			<section className="about-three mb-5 pb-5">
-				<div className="container">
-					<div className="row">
-						<div className="col-lg-8 mx-auto ">
-							<div className="text-center mt-5 mb-5 pt-3 pb-3">
-								<h2 className="primary-semibold-font text-center level-2 dark-color">
-									Meet The Optimistic Volunteer
-								</h2>
-								<h4 className="calibri-bold mt-5 text-center level-3 color-6">
-									Board of Directors
-								</h4>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-lg-6 mx-auto">
-								<div className="row">
-									<div className="col-lg-6">
-										<Image
-											src={meetimg}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Jessica Lauren
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-6">
-										<Image
-											src={meetimg3}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Daniel Thomas
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
+							<div className="position-relative radius-20 mt-3 p-4 bg-17">
+								<div className="programs-container">
+									<h3 className="heading">Recent Activity</h3>
+									<div className="activity-list space-y-4 mt-4">
+										{activities.map((item, index) => (
+											<div key={index} className="d-flex gap-3 items-start">
+												<Image
+													src={item.img}
+													alt={item.title}
+													width={150}
+													height={64}
+													className="radius-20 img-fluid "
+												/>
+												<div>
+													<div className="text-sm color-16 calibri-bold">
+														<FontAwesomeIcon icon={faCalendarAlt} className="color-2 pe-2" />
+														{item.date}
+													</div>
+													<div className="heading">
+														{item.title}
+													</div>
+												</div>
+											</div>
+										))}
 									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-lg-8 mx-auto ">
-							<div className="text-center mt-5 mb-5 pt-3 pb-3">
-								<h4 className="calibri-bold mt-5 text-center level-3 color-6">
-									Executive Committee
-								</h4>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-lg-8 mx-auto">
-								<div className="row">
-									<div className="col-lg-4">
-										<Image
-											src={meetimg}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Jessica Lauren
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
 
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-4">
-										<Image
-											src={meetimg3}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Daniel Thomas
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-4">
-										<Image
-											src={meetimg2}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Michel Vetory
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-lg-8 mx-auto ">
-							<div className="text-center mt-5 mb-5 pt-3 pb-3">
-								<h4 className="calibri-bold mt-5 text-center level-3 color-6">
-									Board of Advisors{" "}
-								</h4>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-lg-12 mx-auto">
-								<div className="row">
-									<div className="col-lg-3">
-										<Image
-											src={meetimg}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Jessica Lauren
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-3">
-										<Image
-											src={meetimg3}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Daniel Thomas
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-3">
-										<Image
-											src={meetimg2}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Michel Vetory
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-3">
-										<Image
-											src={meetimg1}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Emma Mary
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div className="row">
-						<div className="col-lg-8 mx-auto ">
-							<div className="text-center mt-5 mb-5 pt-3 pb-3">
-								<h4 className="calibri-bold mt-5 text-center level-3 color-6">
-									Partners
-								</h4>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-lg-12 mx-auto">
-								<div className="row">
-										<div className="col-lg-3">
-										<Image
-											src={meetimg3}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Daniel Thomas
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-3">
-										<Image
-											src={meetimg}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Jessica Lauren
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-								
-									<div className="col-lg-3">
-										<Image
-											src={meetimg1}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Emma Mary
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									<div className="col-lg-3">
-										<Image
-											src={meetimg2}
-											className="img-fluid w-100 radius-30"
-											alt="Lang Icon"
-										/>
-										<h4 className="calibri-bold mt-2 level-5 color-6">
-											Michel Vetory
-										</h4>
-										<h5 className="calibri-bold mt-1 level-7 color-16">
-											Volunteer
-										</h5>
-
-										{/* Social Icons */}
-										<div className="d-flex align-items-center mt-3">
-											<Link href="/" className="text-black mx-2">
-												<FaFacebookF />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaTwitter />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaInstagram />
-											</Link>
-											<span
-												className="border-start mx-2"
-												style={{ height: "20px" }}
-											></span>
-
-											<Link href="/" className="text-black mx-2">
-												<FaBehance />
-											</Link>
-										</div>
-									</div>
-									
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>

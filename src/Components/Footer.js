@@ -9,12 +9,6 @@ import {
 	faLinkedinIn,
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import {
-	faArrowRight,
-	faPhone,
-	faEnvelope,
-	faLocationDot,
-} from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link"; // ✅ next/router ka Link
 
 const Footer = () => {

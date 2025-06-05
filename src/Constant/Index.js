@@ -41,8 +41,11 @@ import programs3 from "../assets/img/programs3.png";
 import programs4 from "../assets/img/programs4.png";
 import programs5 from "../assets/img/programs5.png";
 import programs6 from "../assets/img/programs6.png";
+import testemonialarrow from "../assets/img/testemonialarrow.png";
+
 
 export {
+	testemonialarrow,
 	programs,
 	programs1,
 	programs2,
