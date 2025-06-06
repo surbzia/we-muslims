@@ -489,3 +489,22 @@ section.about-two {
   font-size: 14px;
   color: #222;
 }
+.wrapper-share img {
+    background: #fff;
+    width: 70px;
+    height: 35px;
+    object-fit: scale-down;
+}
+button.wrapper-share {
+    background: transparent;
+    border: none;
+}
+.sec-get {
+    background: #ededed;
+    padding: 60px 60px;
+}
+.row.bg-mailling {
+    background: #636363;
+    border-radius: 100px;
+    padding: 0px;
+}

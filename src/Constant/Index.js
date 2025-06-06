@@ -4,6 +4,11 @@ import gallery from "../assets/img/gallery.png";
 import gallery1 from "../assets/img/gallery1.png";
 import gallery2 from "../assets/img/gallery2.png";
 import gallery3 from "../assets/img/gallery3.png";
+import galleryimg from "../assets/img/galleryimg.png";
+import galleryimg1 from "../assets/img/galleryimg1.png";
+import galleryimg2 from "../assets/img/galleryimg2.png";
+import galleryimg3 from "../assets/img/galleryimg3.png";
+
 import hamburger from "../assets/img/hamburger.png";
 import Img from "../assets/img/Img.png";
 import logo from "../assets/img/logo.png";
@@ -43,8 +48,29 @@ import programs5 from "../assets/img/programs5.png";
 import programs6 from "../assets/img/programs6.png";
 import testemonialarrow from "../assets/img/testemonialarrow.png";
 
+import getimg from "../assets/img/getimg.png";
+import getimg1 from "../assets/img/getimg1.png";
+import getimg2 from "../assets/img/getimg2.png";
+import getimg3 from "../assets/img/getimg3.png";
+import getimg4 from "../assets/img/getimg4.png";
+
+import signupimg from "../assets/img/signupimg.png";
+
+
+
+
 
 export {
+	signupimg,
+	getimg,
+	getimg1,
+	 getimg2,
+	  getimg3,
+	   getimg4,
+	galleryimg,
+	galleryimg1,
+	galleryimg2,
+	galleryimg3,
 	testemonialarrow,
 	programs,
 	programs1,

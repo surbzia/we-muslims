@@ -14,6 +14,8 @@ const Header = () => {
 		setLanguage((prevLang) => (prevLang === "ENG" ? "اردو" : "ENG"));
 		router.push("/aboutus"); // ✅ Navigate to /aboutus
 		router.push("/ourprogram"); // ✅ Navigate to /ourprogram
+		router.push("/gallery"); // ✅ Navigate to /gallery
+		router.push("/getinvolved"); // ✅ Navigate to /gallery
 	};
 
 	return (
@@ -37,8 +39,8 @@ const Header = () => {
 							</div>
 						</div>
 						<div className="col-lg-7">
-							<div className="d-lg-flex align-items-center gap-3 d-none">
-								<ul className="header-link list-unstyled d-md-flex flex-lg-row align-items-center gap-5 mb-0 z-index-1 d-none">
+							<div className="d-lg-flex align-items-center gap-2 d-none">
+								<ul className="header-link list-unstyled d-md-flex flex-lg-row align-items-center gap-4 mb-0 z-index-1 d-none">
 									<li className="single-item">
 										<Link
 											href="/"
@@ -65,7 +67,15 @@ const Header = () => {
 									</li>
 									<li className="single-item">
 										<Link
-											href="/contactus"
+											href="/gallery"
+											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
+										>
+											Gallery
+										</Link>
+									</li>
+									<li className="single-item">
+										<Link
+											href="/getinvolved"
 											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
 										>
 											Get Involved

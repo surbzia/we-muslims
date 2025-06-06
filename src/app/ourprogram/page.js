@@ -26,7 +26,7 @@ import {
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-const AboutUs = () => {
+const Ourprogram = () => {
 	const [selected, setSelected] = useState('Foods'); // Default selected
 
 	const ourprograms = [
@@ -233,4 +233,4 @@ const AboutUs = () => {
 	);
 };
 
-export default AboutUs;
+export default Ourprogram;
