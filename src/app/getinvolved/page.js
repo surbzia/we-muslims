@@ -1,23 +1,29 @@
 // ✅ About Us page: app/aboutus/page.js
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
 import Image from "next/image";
 import Link from "next/link";
-import { getimg, getimg1, getimg2, getimg3, getimg4 } from "@/Constant/Index";
-import SignupFormModal from "@/Components/SignupFormModal";
+import { getimg, getimg1, getimg2, getimg3, getimg4, signupimg } from "@/Constant/Index";
+import ReactModal from "react-modal";
+
+
+
+
 
 const Getinvolved = () => {
-    const [modalOpen, setModalOpen] = useState(false);
+useEffect(() => {
+        // Bootstrap Modal needs JS bundle - already loaded if you included the script
+    }, []);
 
     return (
         <>
             <Header />
             <PageHeader pagename="Get Involved" />
-            <section className="getinvolved-sec">
+                       <section className="getinvolved-sec">
                 <div className="container">
                     <div className="row align-items-center mt-4 mb-4 pt-4 pb-4">
                         <div className="col-lg-6">
@@ -30,23 +36,108 @@ const Getinvolved = () => {
                         <div className="col-lg-6">
                             <div className="content">
                                 <h2 className="calibri-bold color-6 level-2">Register to Get Started</h2>
-                                <p className="color-16 mt-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat</p></div>
+                                <p className="color-16 mt-4">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...
+                                </p>
+                            </div>
+
+                            {/* Open Modal Button */}
                             <button
-                                className="btn btn-primary"
-                                onClick={() => setModalOpen(true)}
+                                type="button"
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                                data-bs-toggle="modal"
+                                data-bs-target="#signupModal"
                             >
-                                Open Signup Modal
+                                Open Modal
                             </button>
-
-                            <SignupFormModal
-                                isOpen={modalOpen}
-                                onClose={() => setModalOpen(false)}
-                            />
-
                         </div>
                     </div>
                 </div>
             </section>
+
+            {/* Bootstrap Modal */}
+            <div
+                className="modal fade"
+                id="signupModal"
+                tabIndex="-1"
+                aria-labelledby="signupModalLabel"
+                aria-hidden="true"
+            >
+                <div className="modal-dialog modal-lg modal-dialog-centered">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                            <h5 className="modal-title" id="signupModalLabel">
+                                Call To Action
+                            </h5>
+                            <button
+                                type="button"
+                                className="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="row">
+                                {/* Left Image */}
+                                <div className="col-lg-6 d-none d-lg-block">
+                                    <Image
+                                        src={signupimg}
+                                        alt="Signup"
+                                        className="img-fluid rounded-start"
+                                        width={600}
+                                        height={800}
+                                    />
+                                </div>
+
+                                {/* Right Form */}
+                                <div className="col-lg-6">
+                                    <form>
+                                        <div className="mb-3">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                placeholder="Your Name"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <input
+                                                type="email"
+                                                className="form-control"
+                                                placeholder="Email Address"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <input
+                                                type="number"
+                                                className="form-control"
+                                                placeholder="Phone Number"
+                                                required
+                                            />
+                                        </div>
+                                        <div className="mb-3">
+                                            <textarea
+                                                className="form-control"
+                                                placeholder="Your Message"
+                                                rows={4}
+                                                required
+                                            ></textarea>
+                                        </div>
+                                        <button
+                                            type="submit"
+                                            className="btn btn-primary w-100"
+                                        >
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <section className=" sec-get ">
                 <div className="container">
                     <div className="row align-items-center justify-content-between">
