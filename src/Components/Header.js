@@ -16,6 +16,7 @@ const Header = () => {
 		router.push("/ourprogram"); // ✅ Navigate to /ourprogram
 		router.push("/gallery"); // ✅ Navigate to /gallery
 		router.push("/getinvolved"); // ✅ Navigate to /gallery
+		router.push("/donation"); // ✅ Navigate to /donation
 	};
 
 	return (
@@ -83,7 +84,7 @@ const Header = () => {
 									</li>
 									<li className="single-item">
 										<Link
-											href="/contactus"
+											href="/donation"
 											className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
 										>
 											Contact Us

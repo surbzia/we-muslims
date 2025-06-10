@@ -56,17 +56,23 @@ import getimg4 from "../assets/img/getimg4.png";
 
 import signupimg from "../assets/img/signupimg.png";
 
+import donation from "../assets/img/donation.png";
+import donation1 from "../assets/img/donation1.png";
+import donationsignboard from "../assets/img/donationsignboard.png";
 
-
-
+import dollar from "../assets/img/dollar.png";
 
 export {
+	dollar,
+	donation,
+	donation1,
+	donationsignboard,
 	signupimg,
 	getimg,
 	getimg1,
-	 getimg2,
-	  getimg3,
-	   getimg4,
+	getimg2,
+	getimg3,
+	getimg4,
 	galleryimg,
 	galleryimg1,
 	galleryimg2,
