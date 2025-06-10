@@ -305,7 +305,10 @@ const Donation = () => {
 								</div>
 								<Image src={donation} className="img-fluid " alt="" />
 								<h4>Emanuel Marko</h4>
-								<div></div>
+								<div>
+									<FaHeart />
+									<h5></h5>
+								</div>
 							</div>
 						</div>
 					</div>
