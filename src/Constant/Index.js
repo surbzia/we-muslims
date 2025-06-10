@@ -61,8 +61,44 @@ import donation1 from "../assets/img/donation1.png";
 import donationsignboard from "../assets/img/donationsignboard.png";
 
 import dollar from "../assets/img/dollar.png";
+import orgiicon from "../assets/img/orgiicon.png";
+import orgiicon1 from "../assets/img/orgiicon1.png";
+
+import contectimg from "../assets/img/contectimg.png";
+import contectimg1 from "../assets/img/contectimg1.png";
+import contectimg2 from "../assets/img/contectimg2.png";
+import contectimg3 from "../assets/img/contectimg3.png";
+
+
+import socailcontent from "../assets/img/socailcontent.png";
+import socailcontent1 from "../assets/img/socailcontent1.png";
+import socailcontent2 from "../assets/img/socailcontent2.png";
+import socailcontent3 from "../assets/img/socailcontent3.png";
+
+import maineventimg from "../assets/img/maineventimg.png";
+import maineventimg1 from "../assets/img/maineventimg1.png";
+import maineventimg2 from "../assets/img/maineventimg2.png";
+import maineventimg3 from "../assets/img/maineventimg3.png";
+import maineventimg4 from "../assets/img/maineventimg4.png";
+import maineventimg5 from "../assets/img/maineventimg5.png";
+
+
+
+
+
+
+
+
 
 export {
+	maineventimg,maineventimg1,maineventimg2,maineventimg3,maineventimg4,maineventimg5,
+	socailcontent, socailcontent3, socailcontent2, socailcontent1,
+	contectimg,
+	contectimg1,
+	contectimg2,
+	contectimg3,
+	orgiicon1,
+	orgiicon,
 	dollar,
 	donation,
 	donation1,

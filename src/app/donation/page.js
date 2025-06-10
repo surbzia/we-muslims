@@ -11,6 +11,8 @@ import {
 	donation,
 	donation1,
 	donationsignboard,
+	orgiicon,
+	orgiicon1,
 } from "@/Constant/Index";
 import { FaHeart } from "react-icons/fa";
 
@@ -73,8 +75,8 @@ const Donation = () => {
 														{selectedAmount === "custom" && customAmount !== ""
 															? customAmount
 															: selectedAmount !== ""
-															? selectedAmount
-															: "0"}
+																? selectedAmount
+																: "0"}
 													</h4>
 												</div>
 											</div>
@@ -148,9 +150,8 @@ const Donation = () => {
 												{paymentMethods.map((method) => (
 													<label
 														key={method.value}
-														className={`payment-method-option ${
-															selectedPayment === method.value ? "active" : ""
-														}`}
+														className={`payment-method-option ${selectedPayment === method.value ? "active" : ""
+															}`}
 													>
 														<input
 															type="radio"
@@ -180,9 +181,8 @@ const Donation = () => {
 												{donationFrequencies.map((freq) => (
 													<label
 														key={freq.value}
-														className={`payment-method-option ${
-															selectedFrequency === freq.value ? "active" : ""
-														}`}
+														className={`payment-method-option ${selectedFrequency === freq.value ? "active" : ""
+															}`}
 													>
 														<input
 															type="radio"
@@ -299,16 +299,28 @@ const Donation = () => {
 							</div>
 						</div>
 						<div className="col-lg-4">
-							<div className="organizer position-relative text-center bg-17 radius-20 p-3">
+							<div className="organizer position-relative text-center overflow-hidden  radius-20 p-3">
 								<div className="content-heading">
-									<h5 className="calibri-bold text-white">Organizer</h5>
+									<h5 className="calibri-bold text-white mb-0">Organizer</h5>
 								</div>
 								<Image src={donation} className="img-fluid " alt="" />
-								<h4>Emanuel Marko</h4>
-								<div>
-									<FaHeart />
-									<h5></h5>
+								<h4 className="calibri-bold mt-2">Emanuel Marko</h4>
+								<div className="d-flex justify-content-center align-content-center gap-2">
+									<Image src={orgiicon} className="img-fluid ori-ico" alt="" />
+									<h5 className="color-16 mb-0 level-7 ">Education</h5>
 								</div>
+								<div className="d-flex justify-content-center align-content-center mt-2 gap-2">
+									<Image src={orgiicon1} className="img-fluid ori-ico" alt="" />
+									<h5 className="color-16 mb-0 level-7 " >New Jersey, USA</h5>
+								</div>
+							</div>
+							<div className="border radius-20 p-4 mt-5">
+								<Image src={donation1} className="img-fluid w-100" alt="" />
+								<h4 className="calibri-bold mt-2">Give health support for every
+									homeless poor children</h4>
+								<p className="mt-3 color-16">Join our community of dedicated supporters by
+									becoming a member.</p>
+
 							</div>
 						</div>
 					</div>

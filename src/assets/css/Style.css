@@ -590,3 +590,62 @@ img.img-fluid.dollar {
 	font-size: 12px;
 	font-weight: bold;
 }
+.content-heading {
+    background: #000;
+    padding: 10px;
+    position: absolute;
+    transform: rotate(-45deg);
+    width: 190px;
+    left: -59px;
+    top: 16px;
+}
+.organizer {
+    background: #f8f6ee;
+}
+.ori-ico {
+    width: 20px;
+    height: 20px;
+    object-fit: scale-down;
+}
+.wrapper-imgcontactus {
+    width: 50px;
+    height: 50px;
+    object-fit: scale-down;
+}
+.social-wrapper-contactus-img {
+    width: 70px;
+    height: 70px;
+    object-fit: scale-down;
+    border-radius: 20px;
+}
+.event-content-wrapper {
+    background: #f2f2f2;
+    padding: 20px;
+    border-radius: 20px;
+}
+.date-wrapper {
+    background: #404040;
+    width: -moz-fit-content;
+    width: fit-content;
+    padding: 7px 7px;
+    border-radius: 0px 18px 15px 15px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 88px;
+    margin: 6px;
+}
+.calender-wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    margin: 20px;
+    background: #fff;
+    border-radius: 120px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
