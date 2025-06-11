@@ -5,8 +5,6 @@ import React from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
-import Image from "next/image";
-import Link from "next/link";
 
 const Notices = () => {
 
