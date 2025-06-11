@@ -649,3 +649,6 @@ img.img-fluid.dollar {
     align-items: center;
     justify-content: center;
 }
+.active-link {
+color: #cdaa44 !important;
+}

@@ -82,6 +82,9 @@ import maineventimg3 from "../assets/img/maineventimg3.png";
 import maineventimg4 from "../assets/img/maineventimg4.png";
 import maineventimg5 from "../assets/img/maineventimg5.png";
 
+import calenderimgwrapper from "../assets/img/calenderimgwrapper.png";
+
+
 
 
 
@@ -91,6 +94,7 @@ import maineventimg5 from "../assets/img/maineventimg5.png";
 
 
 export {
+	calenderimgwrapper,
 	maineventimg,maineventimg1,maineventimg2,maineventimg3,maineventimg4,maineventimg5,
 	socailcontent, socailcontent3, socailcontent2, socailcontent1,
 	contectimg,

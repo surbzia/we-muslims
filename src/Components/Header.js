@@ -38,23 +38,22 @@ const Header = () => {
             </div>
 
             <div className="col-lg-7">
-              <div className="d-lg-flex align-items-center gap-2 d-none">
+              <div className="d-lg-flex align-items-center justify-content-center gap-2 d-none">
                 <ul className="header-link list-unstyled d-md-flex flex-lg-row align-items-center gap-4 mb-0 z-index-1 d-none">
                   {[
-                    { name: "Home", path: "/" },
                     { name: "About Us", path: "/aboutus" },
                     { name: "Program", path: "/ourprogram" },
                     { name: "Gallery", path: "/gallery" },
                     { name: "Get Involved", path: "/getinvolved" },
-                    { name: "Contact Us", path: "/donation" },
-                    { name: "Calendar", path: "/contactus" },
-                    { name: "Event", path: "/pages/events" },
+                    { name: "Contact Us", path: "/contact" },
+                    { name: "Calendar", path: "/calender" },
+                    // { name: "Event", path: "/pages/events" },
                   ].map((link) => (
                     <li key={link.path} className="single-item">
                       <Link
                         href={link.path}
-                        className={`header-link level-7 link-here primary-semibold-font text-decoration-none ${
-                          pathname === link.path ? "active-link" : "color-6"
+                        className={`header-link level-7 link-here color-6  primary-semibold-font text-decoration-none ${
+                          pathname === link.path ? "active-link" : "color-6 "
                         }`}
                       >
                         {link.name}

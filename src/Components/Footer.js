@@ -136,7 +136,7 @@ const Footer = () => {
 										<div className="newslatter position-relative">
 											<input
 												type="text"
-												className="form-control new-slatter-input"
+												className="form-control new-slatter-input radius-0"
 												placeholder="Enter your email"
 											/>
 											<button
@@ -174,7 +174,7 @@ const Footer = () => {
 									<ul className="header-link justify-content-end list-unstyled d-md-flex flex-lg-row align-items-center gap-5 mb-0 z-index-1 d-none">
 										<li className="single-item">
 											<Link
-												href="/"
+												href="/contact"
 												className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
 											>
 												Contact{" "}
@@ -182,7 +182,7 @@ const Footer = () => {
 										</li>
 										<li className="single-item">
 											<Link
-												href="/aboutus"
+												href="/privacy"
 												className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
 											>
 												Privacy{" "}
@@ -190,7 +190,7 @@ const Footer = () => {
 										</li>
 										<li className="single-item">
 											<Link
-												href="/howitwork"
+												href="/cookiesnotice"
 												className="header-link level-7 link-here primary-semibold-font text-decoration-none color-6"
 											>
 												Cookies Notice{" "}

@@ -95,7 +95,7 @@ const Events = () => {
 									<h3 className="calibri-bold level-5">{event.title}</h3>
 									<p>{event.paragraph}</p>
 									<Link
-										href=""
+										href="/pages/events"
 										className="d-flex gap-2 color-12 calibri-bold level-7"
 									>
 										Read Me

@@ -119,6 +119,7 @@ const Ourprogram = () => {
 									<div className="row mt-3">
 										<div className="col-lg-6"><div className="d-flex align-items-center gap-3">
 											<h4 className=" level-6 calibri-bold level-5">Tags:</h4>
+
 											<button className="border radius-40 px-4	 py-2 color-16 calibri-bold bg-transparent">Donations</button>
 											<button className="border radius-40 px-4	 py-2 color-16 calibri-bold bg-transparent">Educations</button>
 										</div></div>
@@ -193,7 +194,9 @@ const Ourprogram = () => {
 											</label>
 										))}
 									</form>
-									<button className="donate-btn">Donate Now</button>
+									<Link href="/donation">
+										<button className="donate-btn">Donate Now</button>
+									</Link>
 								</div>
 							</div>
 							<div className="position-relative radius-20 mt-3 p-4 bg-17">
