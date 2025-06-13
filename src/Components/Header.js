@@ -1,10 +1,11 @@
 "use client";
 
-import { hamburger, logo } from "@/Constant/Index";
+import { hamburger, logo, signupimg } from "@/Constant/Index";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { FaFacebook, FaInstagram,  FaTwitter } from "react-icons/fa";
 
 const Header = () => {
 	const [language, setLanguage] = useState("ENG");
@@ -53,18 +54,60 @@ const Header = () => {
 						className="modal-content"
 						style={{
 							backgroundColor: "#fff",
-							padding: "2rem",
 							borderRadius: "10px",
-							maxWidth: "400px",
+							maxWidth: "800px",
 							textAlign: "center",
 							boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
+							padding:"0",
 						}}
 					>
-						<h4>Welcome to our website</h4>
-						<p>You can toggle the language by clicking the language icon.</p>
-						<button onClick={closeModal} className="btn-wrapper mt-3">
-							Close
-						</button>
+						<button
+							type="button"
+							className="btn-close position-absolute right-0 top-0 p-3"
+							onClick={closeModal}
+						></button>
+						<div className="row align-items-center">
+							{/* Left Image */}
+							<div className="col-lg-6 d-none p-0 d-lg-block">
+								<Image
+									src={signupimg}
+									alt="Signup"
+									className="img-fluid rounded-start"
+									width={600}
+									height={800}
+								/>
+							</div>
+
+							{/* Right Form */}
+							<div className="col-lg-6 ">
+								<div className="p-4">
+									<h5 className="color-12 level-7 calibri-bold text-start" >Lorem ipsum dolor sit amet</h5>
+									<h5 className="modal-title mb-3 text-start level-6 calibri-bold dark-color">
+										Subscribe to Mission Ummah
+									</h5>
+									<form>
+										<div className="mb-3">
+											<input
+												type="text"
+												className="form-control bg-transparent"
+												placeholder="Enter Email Or Phone Number"
+												required
+											/>
+										</div>
+										<button type="submit" className="form-btn w-100">
+											Submit
+										</button>
+										<p className="color-16 mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
+										<div className="d-flex align-content-center justify-content-center gap-3">
+											<FaFacebook className="color-12" />
+											<FaTwitter className="color-12" />
+											<FaInstagram className="color-12" />
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			)}
@@ -103,9 +146,8 @@ const Header = () => {
 											<li key={link.path} className="single-item">
 												<Link
 													href={link.path}
-													className={`header-link level-7 link-here color-6  primary-semibold-font text-decoration-none ${
-														pathname === link.path ? "active-link" : "color-6 "
-													}`}
+													className={`header-link level-7 link-here color-6  primary-semibold-font text-decoration-none ${pathname === link.path ? "active-link" : "color-6 "
+														}`}
 												>
 													{link.name}
 												</Link>
