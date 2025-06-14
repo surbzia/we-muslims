@@ -3,11 +3,14 @@
 import { hamburger, logo, signupimg } from "@/Constant/Index";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import { FaFacebook, FaInstagram,  FaTwitter } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
+import { MyContext } from "./MyContextProvider";
+
 
 const Header = () => {
+	const { setting } = useContext(MyContext);
 	const [language, setLanguage] = useState("ENG");
 	const [showModal, setShowModal] = useState(false);
 	const router = useRouter();
@@ -18,7 +21,6 @@ const Header = () => {
 	};
 
 	useEffect(() => {
-		// Show modal only on home page and only once
 		if (pathname === "/") {
 			const alreadyShown = localStorage.getItem("welcomeModalShown");
 			if (!alreadyShown) {
@@ -58,7 +60,7 @@ const Header = () => {
 							maxWidth: "800px",
 							textAlign: "center",
 							boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
-							padding:"0",
+							padding: "0",
 						}}
 					>
 						<button
@@ -121,13 +123,18 @@ const Header = () => {
 									<div className="header-logo">
 										<figure className="header-logo">
 											<Link href="/">
-												<Image
-													src={logo}
-													className="logo-here light-image"
-													alt="Logo"
-												/>
+												{setting != null ? (
+													<Image
+														src={setting?.header_logo_full_url ?? null}
+														className="logo-here light-image"
+														alt="Logo"
+														width={60} // Required
+														height={60} // Required
+													/>
+												) : ""}
 											</Link>
 										</figure>
+
 									</div>
 								</div>
 							</div>

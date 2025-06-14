@@ -99,7 +99,7 @@ const Calander = () => {
                                     </span>
                                     Add To Calendar
                                 </button>
-                                <button type="button" class="btn-wrapper calibri-bold  view">Donate Now </button>
+                                <button type="button" className="btn-wrapper calibri-bold  view">Donate Now </button>
                             </div>
                         </div>
                     </div>

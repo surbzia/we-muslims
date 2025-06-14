@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faTwitter,
@@ -10,8 +10,10 @@ import {
 	faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import Link from "next/link"; // ✅ next/router ka Link
+import { MyContext } from "./MyContextProvider";
 
 const Footer = () => {
+	const { setting } = useContext(MyContext);
 	const [year, setYear] = useState(new Date().getFullYear());
 
 	useEffect(() => {
@@ -72,9 +74,7 @@ const Footer = () => {
 									<div className="col-md-4 ">
 										<div className="footer-para mt-3">
 											<p className="level-8 text-white primary-semibold-font pe-lg-3 pe-md-3">
-												Duis aute irure dolor in repreh enderit in voluptate
-												velit esse cillum dolore eu fugiat nulla pariatur.
-												Excepteur sint occae cat cupidatat non proident.
+												{setting?.footer_sentance}
 											</p>
 											<h5 className="level-6 primary-semibold-font extra-color-7 color-2">
 												CONNECT WITH US:{" "}
@@ -161,7 +161,7 @@ const Footer = () => {
 							<div className="row justify-content-between align-items-center">
 								<div className="col-lg-5">
 									<p className="level-7  primary-semibold-font  color-6 mb-0">
-										© All right reserved 2025 <span>{year}</span>
+										{setting?.copyright_line} <span>{year}</span>
 										<Link
 											href="/"
 											className="header-link ps-3 level-7 link-here primary-semibold-font text-decoration-none color-6"
