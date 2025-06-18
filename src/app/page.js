@@ -12,9 +12,7 @@ import Foundationfact from "@/Components/Foundationfact";
 import Newsinsights from "@/Components/Newsinsights";
 import Gallery from "@/Components/Gallery";
 import Events from "@/Components/Events";
-import api from "@/services/apis";
-import { request } from "@/services/request";
-import { MyContext } from "@/Components/MyContextProvider";
+
 
 const Home = () => {
 

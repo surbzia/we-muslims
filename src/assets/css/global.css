@@ -185,7 +185,7 @@ textarea#message {
 	background: #cdaa44;
 	border: 1px solid #0000;
 	border-radius: 34px;
-	padding: 13px 40px;
+	padding: 7px 94px;
 	font-weight: 400;
 	transition: all 0.6s;
 }
@@ -1594,4 +1594,13 @@ a:hover {
 	}
 }
 
+/* globals.css */
+.goog-te-banner-frame.skiptranslate,
+.goog-logo-link {
+	display: none !important;
+}
+
+body {
+	top: 0 !important;
+}
 /* Global Responsive Here */

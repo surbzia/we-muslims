@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { MyContext } from "./MyContextProvider";
+import GoogleTranslate from "./GoogleTranslate";
 
 
 const Header = () => {
@@ -142,6 +143,8 @@ const Header = () => {
 							<div className="col-lg-7">
 								<div className="d-lg-flex align-items-center justify-content-center gap-2 d-none">
 									<ul className="header-link list-unstyled d-md-flex flex-lg-row align-items-center gap-4 mb-0 z-index-1 d-none">
+
+										<GoogleTranslate />
 										{[
 											{ name: "About Us", path: "/aboutus" },
 											{ name: "Program", path: "/ourprogram" },
@@ -169,7 +172,7 @@ const Header = () => {
 									<button className="btn-wrapper">Donate</button>
 								</Link>
 
-								<div
+								{/* <div
 									className="language-toggle ms-3 fw-bold"
 									onClick={toggleLanguage}
 									style={{ cursor: "pointer" }}
@@ -182,7 +185,7 @@ const Header = () => {
 										width={20}
 										height={20}
 									/>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>

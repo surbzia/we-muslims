@@ -5,6 +5,7 @@ import "../assets/css/Style.css";
 import "../assets/css/fonts.css";
 import "../assets/css/colors.css";
 import Providers from "@/Components/Providers";
+import GoogleTranslate from "@/Components/GoogleTranslate";
 
 
 export const metadata = {
@@ -35,6 +36,12 @@ export default function RootLayout({ children }) {
 				/>
 			</head>
 			<body>
+				<div className="py-2 bg-light">
+					<div className="container d-flex justify-content-end">
+						<GoogleTranslate />
+					</div>
+				</div>
+
 				<Providers>{children}</Providers>
 
 				<Script

@@ -652,3 +652,40 @@ img.img-fluid.dollar {
 .active-link {
 color: #cdaa44 !important;
 }
+.goog-te-banner-frame.skiptranslate {
+	display: none !important;
+}
+
+body>.skiptranslate {
+	display: none !important;
+}
+
+.goog-logo-link,
+.goog-te-gadget span {
+	display: none !important;
+	font-size: 0 !important;
+}
+
+/* .goog-te-gadget span {
+	display: none !important;
+} */
+
+/* Hide the entire powered by section */
+.goog-te-gadget .goog-te-combo+div {
+	display: none !important;
+}
+
+/* Alternative - target the text node specifically */
+.goog-te-gadget {
+	font-size: 0 !important;
+}
+
+.goog-te-gadget select {
+	font-size: 14px !important;
+	/* Reset font for select element */
+}
+
+select.goog-te-combo {
+	padding: 3px 53px;
+	border: 1px solid #0000002e;
+}
