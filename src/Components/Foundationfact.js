@@ -1,27 +1,33 @@
 "use client";
-import React from "react";
+import React, {useContext} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Map } from "@/Constant/Index";
+import {MyContext} from "@/Components/MyContextProvider";
 
 const Foundationfact = () => {
+
+	const { content } = useContext(MyContext);
+	const pageContent = content.home['MapSection'];
+
+
 	const cardData = [
 		{
-			title: "Lorum Ipsum",
-			text: "Cillum potenti consequuntur cupidita terre perferendis ac natoque.",
-			value: "14,246",
+			title: pageContent['heading_one'],
+			text: pageContent['note_one'],
+			value: pageContent['sub_note_one'],
 			colorClass: "color-13",
 		},
 		{
-			title: "Lorum Ipsum",
-			text: "Cillum potenti consequuntur cupidita terre perferendis ac natoque.",
-			value: "864",
+			title: pageContent['heading_two'],
+			text: pageContent['note_two'],
+			value: pageContent['sub_note_two'],
 			colorClass: "color-3",
 		},
 		{
-			title: "Lorum Ipsum",
-			text: "Cillum potenti consequuntur cupidita terre perferendis ac natoque.",
-			value: "$ 20,050",
+			title: pageContent['heading_three'],
+			text: pageContent['note_three'],
+			value: pageContent['sub_note_three'],
 			colorClass: "color-12",
 		},
 	];
@@ -34,7 +40,7 @@ const Foundationfact = () => {
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
 								<h2 className="primary-semibold-font color-6 level-3">
-									Foundation Facts
+									{pageContent['top_heading']}
 								</h2>{" "}
 							</div>
 						</div>
@@ -42,7 +48,8 @@ const Foundationfact = () => {
 				</div>
 				<div className="row">
 					<div className="col-lg-12">
-						<Image src={Map} className="img-fluid w-100 mt-5 pt-2" alt="map" />{" "}
+						<Image src={pageContent['map_image'][0]} width={600}
+							   height={800} className="img-fluid w-100 mt-5 pt-2" alt="map" />{" "}
 					</div>
 				</div>
 				<div className="row mt-3">

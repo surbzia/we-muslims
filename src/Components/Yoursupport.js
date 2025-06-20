@@ -1,9 +1,13 @@
 "use client";
 import { support } from "@/Constant/Index";
 import Image from "next/image";
-import React from "react";
+import React, {useContext} from "react";
+import {MyContext} from "@/Components/MyContextProvider";
 
 const Yoursupport = () => {
+
+	const { content } = useContext(MyContext);
+	const pageContent = content.home['SectionOne'];
 	return (
 		<>
 			<section className="yoursupport pt-5 pb-5">
@@ -22,23 +26,15 @@ const Yoursupport = () => {
 									{" "}
 									<span className="line-wrapper"></span>
 									<h4 className="primary-semibold-font color-6 level-3">
-										Lorum Ipsum
+										{pageContent['top_heading']}
 									</h4>
 									
 								</div>
 								<h2 className="primary-semibold-font color-6 level-3">
-										YOUR SUPPORT IS REALLY POWERFUL.
+									{pageContent.heading}
 									</h2>
 									<p>
-										{`Lorem Ipsum is simply dummy text of the printing and
-										typesetting industry. Lorem Ipsum has been the industry's
-										standard dummy text ever since the 1500s, when an unknown
-										printer took a galley of type and scrambled it to make a
-										type specimen book. Lorem Ipsum is simply dummy text of the
-										printing and typesetting industry. Lorem Ipsum has been the
-										industry's standard dummy text ever since the 1500s, when an
-										unknown printer took a galley of type and scrambled it to
-										make a type specimen book.`}
+										{pageContent.note}
 									</p>
 							</div>
 						</div>

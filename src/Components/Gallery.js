@@ -3,8 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import Slider from "react-slick";
+import {useContext} from "react";
+import {MyContext} from "@/Components/MyContextProvider";
 
 const Gallery = () => {
+
+	const { content } = useContext(MyContext);
+	const pageContent = content.home['GallerySection'];
+
+
 	const PrevArrow = ({ onClick }) => (
 		<div className="custom-arrow prev" onClick={onClick}>
 			<FaChevronLeft />
@@ -81,10 +88,10 @@ const Gallery = () => {
 						<div className="content">
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
-								<h4 className="primary-bold-font color-6 level-2">Gallery</h4>
+								<h4 className="primary-bold-font color-6 level-2">{pageContent['top_heading']}</h4>
 							</div>
 							<h2 className="primary-semibold-font color-6 level-3">
-								Muslims has been supporting emergency feeding programmes
+								{pageContent['note']}
 							</h2>
 						</div>
 					</div>

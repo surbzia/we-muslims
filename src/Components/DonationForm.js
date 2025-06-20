@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useContext, useState} from "react";
+import {MyContext} from "@/Components/MyContextProvider";
 
 const DonationForm = () => {
+	const { content } = useContext(MyContext);
+	const pageContent = content.home.DonateSection;
 	const [selectedAmount, setSelectedAmount] = useState("");
 
 	const amounts = ["10", "25", "50", "100", "250", "custom"];
@@ -15,11 +18,10 @@ const DonationForm = () => {
 						{/* Left Section */}
 						<div className="col-lg-4">
 							<h2 className="primary-semibold-font color-6 level-3">
-								MAKE A DONATION
+								{pageContent.heading ?? ""}
 							</h2>
 							<p className="text-sm text-gray-600 mt-2">
-								Sociis aute euismod, vulputate. Porta amet tortor nibh wisi
-								saepe.
+								{pageContent.note ?? ""}
 							</p>
 						</div>
 

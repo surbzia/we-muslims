@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, {useContext} from "react";
 import Slider from "react-slick";
 import {
 	charity,
@@ -12,6 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import {MyContext} from "@/Components/MyContextProvider";
 
 // Dummy data for map – replace with real content
 const programs = [
@@ -48,6 +49,11 @@ const NextArrow = ({ onClick }) => (
 );
 
 const Program = () => {
+
+	const { content } = useContext(MyContext);
+	const pageContent = content.home['ProgramSection'];
+
+
 	const settings = {
 		dots: false,
 		infinite: true,
@@ -80,10 +86,10 @@ const Program = () => {
 						<div className="content">
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
-								<h4 className="primary-bold-font color-6 level-2">Programs</h4>
+								<h4 className="primary-bold-font color-6 level-2">{pageContent['top_heading']}</h4>
 							</div>
 							<h2 className="primary-semibold-font color-6 level-3">
-								They Need Your Support
+								{pageContent['heading']}
 							</h2>
 						</div>
 					</div>

@@ -9,6 +9,8 @@ import Image from "next/image";
 import Link from "next/link";
 import Slider from "react-slick";
 import { newsimg1, newimg2, newimg3 } from "@/Constant/Index";
+import {useContext} from "react";
+import {MyContext} from "@/Components/MyContextProvider";
 
 const insights = [
 	{
@@ -67,6 +69,9 @@ const settings = {
 };
 
 const Newsinsights = () => {
+
+	const { content } = useContext(MyContext);
+	const pageContent = content.home['NewsSection'];
 	return (
 		<section className="newinsgths pb-3">
 			<div className="container">
@@ -76,12 +81,11 @@ const Newsinsights = () => {
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
 								<h4 className="primary-bold-font color-6 level-2">
-									News Insights
+									{pageContent['top_heading']}
 								</h4>
 							</div>
 							<h2 className="primary-semibold-font color-6 level-3">
-								It has impacted the poor the most. Since the announcement of the
-								lockdown,
+								{pageContent['note']}
 							</h2>
 						</div>
 					</div>

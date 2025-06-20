@@ -1,7 +1,7 @@
 "use client";
 
 
-import React from "react";
+import React, {useContext} from "react";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,6 +13,7 @@ import {
 	event4,
 	event5,
 } from "@/Constant/Index";
+import {MyContext} from "@/Components/MyContextProvider";
 
 const eventData = [
 	{
@@ -60,6 +61,8 @@ const eventData = [
 ];
 
 const Events = () => {
+	const { content } = useContext(MyContext);
+	const pageContent = content.home['EventSection'];
 	return (
 		<section className="newinsgths pb-3">
 			<div className="container">
@@ -68,10 +71,10 @@ const Events = () => {
 						<div className="content">
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
-								<h4 className="primary-bold-font color-6 level-2">EVENTS</h4>
+								<h4 className="primary-bold-font color-6 level-2">{pageContent['top_heading']}</h4>
 							</div>
 							<h2 className="primary-semibold-font color-6 level-3">
-								MAKE SOMEONE’S LIFE BY GIVING OF YOURS.
+								{pageContent['note']}
 							</h2>
 						</div>
 					</div>

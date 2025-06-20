@@ -11,6 +11,7 @@ const MyContextProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [pageLoader, setPageLoader] = useState(true);
 	const [setting, setSetting] = useState(null);
+	const [content, setContent] = useState({home:null,aboutUs:null});
 	const [gallery, setGallery] = useState(null);
 	const [error, setError] = useState(null);
 
@@ -20,12 +21,17 @@ const MyContextProvider = ({ children }) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const [settingResponse, galleryResponse] = await Promise.all([
+				const [settingResponse, galleryResponse, homeResponse, aboutResponse] = await Promise.all([
 					request.get(api.setting),
-					request.get(api.gallery)
+					request.get(api.gallery),
+					request.get(api.content('home')),
+					request.get(api.content('about-us')),
 				]);
+
 				setSetting(settingResponse.data);
 				setGallery(galleryResponse.data);
+				setContent((prev) => ({ ...prev, home: homeResponse.data }));
+				setContent((prev) => ({ ...prev, aboutUs: aboutResponse.data }));
 			} catch (err) {
 				console.error("Error:", err);
 				setError("Failed to load settings.");
@@ -41,9 +47,10 @@ const MyContextProvider = ({ children }) => {
 		login,
 		logout,
 		setting,
+		error,
 		gallery,
-		error
-	}), [user, setting, gallery, error]);
+		content
+	}), [user, setting, gallery, error, content]);
 
 	if (pageLoader) {
 		return <PageLoader />;

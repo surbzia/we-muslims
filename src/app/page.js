@@ -14,6 +14,7 @@ import Gallery from "@/Components/Gallery";
 import Events from "@/Components/Events";
 
 
+
 const Home = () => {
 
 	return (
