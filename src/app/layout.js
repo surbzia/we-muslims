@@ -4,6 +4,7 @@ import "../assets/css/global.css";
 import "../assets/css/Style.css";
 import "../assets/css/fonts.css";
 import "../assets/css/colors.css";
+
 import Providers from "@/Components/Providers";
 import GoogleTranslate from "@/Components/GoogleTranslate";
 import Header from "@/Components/Header";

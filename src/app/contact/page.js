@@ -1,4 +1,3 @@
-// ✅ Donation page: app/aboutus/page.js
 "use client";
 
 import React, { useContext } from "react";
@@ -15,6 +14,8 @@ const Contact = () => {
 	const { setting, content } = useContext(MyContext);
 	const pageContent = content.contactUs;
 
+	const [error, setError] = React.useState(null);
+
 	const [form, setForm] = React.useState({
 		name: "",
 		email: "",
@@ -22,6 +23,7 @@ const Contact = () => {
 		message: "",
 	});
 	const [submitted, setSubmitted] = React.useState(false);
+	const [loading, setLoading] = React.useState(false);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -33,17 +35,23 @@ const Contact = () => {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
+		setLoading(true);
 		request.post(api.submitQuery, form)
 			.then((response) => {
 				setSubmitted(true);
 				setForm({ name: "", email: "", phone: "", message: "" });
+				setLoading(false);
 			})
 			.catch((error) => {
+				setError(error.errors);
 				console.error("Error submitting form:", error);
+				setSubmitted(false);
+				setLoading(false);
 			});
 
 		setTimeout(() => {
 			setSubmitted(false);
+			setError(null);
 		}, 5000);
 	};
 
@@ -89,6 +97,9 @@ const Contact = () => {
 															value={form.name}
 															onChange={handleChange}
 														/>
+														{error && error.name && (
+															<div className="text-danger small mt-1">{error.name}</div>
+														)}
 													</div>
 												</div>
 												<div className="col-lg-12">
@@ -102,6 +113,9 @@ const Contact = () => {
 															value={form.email}
 															onChange={handleChange}
 														/>
+														{error && error.email && (
+															<div className="text-danger small mt-1">{error.email}</div>
+														)}
 													</div>
 												</div>
 												<div className="col-lg-12">
@@ -115,6 +129,9 @@ const Contact = () => {
 															value={form.phone}
 															onChange={handleChange}
 														/>
+														{error && error.phone && (
+															<div className="text-danger small mt-1">{error.phone}</div>
+														)}
 													</div>
 												</div>
 												<div className="col-lg-12">
@@ -128,11 +145,14 @@ const Contact = () => {
 															value={form.message}
 															onChange={handleChange}
 														></textarea>
+														{error && error.message && (
+															<div className="text-danger small mt-1">{error.message}</div>
+														)}
 													</div>
 												</div>
 												<div className="col-lg-12">
-													<button className="form-btn" type="submit">
-														Send a Message
+													<button className="form-btn" disabled={loading} type="submit">
+														{loading ? 'Processing' : 'Send a Message'}
 													</button>
 												</div>
 											</div>

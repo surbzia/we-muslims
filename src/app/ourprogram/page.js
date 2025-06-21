@@ -203,7 +203,7 @@ const Ourprogram = () => {
                                     </Link>
                                 </div>
                             </div>
-                            <div className="position-relative radius-20 mt-3 p-4 bg-17">
+                        {/* <div className="position-relative radius-20 mt-3 p-4 bg-17">
                                 <div className="programs-container">
                                     <h3 className="heading">Recent Activity</h3>
                                     <div className="activity-list space-y-4 mt-4">
@@ -228,7 +228,7 @@ const Ourprogram = () => {
                                             </div>))}
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
 
                         </div>
                     </div>

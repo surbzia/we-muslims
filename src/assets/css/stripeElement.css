@@ -1,0 +1,29 @@
+.StripeElement {
+    box-sizing: border-box;
+    height: 40px;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    color: white;
+    background-color: #f1f1f1;
+    transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.2);
+    border-color: #ffffff;
+}
+
+.StripeElement--invalid {
+    border-color: #ef4444;
+}
+
+.StripeElement--webkit-autofill {
+    background-color: #fefde8 !important;
+}
+
+/* Custom class if you wrap the Element in a div */
+.stripe-card-element {
+    width: 100%;
+    margin: 10px 0;
+}

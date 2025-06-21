@@ -1,7 +1,7 @@
 // ✅ About Us page: app/aboutus/page.js
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
@@ -16,12 +16,11 @@ import {
 	signupimg,
 } from "@/Constant/Index";
 import ReactModal from "react-modal";
+import { MyContext } from "@/Components/MyContextProvider";
 
 const Getinvolved = () => {
-	useEffect(() => {
-		// Bootstrap Modal needs JS bundle - already loaded if you included the script
-	}, []);
-
+	const { content } = useContext(MyContext);
+	const pageContent = content.getInvolved.SinglePage;
 	return (
 		<>
 			<PageHeader pagename="Get Involved" />
@@ -30,24 +29,22 @@ const Getinvolved = () => {
 					<div className="row align-items-center mt-4 mb-4 pt-4 pb-4">
 						<div className="col-lg-6">
 							<Image
-								src={getimg}
+								src={pageContent?.image_one[0]}
 								className="img-fluid w-100 radius-30"
 								alt=""
+								height={200}
+								width={200}
 							/>
 						</div>
 						<div className="col-lg-6">
 							<div className="content">
 								<h2 className="calibri-bold color-6 level-2">
-									Register to Get Started
+									{pageContent?.heading_one}
 								</h2>
 								<p className="color-16 mt-4">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-									do eiusmod tempor incididunt ut labore et dolore magna
-									aliqua...
+									{pageContent?.note_one}
 								</p>
 							</div>
-
-							{/* Open Modal Button */}
 							<button
 								type="button"
 								className="btn-wrapper calibri-bold mt-3 view"
@@ -147,16 +144,10 @@ const Getinvolved = () => {
 						<div className="col-lg-6">
 							<div className="content">
 								<h2 className="calibri-bold color-6 level-2">
-									Register to Volunteer
+									{pageContent?.heading_two}
 								</h2>
 								<p className="color-16 mt-4">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-									do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-									irure dolor in reprehenderit in voluptate velit esse cillum
-									dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-									cupidatat
+									{pageContent?.note_two}
 								</p>
 							</div>
 							<Link href="">
@@ -167,9 +158,11 @@ const Getinvolved = () => {
 						</div>
 						<div className="col-lg-5">
 							<Image
-								src={getimg1}
+								src={pageContent?.image_two[0]}
 								className="img-fluid w-100 radius-30"
 								alt=""
+								height={200}
+								width={200}
 							/>
 						</div>
 					</div>
@@ -180,22 +173,18 @@ const Getinvolved = () => {
 					<div className="row align-items-center mt-4 mb-4 pt-4 pb-4">
 						<div className="col-lg-6">
 							<Image
-								src={getimg2}
+								src={pageContent?.image_three[0]}
 								className="img-fluid w-100 radius-30"
 								alt=""
+								height={200}
+								width={200}
 							/>
 						</div>
 						<div className="col-lg-6">
 							<div className="content ps-4">
-								<h2 className="calibri-bold color-6 level-2">Careers</h2>
+								<h2 className="calibri-bold color-6 level-2">{pageContent?.heading_three}</h2>
 								<p className="color-16 mt-4">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-									do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-									irure dolor in reprehenderit in voluptate velit esse cillum
-									dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-									cupidatat
+									{pageContent?.note_three}
 								</p>
 								<Link href="">
 									<button className="btn-wrapper calibri-bold mt-3 view">
@@ -212,15 +201,9 @@ const Getinvolved = () => {
 					<div className="row bg-mailling align-items-center">
 						<div className="col-lg-6">
 							<div className="content ps-4">
-								<h2 className="calibri-bold text-white level-2">Careers</h2>
+								<h2 className="calibri-bold text-white level-2">	{pageContent?.heading_four}</h2>
 								<p className="text-white mt-4">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-									do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-									irure dolor in reprehenderit in voluptate velit esse cillum
-									dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-									cupidatat
+									{pageContent?.note_four}
 								</p>
 								<Link href="">
 									<button className="btn-wrapper mt-3 text-white border-white view">
@@ -231,9 +214,11 @@ const Getinvolved = () => {
 						</div>
 						<div className="col-lg-6">
 							<Image
-								src={getimg3}
+								src={pageContent?.image_four[0]}
 								className="img-fluid w-100 radius-30"
 								alt=""
+								height={200}
+								width={200}
 							/>
 						</div>
 					</div>
@@ -244,24 +229,20 @@ const Getinvolved = () => {
 					<div className="row align-items-center mt-4 mb-4 pt-4 pb-4">
 						<div className="col-lg-6">
 							<Image
-								src={getimg4}
+								src={pageContent?.image_five[0]}
 								className="img-fluid w-100 radius-30"
 								alt=""
+								height={200}
+								width={200}
 							/>
 						</div>
 						<div className="col-lg-6">
 							<div className="content ps-4">
 								<h2 className="calibri-bold color-6 level-2">
-									Partner With Us
+									{pageContent?.heading_five}
 								</h2>
 								<p className="color-16 mt-4">
-									Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-									do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-									Ut enim ad minim veniam, quis nostrud exercitation ullamco
-									laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-									irure dolor in reprehenderit in voluptate velit esse cillum
-									dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-									cupidatat
+									{pageContent?.note_five}
 								</p>
 								<Link href="">
 									<button className="btn-wrapper calibri-bold mt-3 view">

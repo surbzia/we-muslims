@@ -1,7 +1,7 @@
 // ✅ Donation page: app/aboutus/page.js
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
@@ -15,8 +15,13 @@ import {
 	orgiicon1,
 } from "@/Constant/Index";
 import { FaHeart } from "react-icons/fa";
+import PaymentMethodStripeElement from "@/Components/PaymentMethodStripeElement";
+import { MyContext } from "@/Components/MyContextProvider";
+import { request } from "@/services/request";
+import api from "@/services/apis";
 
 const Donation = () => {
+	const { categories } = useContext(MyContext);
 	const [selectedAmount, setSelectedAmount] = useState("");
 	const [customAmount, setCustomAmount] = useState("");
 	const [selectedPayment, setSelectedPayment] = useState("Test Donation");
@@ -38,6 +43,16 @@ const Donation = () => {
 		{ value: "Quarterly", label: "Quarterly" },
 		{ value: "Yearly", label: "Yearly" },
 	];
+
+
+
+	const [programs, setPrograms] = useState([]);
+	const getPrograms = async (e) => {
+		setPrograms([]);
+		const { data } = await request.get(api.program(`?loop=true&category_id=${e.target.value}`));
+		setPrograms(data);
+	}
+
 	return (
 		<>
 			<PageHeader pagename="Donation" />
@@ -60,7 +75,7 @@ const Donation = () => {
 										enabled. While in test mode no live donations are processed.
 									</h4>
 								</div>
-								<form action="">
+								<form >
 									<div className="wrapper-donation1 border-bottom pb-2">
 										<div className="row mt-4">
 											<div className="col-lg-12 mb-4">
@@ -206,19 +221,25 @@ const Donation = () => {
 									<div className="row">
 										<div className="col-lg-6">
 											<div className="custom-select-wrapper">
-												<select className="custom-select" name="" id="">
+												<select className="custom-select" onChange={getPrograms} >
 													<option value="">Select Donation Type</option>
-													<option value="monthly">Monthly Donation</option>
-													<option value="one-time">One-Time Donation</option>
+													{categories.map((category) => (
+														<option key={category.id} value={category.id}>
+															{category.title}
+														</option>
+													))}
 												</select>
 											</div>
 										</div>
 										<div className="col-lg-6">
 											<div className="custom-select-wrapper">
 												<select className="custom-select" name="" id="">
-													<option value="">Donate To</option>
-													<option value="monthly">Monthly Donation</option>
-													<option value="one-time">One-Time Donation</option>
+													<option value="">Donate To (Programs)</option>
+													{programs.map((program) => (
+														<option key={program.id} value={program.id}>
+															{program.title}
+														</option>
+													))}
 												</select>
 											</div>
 										</div>
@@ -277,28 +298,22 @@ const Donation = () => {
 									</div>
 									<div className="row">
 										<div className="col-lg-12">
-											<div className="mb-3">
+											{/* <div className="mb-3">
 												<input
 													type="text"
 													className="form-control bg-transparent"
 													placeholder="Card Number"
 													required
 												/>
-											</div>
+											</div> */}
+											<PaymentMethodStripeElement />
 										</div>
 									</div>
-									<button
-										type="button"
-										class="btn-wrapper calibri-bold mt-3 view"
-									>
-										<FaHeart className="me-2" />
-										Donate Now{" "}
-									</button>
 								</form>
 							</div>
 						</div>
 						<div className="col-lg-4">
-							<div className="organizer position-relative text-center overflow-hidden  radius-20 p-3">
+							{/* <div className="organizer position-relative text-center overflow-hidden  radius-20 p-3">
 								<div className="content-heading">
 									<h5 className="calibri-bold text-white mb-0">Organizer</h5>
 								</div>
@@ -312,7 +327,7 @@ const Donation = () => {
 									<Image src={orgiicon1} className="img-fluid ori-ico" alt="" />
 									<h5 className="color-16 mb-0 level-7 " >New Jersey, USA</h5>
 								</div>
-							</div>
+							</div> */}
 							<div className="border radius-20 p-4 mt-5">
 								<Image src={donation1} className="img-fluid w-100" alt="" />
 								<h4 className="calibri-bold mt-2">Give health support for every
