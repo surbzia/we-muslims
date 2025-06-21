@@ -11,7 +11,8 @@ const MyContextProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [pageLoader, setPageLoader] = useState(true);
 	const [setting, setSetting] = useState(null);
-	const [content, setContent] = useState({home:null,aboutUs:null});
+	const [page, setPage] = useState({ privacyPolicy: null, cookiesNotice: null });
+	const [content, setContent] = useState({ home: null, aboutUs: null, contactUs: null });
 	const [error, setError] = useState(null);
 	const [categories, setCategories] = useState([]);
 
@@ -21,17 +22,21 @@ const MyContextProvider = ({ children }) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const [settingResponse, homeResponse, aboutResponse, categoriesResponse] = await Promise.all([
+				const [settingResponse, homeResponse, aboutResponse, categoriesResponse, pageResponse, contactUsResponse] = await Promise.all([
 					request.get(api.setting),
 					request.get(api.content('home')),
 					request.get(api.content('about-us')),
 					request.get(api.content('categories')),
+					request.get(api.content('service-pages')),
+					request.get(api.content('contact-us')),
 				]);
 
+				setPage({ privacyPolicy: pageResponse.data[0], cookiesNotice: pageResponse.data[1] });
 				setSetting(settingResponse.data);
 				setContent((prev) => ({ ...prev, home: homeResponse.data }));
 				setContent((prev) => ({ ...prev, aboutUs: aboutResponse.data }));
 				setCategories(categoriesResponse.data);
+				setContent((prev) => ({ ...prev, contactUs: contactUsResponse.data }));
 			} catch (err) {
 				console.error("Error:", err);
 				setError("Failed to load settings.");
@@ -50,7 +55,8 @@ const MyContextProvider = ({ children }) => {
 		error,
 		content,
 		categories,
-	}), [user, setting, error, content,categories]);
+		page,
+	}), [user, setting, error, content, categories, page]);
 
 	if (pageLoader) {
 		return <PageLoader />;

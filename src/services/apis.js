@@ -3,6 +3,7 @@ const api = {
     setting: `${BASE_URL}/settings`,
     content: (query)=> `${BASE_URL}/page?for=${query}`,
     gallery: (query)=> `${BASE_URL}/gallery${query}`,
-    program: (query)=> `${BASE_URL}/program${query}`,
+    program: (query) => `${BASE_URL}/program${query}`,
+    submitQuery: `${BASE_URL}/contact/submit`,
 }
 export default api;

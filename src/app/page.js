@@ -19,7 +19,7 @@ const Home = () => {
 
 	return (
 		<>
-			<Header />
+
 			<Banner />
 			<DonationForm />
 			<Yoursupport />
@@ -28,7 +28,7 @@ const Home = () => {
 			<Newsinsights />
 			<Gallery />
 			<Events />
-			<Footer />
+
 		</>
 	);
 };

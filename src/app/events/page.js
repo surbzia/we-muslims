@@ -56,6 +56,7 @@ const Ourprogram = () => {
     }];
 
     return (<>
+            <Header/>
             <PageHeader pagename="Our Programs"/>
             <section className="about-one">
                 <div className="container">
@@ -233,7 +234,8 @@ const Ourprogram = () => {
                         </div>
                     </div>
                 </div>
-        </section>
+            </section>
+            <Footer/>
         </>);
 };
 

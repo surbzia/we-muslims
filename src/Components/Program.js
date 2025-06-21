@@ -14,27 +14,6 @@ import Link from "next/link";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import {MyContext} from "@/Components/MyContextProvider";
 
-// Dummy data for map – replace with real content
-const programs = [
-	{
-		title: "Lorem ipsum dolor sit amet",
-		raised: "$4,644 of $120,000",
-		donations: "120",
-		img: program1,
-	},
-	{
-		title: "consectetur adipiscing elitsdaw",
-		raised: "$4,644 of $120,000",
-		donations: "120",
-		img: program3,
-	},
-	{
-		title: "Lorem ipsum dolor sit amet",
-		raised: "$4,644 of $120,000",
-		donations: "120",
-		img: program2,
-	},
-];
 
 const PrevArrow = ({ onClick }) => (
 	<div className="custom-arrow prev" onClick={onClick}>
@@ -52,6 +31,7 @@ const Program = () => {
 
 	const { content } = useContext(MyContext);
 	const pageContent = content.home['ProgramSection'];
+	const data = pageContent.data ?? [];
 
 
 	const settings = {
@@ -97,14 +77,16 @@ const Program = () => {
 
 				<div className="mt-5 pt-4 pb-3 mb-5">
 					<Slider {...settings}>
-						{programs.map((program, index) => (
+						{data.map((program, index) => (
 							<div className="px-2" key={index}>
 								<div className="charity-content">
 									<div className="position-relative">
 										<Image
-											src={program.img}
+											src={program.thumbnail_url}
 											className="img-fluid wrappercharity-img w-100 radius-20"
 											alt="programm"
+											height={200}
+											width={200}
 										/>
 										<div className="charity-main-content">
 											<Image
@@ -113,7 +95,7 @@ const Program = () => {
 												alt=""
 											/>
 											<h6 className="dark-color primary-medium-font mb-0">
-												Charity
+												{program.category?.title}
 											</h6>
 										</div>
 									</div>
@@ -129,7 +111,7 @@ const Program = () => {
 										<div className="col-lg-8">
 											<div className="d-flex align-content-center gap-2">
 												<h4 className="color-12 level-7 mb-0 primary-semibold-font">
-													{program.raised}
+													{program?.raised_amount}of {program.total_amount_required}
 												</h4>
 												<span className="wrapper-linn primary-semibold-font level-7">
 													Raised
@@ -153,7 +135,7 @@ const Program = () => {
 										<div className="col-lg-12">
 											<div className="d-flex align-content-center gap-2">
 												<h4 className="color-6 level-7 mb-0 primary-semibold-font">
-													{program.donations}
+													{program.total_donations}
 												</h4>
 												<span className="wrapper-linn color-6 primary-semibold-font level-7">
 													donations

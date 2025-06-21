@@ -144,7 +144,7 @@ const Header = () => {
 								<div className="d-lg-flex align-items-center justify-content-center gap-2 d-none">
 									<ul className="header-link list-unstyled d-md-flex flex-lg-row align-items-center gap-4 mb-0 z-index-1 d-none">
 
-										<GoogleTranslate />
+
 										{[
 											{ name: "About Us", path: "/aboutus" },
 											{ name: "Program", path: "/ourprogram" },
@@ -171,6 +171,7 @@ const Header = () => {
 								<Link href="/donation">
 									<button className="btn-wrapper">Donate</button>
 								</Link>
+								<GoogleTranslate />
 
 								{/* <div
 									className="language-toggle ms-3 fw-bold"

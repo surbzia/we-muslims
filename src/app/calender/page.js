@@ -16,7 +16,6 @@ const Calander = () => {
 
     return (
         <>
-            <Header />
             <PageHeader pagename="Calander " />
             <section className="calender pt-5 pb-5 mt-5 mb-5">
                 <div className="container">
@@ -105,7 +104,6 @@ const Calander = () => {
                     </div>
                 </div>
             </section>
-            <Footer />
         </>
     );
 };

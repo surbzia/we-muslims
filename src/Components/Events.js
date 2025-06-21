@@ -63,6 +63,7 @@ const eventData = [
 const Events = () => {
 	const { content } = useContext(MyContext);
 	const pageContent = content.home['EventSection'];
+	const data = pageContent.data ?? [];
 	return (
 		<section className="newinsgths pb-3">
 			<div className="container">
@@ -81,24 +82,27 @@ const Events = () => {
 				</div>
 
 				<div className="row mt-5 pt-2 pb-5 mb-5">
-					{eventData.map((event, index) => (
+					{data.map((event, index) => (
 						<div className="col-lg-6 mt-4" key={index}>
 							<div className="row">
 								<div className="col-lg-6">
 									<Image
-										src={event.src}
+										src={event.logo_url}
 										className="img-fluid w-100 radius-20"
 										alt=""
+										width={500}
+										height={300}
+										loading="lazy"
 									/>
 								</div>
 								<div className="col-lg-6">
 									<h4 className="color-16 primary-medium-font level-6">
-										{event.date}
+										{event.formated_created_at}
 									</h4>
 									<h3 className="calibri-bold level-5">{event.title}</h3>
-									<p>{event.paragraph}</p>
+									<p>{event.short_detail}</p>
 									<Link
-										href="/pages/events"
+										href={`/events/${event.id}`}
 										className="d-flex gap-2 color-12 calibri-bold level-7"
 									>
 										Read Me

@@ -38,7 +38,6 @@ const AboutUs = () => {
 
 	return (
 		<>
-			<Header />
 			<PageHeader pagename="About Us" />
 			<section className="about-one">
 				<div className="container">
@@ -128,8 +127,8 @@ const AboutUs = () => {
 							</div>
 						</div>
 						<div className="col-lg-6 position-relative video-wrapper">
-							<Image src={pageContent['VideoSection']['image'][0]} width={200}
-								   height={200} className="img-fluid" alt="About Image" />
+							<Image src={pageContent['VideoSection']['image'][0]} width={1000}
+								height={500} className="img-fluid" alt="About Image" />
 							<div
 								className="play-button-wrapper"
 								onClick={() => setShowModal(true)}
@@ -203,17 +202,17 @@ const AboutUs = () => {
 												</h5>
 
 												<div className="d-flex align-items-center mt-3">
-															<Link href={member.facebook_url} className="text-black mx-2">
+													<Link target="_blank" href={member.facebook_url} className="text-black mx-2">
 																<FaFacebookF />
 															</Link>
 															<span className="border-start mx-2" style={{ height: "20px" }}></span>
 
-															<Link href={member.x_url} className="text-black mx-2">
+													<Link target="_blank" href={member.x_url} className="text-black mx-2">
 																<FaTwitter />
 															</Link>
 															<span className="border-start mx-2" style={{ height: "20px" }}></span>
 
-															<Link href={member.instagram_url} className="text-black mx-2">
+													<Link target="_blank" href={member.instagram_url} className="text-black mx-2">
 																<FaInstagram />
 															</Link>
 															<span className="border-start mx-2" style={{ height: "20px" }}></span>
@@ -232,7 +231,6 @@ const AboutUs = () => {
 
 				</div>
 			</section>
-			<Footer />
 		</>
 	);
 };

@@ -24,7 +24,6 @@ const Getinvolved = () => {
 
 	return (
 		<>
-			<Header />
 			<PageHeader pagename="Get Involved" />
 			<section className="getinvolved-sec">
 				<div className="container">
@@ -275,7 +274,6 @@ const Getinvolved = () => {
 				</div>
 			</section>
 
-			<Footer />
 		</>
 	);
 };
