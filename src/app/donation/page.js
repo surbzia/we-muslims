@@ -23,19 +23,20 @@ import { useSearchParams } from "next/navigation";
 const Donation = () => {
 	const { categories } = useContext(MyContext);
 	const query = useSearchParams();
-
 	// Form state
 	const [formData, setFormData] = useState({
-		firstName: '',
-		lastName: '',
+		first_name: '',
+		last_name: '',
 		email: '',
 		message: '',
 		amount: '',
-		customAmount: '',
-		paymentMethod: 'Test Donation',
+		custom_amount: '',
+		payment_oken: '',
+		payment_method: 'Test Donation',
 		frequency: 'One Time',
-		categoryId: '',
-		programId: query.get("programId") || '',
+		category_id: query.get("category_id") || '',
+		program_id: query.get("program_id") || '',
+		event_id: query.get("event_id") || '',
 	});
 
 	const [programs, setPrograms] = useState([]);
@@ -46,8 +47,7 @@ const Donation = () => {
 	// Donation options
 	const amounts = ["10", "25", "50", "100", "250", "custom"];
 
-	const paymentMethods = [
-		{ value: "Test Donation", label: "Test Donation" },
+	const payment_methods = [
 		{ value: "Offline Donation", label: "Offline Donation" },
 		{ value: "Credit Card", label: "Credit Card" },
 	];
@@ -83,7 +83,7 @@ const Donation = () => {
 		setIsSubmitting(true);
 		setSubmitError(null);
 
-		if (!formData.amount && !formData.customAmount) {
+		if (!formData.amount && !formData.custom_amount) {
 			setSubmitError("Please select or enter a donation amount");
 			setIsSubmitting(false);
 			return;
@@ -91,27 +91,28 @@ const Donation = () => {
 
 		const donationData = {
 			...formData,
-			amount: formData.amount === "custom" ? formData.customAmount : formData.amount,
+			amount: formData.amount === "custom" ? formData.custom_amount : formData.amount,
 		};
 
 		try {
 			console.log("Submitting donation data:", donationData);
 
-			// const response = await request.post(api.donate(), donationData);
-			// setSubmitSuccess(true);
-			// setFormData({
-			// 	firstName: '',
-			// 	lastName: '',
-			// 	email: '',
-			// 	message: '',
-			// 	amount: '',
-			// 	customAmount: '',
-			// 	paymentMethod: 'Test Donation',
-			// 	frequency: 'One Time',
-			// 	categoryId: '',
-			// 	programId: '',
-			// });
-			// setPrograms([]);
+			const response = await request.post(api.donate, donationData);
+			setSubmitSuccess(true);
+			setFormData({
+				first_name: '',
+				last_name: '',
+				email: '',
+				message: '',
+				amount: '',
+				custom_amount: '',
+				payment_method: 'Test Donation',
+				frequency: 'One Time',
+				category_id: null,
+				program_id: null,
+				event_id: null
+			});
+			setPrograms([]);
 		} catch (error) {
 			console.error("Donation failed:", error);
 			setSubmitError(error.message || "Failed to process donation. Please try again.");
@@ -169,8 +170,8 @@ const Donation = () => {
 															alt=""
 														/>
 														<h4 className="mb-0 calibri-bold level-5">
-																{formData.amount === "custom" && formData.customAmount !== ""
-																	? formData.customAmount
+																{formData.amount === "custom" && formData.custom_amount !== ""
+																	? formData.custom_amount
 																	: formData.amount !== ""
 																		? formData.amount
 																		: "0"}
@@ -202,7 +203,7 @@ const Donation = () => {
 																				setFormData(prev => ({
 																					...prev,
 																					amount: amt,
-																					customAmount: amt === "custom" ? prev.customAmount : ""
+																					custom_amount: amt === "custom" ? prev.custom_amount : ""
 																				}));
 																			}}
 																		/>
@@ -225,13 +226,13 @@ const Donation = () => {
 																			<span>$</span>
 																			<input
 																				type="number"
-																				name="customAmount"
+																				name="custom_amount"
 																				placeholder="100"
-																				value={formData.customAmount}
+																				value={formData.custom_amount}
 																				onChange={(e) => {
 																					setFormData(prev => ({
 																						...prev,
-																						customAmount: e.target.value,
+																						custom_amount: e.target.value,
 																						amount: "custom"
 																					}));
 																				}}
@@ -252,17 +253,17 @@ const Donation = () => {
 														Select Payment Method
 													</h3>
 													<div className="payment-method-group">
-														{paymentMethods.map((method) => (
+														{payment_methods.map((method) => (
 															<label
 																key={method.value}
-																className={`payment-method-option ${formData.paymentMethod === method.value ? "active" : ""
+																className={`payment-method-option ${formData.payment_method === method.value ? "active" : ""
 																	}`}
 															>
 																<input
 																	type="radio"
-																	name="paymentMethod"
+																	name="payment_method"
 																	value={method.value}
-																	checked={formData.paymentMethod === method.value}
+																	checked={formData.payment_method === method.value}
 																	onChange={handleChange}
 																/>
 																{method.label}
@@ -313,7 +314,7 @@ const Donation = () => {
 														<select
 															className="custom-select"
 															name="categoryId"
-															value={formData.categoryId}
+															value={formData.category_id}
 															onChange={(e) => {
 																handleChange(e);
 																getPrograms(e);
@@ -321,7 +322,7 @@ const Donation = () => {
 														>
 															<option value="">Select Donation Type</option>
 															{categories.map((category) => (
-																<option key={category.id} value={category.id}>
+																<option key={category.id} selected={category.id == formData.category_id} value={category.id}>
 																	{category.title}
 																</option>
 															))}
@@ -333,12 +334,12 @@ const Donation = () => {
 														<select
 															className="custom-select"
 															name="programId"
-															value={formData.programId}
+															value={formData.program_id}
 															onChange={handleChange}
 														>
 															<option value="">Donate To (Programs)</option>
 															{programs.map((program) => (
-																<option key={program.id} value={program.id}>
+																<option key={program.id} selected={program.id == formData.program_id} value={program.id}>
 																	{program.title}
 																</option>
 															))}
@@ -358,10 +359,10 @@ const Donation = () => {
 													<div className="mb-3">
 														<input
 															type="text"
-															name="firstName"
+															name="first_name"
 															className="form-control bg-transparent"
 															placeholder="Your Name"
-															value={formData.firstName}
+															value={formData.first_name}
 															onChange={handleChange}
 															required
 														/>
@@ -371,10 +372,10 @@ const Donation = () => {
 													<div className="mb-3">
 														<input
 															type="text"
-															name="lastName"
+															name="last_name"
 															className="form-control bg-transparent"
 															placeholder="Last name"
-															value={formData.lastName}
+															value={formData.last_name}
 															onChange={handleChange}
 															required
 														/>
@@ -415,8 +416,8 @@ const Donation = () => {
 											</div>
 											<div className="row">
 												<div className="col-lg-12">
-													{formData.paymentMethod === "Credit Card" && (
-														<PaymentMethodStripeElement StripeResponse={(response) => setFormData(prev => ({ ...prev, paymentToken: response.paymentMethod }))} />
+													{formData.payment_method === "Credit Card" && (
+														<PaymentMethodStripeElement StripeResponse={(response) => setFormData(prev => ({ ...prev, payment_token: response.payment_method }))} />
 													)}
 												</div>
 											</div>
@@ -426,7 +427,7 @@ const Donation = () => {
 												<div className="col-lg-12">
 													<button
 														type="submit"
-														className="btn btn-primary"
+														className="btn-wrapper w-100"
 														disabled={isSubmitting}
 													>
 														{isSubmitting ? "Processing..." : "Submit Donation"}

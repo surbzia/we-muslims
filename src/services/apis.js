@@ -6,5 +6,6 @@ const api = {
     program: (query) => `${BASE_URL}/program${query}`,
     submitQuery: `${BASE_URL}/contact/submit`,
     calander: (query = ' ') => `${BASE_URL}/calander${query}`,
+    donate: `${BASE_URL}/donate`,
 }
 export default api;

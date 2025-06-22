@@ -199,7 +199,7 @@ const Ourprogram = () => {
                                     </label>))}
                                 </form>
                                 {program != null ? (
-                                    <Link href={`/donation?programId=${program?.id}&categoryId=${selected?.id}`} >
+                                    <Link href={`/donation?program_id=${program?.id}&category_id=${selected?.id}`} >
                                         <button className="donate-btn">Donate Now</button>
                                     </Link>
                                 ) : ""}
