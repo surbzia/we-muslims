@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
@@ -10,18 +10,18 @@ import {
     programs, programs2, programs3, programs4, programs5, programs6, testemonialarrow,
 
 } from "@/Constant/Index";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faTwitter, faFacebookF, faInstagram, faLinkedinIn, faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
-import {MyContext} from "@/Components/MyContextProvider";
-import {request} from "@/services/request";
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { MyContext } from "@/Components/MyContextProvider";
+import { request } from "@/services/request";
 import api from "@/services/apis";
 import Spinner from "@/Components/Spinner";
 
 const Ourprogram = () => {
-    const {categories} = useContext(MyContext);
+    const { categories } = useContext(MyContext);
     const [selected, setSelected] = useState(categories[0]);
 
 
@@ -33,8 +33,8 @@ const Ourprogram = () => {
 
     const getProgram = async () => {
         setLoading(true);
-        setProgram([]);
-        const {data} = await request.get(api.program(`?category_id=${selected.id}`));
+        setProgram(null);
+        const { data } = await request.get(api.program(`?category_id=${selected.id}`));
         setProgram(data);
         setImages(data?.images != null ? JSON.parse(data?.images) : []);
         setQuote(data?.quote != null ? JSON.parse(data?.quote) : null);
@@ -56,12 +56,12 @@ const Ourprogram = () => {
     }];
 
     return (<>
-            <PageHeader pagename="Our Programs"/>
-            <section className="about-one">
-                <div className="container">
+        <PageHeader pagename="Our Programs" />
+        <section className="about-one">
+            <div className="container">
                 <div className="row mt-5 mb-5 pt-5">
 
-                        <div className="col-lg-8">
+                    <div className="col-lg-8">
                         {!loading ? (
 
                             <>
@@ -178,31 +178,34 @@ const Ourprogram = () => {
                                 )}</>
 
                         ) : (<Spinner />)}
-                        </div>
-                        <div className="col-lg-4">
-                            <div className="position-relative radius-20 p-4 bg-17">
-                                <div className="programs-container">
-                                    <h3 className="heading">Our Programs</h3>
-                                    <form className="program-form">
-                                        {categories.map((program, key) => (<label key={key} className="program-label">
-                                                <input
-                                                    type="radio"
-                                                    name="program"
-                                                    value={program.title}
-                                                    checked={selected.id === program.id}
-                                                    onChange={() => setSelected(program)}
-                                                />
-                                                <span
-                                                    className={`program-btn ${selected.id === program.id ? 'active' : 'bg-16'}`}>
-                                                    {program.title}
-                                                </span>
-                                            </label>))}
-                                    </form>
-                                    <Link href="/donation">
+                    </div>
+                    <div className="col-lg-4">
+                        <div className="position-relative radius-20 p-4 bg-17">
+                            <div className="programs-container">
+                                <h3 className="heading">Our Programs</h3>
+                                <form className="program-form">
+                                    {categories.map((program, key) => (<label key={key} className="program-label">
+                                        <input
+                                            type="radio"
+                                            name="program"
+                                            value={program.title}
+                                            checked={selected.id === program.id}
+                                            onChange={() => setSelected(program)}
+                                        />
+                                        <span
+                                            className={`program-btn ${selected.id === program.id ? 'active' : 'bg-16'}`}>
+                                            {program.title}
+                                        </span>
+                                    </label>))}
+                                </form>
+                                {program != null ? (
+                                    <Link href={`/donation?programId=${program?.id}&categoryId=${selected?.id}`} >
                                         <button className="donate-btn">Donate Now</button>
                                     </Link>
-                                </div>
+                                ) : ""}
+
                             </div>
+                        </div>
                         {/* <div className="position-relative radius-20 mt-3 p-4 bg-17">
                                 <div className="programs-container">
                                     <h3 className="heading">Recent Activity</h3>
@@ -230,11 +233,11 @@ const Ourprogram = () => {
                                 </div>
                             </div> */}
 
-                        </div>
                     </div>
                 </div>
+            </div>
         </section>
-        </>);
+    </>);
 };
 
 export default Ourprogram;

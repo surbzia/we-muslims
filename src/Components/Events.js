@@ -99,7 +99,7 @@ const Events = () => {
 									<h4 className="color-16 primary-medium-font level-6">
 										{event.formated_created_at}
 									</h4>
-									<h3 className="calibri-bold level-5">{event.title}</h3>
+									<h3 className="calibri-bold level-5">{event.name}</h3>
 									<p>{event.short_detail}</p>
 									<Link
 										href={`/events/${event.id}`}

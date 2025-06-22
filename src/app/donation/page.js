@@ -1,7 +1,6 @@
-// ✅ Donation page: app/aboutus/page.js
 "use client";
 
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
@@ -19,21 +18,36 @@ import PaymentMethodStripeElement from "@/Components/PaymentMethodStripeElement"
 import { MyContext } from "@/Components/MyContextProvider";
 import { request } from "@/services/request";
 import api from "@/services/apis";
+import { useSearchParams } from "next/navigation";
 
 const Donation = () => {
 	const { categories } = useContext(MyContext);
-	const [selectedAmount, setSelectedAmount] = useState("");
-	const [customAmount, setCustomAmount] = useState("");
-	const [selectedPayment, setSelectedPayment] = useState("Test Donation");
-	const [selectedFrequency, setSelectedFrequency] = useState("One Time");
+	const query = useSearchParams();
 
+	// Form state
+	const [formData, setFormData] = useState({
+		firstName: '',
+		lastName: '',
+		email: '',
+		message: '',
+		amount: '',
+		customAmount: '',
+		paymentMethod: 'Test Donation',
+		frequency: 'One Time',
+		categoryId: '',
+		programId: query.get("programId") || '',
+	});
+
+	const [programs, setPrograms] = useState([]);
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const [submitError, setSubmitError] = useState(null);
+	const [submitSuccess, setSubmitSuccess] = useState(false);
+
+	// Donation options
 	const amounts = ["10", "25", "50", "100", "250", "custom"];
 
 	const paymentMethods = [
-		{
-			value: "Test Donation",
-			label: "Test Donation",
-		},
+		{ value: "Test Donation", label: "Test Donation" },
 		{ value: "Offline Donation", label: "Offline Donation" },
 		{ value: "Credit Card", label: "Credit Card" },
 	];
@@ -44,14 +58,75 @@ const Donation = () => {
 		{ value: "Yearly", label: "Yearly" },
 	];
 
+	// Handle input changes
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData(prev => ({ ...prev, [name]: value }));
+	};
 
-
-	const [programs, setPrograms] = useState([]);
+	// Get programs when category changes
 	const getPrograms = async (e) => {
-		setPrograms([]);
-		const { data } = await request.get(api.program(`?loop=true&category_id=${e.target.value}`));
-		setPrograms(data);
-	}
+		const categoryId = e.target.value;
+		setFormData(prev => ({ ...prev, categoryId, programId: '' }));
+
+		if (categoryId) {
+			const { data } = await request.get(api.program(`?loop=true&category_id=${categoryId}`));
+			setPrograms(data);
+		} else {
+			setPrograms([]);
+		}
+	};
+
+	// Handle form submission
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		setIsSubmitting(true);
+		setSubmitError(null);
+
+		if (!formData.amount && !formData.customAmount) {
+			setSubmitError("Please select or enter a donation amount");
+			setIsSubmitting(false);
+			return;
+		}
+
+		const donationData = {
+			...formData,
+			amount: formData.amount === "custom" ? formData.customAmount : formData.amount,
+		};
+
+		try {
+			console.log("Submitting donation data:", donationData);
+
+			// const response = await request.post(api.donate(), donationData);
+			// setSubmitSuccess(true);
+			// setFormData({
+			// 	firstName: '',
+			// 	lastName: '',
+			// 	email: '',
+			// 	message: '',
+			// 	amount: '',
+			// 	customAmount: '',
+			// 	paymentMethod: 'Test Donation',
+			// 	frequency: 'One Time',
+			// 	categoryId: '',
+			// 	programId: '',
+			// });
+			// setPrograms([]);
+		} catch (error) {
+			console.error("Donation failed:", error);
+			setSubmitError(error.message || "Failed to process donation. Please try again.");
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
+	// Initialize with programId from URL
+	useEffect(() => {
+		const programIdFromUrl = query.get("programId");
+		if (programIdFromUrl) {
+			setFormData(prev => ({ ...prev, programId: programIdFromUrl }));
+		}
+	}, [query]);
 
 	return (
 		<>
@@ -75,266 +150,307 @@ const Donation = () => {
 										enabled. While in test mode no live donations are processed.
 									</h4>
 								</div>
-								<form >
-									<div className="wrapper-donation1 border-bottom pb-2">
-										<div className="row mt-4">
-											<div className="col-lg-12 mb-4">
-												<div className="wrapper-dollar">
-													<Image
-														src={dollar}
-														className="img-fluid dollar"
-														alt=""
-													/>
-													<h4 className="mb-0 calibri-bold level-5">
-														{selectedAmount === "custom" && customAmount !== ""
-															? customAmount
-															: selectedAmount !== ""
-																? selectedAmount
-																: "0"}
-													</h4>
+
+								{submitSuccess ? (
+									<div className="alert alert-success">
+										<h4>Thank you for your donation!</h4>
+										<p>Your donation has been successfully processed.</p>
+									</div>
+								) : (
+									<form onSubmit={handleSubmit}>
+										{/* Donation Amount Section */}
+										<div className="wrapper-donation1 border-bottom pb-2">
+											<div className="row mt-4">
+												<div className="col-lg-12 mb-4">
+													<div className="wrapper-dollar">
+														<Image
+															src={dollar}
+															className="img-fluid dollar"
+															alt=""
+														/>
+														<h4 className="mb-0 calibri-bold level-5">
+																{formData.amount === "custom" && formData.customAmount !== ""
+																	? formData.customAmount
+																	: formData.amount !== ""
+																		? formData.amount
+																		: "0"}
+															</h4>
+														</div>
+													</div>
+
+													<div className="col-lg-12 mb-4">
+														<div className="donation-box">
+															<div
+																className="donation-amounts"
+																style={{
+																	display: "flex",
+																	flexWrap: "wrap",
+																	gap: "1rem",
+																	marginBottom: "1rem",
+																}}
+															>
+																{amounts.map((amt) => (
+																	<div key={amt}>
+																		<input
+																			type="radio"
+																			name="amount"
+																			id={`donation-${amt}`}
+																			value={amt}
+																			className="donation-radio"
+																			checked={formData.amount === amt}
+																			onChange={() => {
+																				setFormData(prev => ({
+																					...prev,
+																					amount: amt,
+																					customAmount: amt === "custom" ? prev.customAmount : ""
+																				}));
+																			}}
+																		/>
+																		<label
+																			htmlFor={`donation-${amt}`}
+																			className="donation-option"
+																		>
+																			{amt === "custom"
+																				? "Custom Amount"
+																				: `$${amt}`}
+																		</label>
+																	</div>
+																))}
+															</div>
+
+															{formData.amount === "custom" && (
+																<div className="row">
+																	<div className="col-lg-6">
+																		<div className="donation-input-group">
+																			<span>$</span>
+																			<input
+																				type="number"
+																				name="customAmount"
+																				placeholder="100"
+																				value={formData.customAmount}
+																				onChange={(e) => {
+																					setFormData(prev => ({
+																						...prev,
+																						customAmount: e.target.value,
+																						amount: "custom"
+																					}));
+																				}}
+																			/>
+																		</div>
+																	</div>
+																</div>
+															)}
+														</div>
+													</div>
 												</div>
 											</div>
 
-											<div className="col-lg-12 mb-4">
-												<div className="donation-box">
-													<div
-														className="donation-amounts"
-														style={{
-															display: "flex",
-															flexWrap: "wrap",
-															gap: "1rem",
-															marginBottom: "1rem",
-														}}
-													>
-														{amounts.map((amt) => (
-															<div key={amt}>
+											{/* Payment Method Section */}
+											<div className="row mt-3 border-bottom pb-3">
+												<div className="col-lg-12">
+													<h3 className="calibri-bold mb-3">
+														Select Payment Method
+													</h3>
+													<div className="payment-method-group">
+														{paymentMethods.map((method) => (
+															<label
+																key={method.value}
+																className={`payment-method-option ${formData.paymentMethod === method.value ? "active" : ""
+																	}`}
+															>
 																<input
 																	type="radio"
-																	name="donation"
-																	id={`donation-${amt}`}
-																	value={amt}
-																	className="donation-radio"
-																	checked={selectedAmount === amt}
-																	onChange={() => {
-																		setSelectedAmount(amt);
-																		if (amt !== "custom") {
-																			setCustomAmount(""); // clear custom when normal selected
-																		}
-																	}}
+																	name="paymentMethod"
+																	value={method.value}
+																	checked={formData.paymentMethod === method.value}
+																	onChange={handleChange}
 																/>
-																<label
-																	htmlFor={`donation-${amt}`}
-																	className="donation-option"
-																>
-																	{amt === "custom"
-																		? "Custom Amount"
-																		: `$${amt}`}
-																</label>
-															</div>
+																{method.label}
+															</label>
 														))}
 													</div>
+												</div>
+											</div>
 
-													{selectedAmount === "custom" && (
-														<div className="row">
-															<div className="col-lg-6">
-																<div className="donation-input-group">
-																	<span>$</span>
-																	<input
-																		type="number"
-																		placeholder="100"
-																		value={customAmount}
-																		onChange={(e) =>
-																			setCustomAmount(e.target.value)
-																		}
-																	/>
-																</div>
-															</div>
+											{/* Donation Frequency Section */}
+											<div className="row mt-4 border-bottom pb-3">
+												<div className="col-lg-12">
+													<h3 className="calibri-bold mb-3">
+														Choose your donation frequency
+													</h3>
+													<div className="payment-method-group">
+														{donationFrequencies.map((freq) => (
+															<label
+																key={freq.value}
+																className={`payment-method-option ${formData.frequency === freq.value ? "active" : ""
+																	}`}
+															>
+																<input
+																	type="radio"
+																	name="frequency"
+																	value={freq.value}
+																	checked={formData.frequency === freq.value}
+																	onChange={handleChange}
+																/>
+																{freq.label}
+															</label>
+														))}
+													</div>
+												</div>
+											</div>
+
+											{/* Program Selection Section */}
+											<div className="row mt-4">
+												<div className="col-lg-12">
+													<h3 className="calibri-bold mb-3">
+														I Would Like To Donate To:{" "}
+													</h3>
+												</div>
+											</div>
+											<div className="row">
+												<div className="col-lg-6">
+													<div className="custom-select-wrapper">
+														<select
+															className="custom-select"
+															name="categoryId"
+															value={formData.categoryId}
+															onChange={(e) => {
+																handleChange(e);
+																getPrograms(e);
+															}}
+														>
+															<option value="">Select Donation Type</option>
+															{categories.map((category) => (
+																<option key={category.id} value={category.id}>
+																	{category.title}
+																</option>
+															))}
+														</select>
+													</div>
+												</div>
+												<div className="col-lg-6">
+													<div className="custom-select-wrapper">
+														<select
+															className="custom-select"
+															name="programId"
+															value={formData.programId}
+															onChange={handleChange}
+														>
+															<option value="">Donate To (Programs)</option>
+															{programs.map((program) => (
+																<option key={program.id} value={program.id}>
+																	{program.title}
+																</option>
+															))}
+														</select>
+													</div>
+												</div>
+											</div>
+
+											{/* Personal Info Section */}
+											<div className="row mt-4">
+												<div className="col-lg-12">
+													<h3 className="calibri-bold mb-3">Personal Info </h3>
+												</div>
+											</div>
+											<div className="row">
+												<div className="col-lg-6">
+													<div className="mb-3">
+														<input
+															type="text"
+															name="firstName"
+															className="form-control bg-transparent"
+															placeholder="Your Name"
+															value={formData.firstName}
+															onChange={handleChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-lg-6">
+													<div className="mb-3">
+														<input
+															type="text"
+															name="lastName"
+															className="form-control bg-transparent"
+															placeholder="Last name"
+															value={formData.lastName}
+															onChange={handleChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-lg-12">
+													<div className="mb-3">
+														<input
+															type="email"
+															name="email"
+															className="form-control bg-transparent"
+															placeholder="Email Address"
+															value={formData.email}
+															onChange={handleChange}
+															required
+														/>
+													</div>
+												</div>
+												<div className="col-lg-12">
+													<div className="mb-3">
+														<textarea
+															name="message"
+															className="form-control bg-transparent radius-20"
+															placeholder="Your Message"
+															rows={4}
+															value={formData.message}
+															onChange={handleChange}
+														></textarea>
+													</div>
+												</div>
+											</div>
+
+											{/* Payment Info Section */}
+											<div className="row mt-4">
+												<div className="col-lg-12">
+													<h3 className="calibri-bold mb-3">Payment Info </h3>
+												</div>
+											</div>
+											<div className="row">
+												<div className="col-lg-12">
+													{formData.paymentMethod === "Credit Card" && (
+														<PaymentMethodStripeElement StripeResponse={(response) => setFormData(prev => ({ ...prev, paymentToken: response.paymentMethod }))} />
+													)}
+												</div>
+											</div>
+
+											{/* Submit Button */}
+											<div className="row mt-4">
+												<div className="col-lg-12">
+													<button
+														type="submit"
+														className="btn btn-primary"
+														disabled={isSubmitting}
+													>
+														{isSubmitting ? "Processing..." : "Submit Donation"}
+													</button>
+													{submitError && (
+														<div className="alert alert-danger mt-3">
+															{submitError}
 														</div>
 													)}
 												</div>
 											</div>
-										</div>
-									</div>
-									<div className="row mt-3 border-bottom pb-3">
-										<div className="col-lg-12">
-											<h3 className="calibri-bold mb-3">
-												Select Payment Method
-											</h3>
-											<div className="payment-method-group">
-												{paymentMethods.map((method) => (
-													<label
-														key={method.value}
-														className={`payment-method-option ${selectedPayment === method.value ? "active" : ""
-															}`}
-													>
-														<input
-															type="radio"
-															name="payment-method"
-															value={method.value}
-															checked={selectedPayment === method.value}
-															onChange={() => setSelectedPayment(method.value)}
-														/>
-														{method.label}
-														{selectedPayment === method.value &&
-															method.badge && (
-																<div className="payment-badge">
-																	{method.badge}
-																</div>
-															)}
-													</label>
-												))}
-											</div>
-										</div>
-									</div>
-									<div className="row mt-4 border-bottom pb-3">
-										<div className="col-lg-12">
-											<h3 className="calibri-bold mb-3">
-												Choose your donation frequency
-											</h3>
-											<div className="payment-method-group">
-												{donationFrequencies.map((freq) => (
-													<label
-														key={freq.value}
-														className={`payment-method-option ${selectedFrequency === freq.value ? "active" : ""
-															}`}
-													>
-														<input
-															type="radio"
-															name="donation-frequency"
-															value={freq.value}
-															checked={selectedFrequency === freq.value}
-															onChange={() => setSelectedFrequency(freq.value)}
-														/>
-														{freq.label}
-													</label>
-												))}
-											</div>
-										</div>
-									</div>
-									<div className="row mt-4">
-										<div className="col-lg-12">
-											<h3 className="calibri-bold mb-3">
-												I Would Like Donae To:{" "}
-											</h3>
-										</div>
-									</div>
-									<div className="row">
-										<div className="col-lg-6">
-											<div className="custom-select-wrapper">
-												<select className="custom-select" onChange={getPrograms} >
-													<option value="">Select Donation Type</option>
-													{categories.map((category) => (
-														<option key={category.id} value={category.id}>
-															{category.title}
-														</option>
-													))}
-												</select>
-											</div>
-										</div>
-										<div className="col-lg-6">
-											<div className="custom-select-wrapper">
-												<select className="custom-select" name="" id="">
-													<option value="">Donate To (Programs)</option>
-													{programs.map((program) => (
-														<option key={program.id} value={program.id}>
-															{program.title}
-														</option>
-													))}
-												</select>
-											</div>
-										</div>
-									</div>
-									<div className="row mt-4">
-										<div className="col-lg-12">
-											<h3 className="calibri-bold mb-3">Personal Info </h3>
-										</div>
-									</div>
-									<div className="row">
-										<div className="col-lg-6">
-											<div className="mb-3">
-												<input
-													type="text"
-													className="form-control bg-transparent"
-													placeholder="Your Name"
-													required
-												/>
-											</div>
-										</div>
-										<div className="col-lg-6">
-											<div className="mb-3">
-												<input
-													type="text"
-													className="form-control bg-transparent"
-													placeholder="Last name"
-													required
-												/>
-											</div>
-										</div>
-										<div className="col-lg-12">
-											<div className="mb-3">
-												<input
-													type="text"
-													className="form-control bg-transparent"
-													placeholder="Email Address"
-													required
-												/>
-											</div>
-										</div>
-										<div className="col-lg-12">
-											<div className="mb-3">
-												<textarea
-													className="form-control  bg-transparent radius-20"
-													placeholder="Your Message"
-													rows={4}
-													required
-												></textarea>
-											</div>
-										</div>
-									</div>
-									<div className="row mt-4">
-										<div className="col-lg-12">
-											<h3 className="calibri-bold mb-3">Payment Info </h3>
-										</div>
-									</div>
-									<div className="row">
-										<div className="col-lg-12">
-											{/* <div className="mb-3">
-												<input
-													type="text"
-													className="form-control bg-transparent"
-													placeholder="Card Number"
-													required
-												/>
-											</div> */}
-											<PaymentMethodStripeElement />
-										</div>
-									</div>
-								</form>
+									</form>
+								)}
 							</div>
 						</div>
 						<div className="col-lg-4">
-							{/* <div className="organizer position-relative text-center overflow-hidden  radius-20 p-3">
-								<div className="content-heading">
-									<h5 className="calibri-bold text-white mb-0">Organizer</h5>
-								</div>
-								<Image src={donation} className="img-fluid " alt="" />
-								<h4 className="calibri-bold mt-2">Emanuel Marko</h4>
-								<div className="d-flex justify-content-center align-content-center gap-2">
-									<Image src={orgiicon} className="img-fluid ori-ico" alt="" />
-									<h5 className="color-16 mb-0 level-7 ">Education</h5>
-								</div>
-								<div className="d-flex justify-content-center align-content-center mt-2 gap-2">
-									<Image src={orgiicon1} className="img-fluid ori-ico" alt="" />
-									<h5 className="color-16 mb-0 level-7 " >New Jersey, USA</h5>
-								</div>
-							</div> */}
 							<div className="border radius-20 p-4 mt-5">
 								<Image src={donation1} className="img-fluid w-100" alt="" />
-								<h4 className="calibri-bold mt-2">Give health support for every
-									homeless poor children</h4>
-								<p className="mt-3 color-16">Join our community of dedicated supporters by
-									becoming a member.</p>
-
+								<h4 className="calibri-bold mt-2">
+									Give health support for every homeless poor children
+								</h4>
+								<p className="mt-3 color-16">
+									Join our community of dedicated supporters by becoming a member.
+								</p>
 							</div>
 						</div>
 					</div>
