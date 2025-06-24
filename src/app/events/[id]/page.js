@@ -17,15 +17,15 @@ import { useParams } from "next/navigation"; // <-- useParams instead of useRout
 const EventDetail = () => {
     const { id } = useParams(); // <-- get id from params
     const [loading, setLoading] = useState(false);
-    const [calanderData, setCalanderData] = useState(null);
+    const [event, setEvent] = useState(null);
 
-    const getCalanderData = async () => {
+    const getEvents = async () => {
         if (!id) return;
         try {
             setLoading(true);
-            setCalanderData(null);
-            const { data } = await request.get(api.calander(`?id=${id}`)); // <-- use id
-            setCalanderData(data);
+            setEvent(null);
+            const { data } = await request.get(api.events(`?id=${id}`)); // <-- use id
+            setEvent(data);
         } catch (error) {
             console.log("Error fetching calendar data:", error);
         } finally {
@@ -34,9 +34,8 @@ const EventDetail = () => {
     }
 
     useEffect(() => {
-        getCalanderData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [id]); // <-- run when id changes
+        getEvents();
+    }, [id]);
 
     return (
         <>
@@ -69,30 +68,30 @@ const EventDetail = () => {
                                                 </button>
                                             </Link>
                                         </div>
-                                        <Image src={calanderData?.logo_url} width={200} height={200} loading="lazy" className="img-fluid w-100" alt="" />
+                                        <Image src={event?.logo_url} width={200} height={200} loading="lazy" className="img-fluid w-100" alt="" />
                                         <div className="eduction-content position-absolute top-0 left-0 m-3">
                                             <h4 className="bg-2 text-white primary-medium-font py-2 px-3 radius-40 level-7">
-                                                {calanderData?.category?.title ?? 'n/a'}
+                                                {event?.category?.title ?? 'n/a'}
                                             </h4>
                                         </div>
                                     </div>
                                     <div className="mt-3 mb-3" style={{ display: 'flex', gap: '30px', fontSize: '14px' }}>
                                         <div style={{ display: 'flex', alignItems: 'center', color: '#b18927' }}>
                                             <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: '8px' }} />
-                                            <span className="color-6 primary-medium-font">{calanderData?.location}</span>
+                                            <span className="color-6 primary-medium-font">{event?.location}</span>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', color: '#b18927' }}>
                                             <FontAwesomeIcon icon={faCalendarAlt} style={{ marginRight: '8px' }} />
-                                            <span className="color-6 primary-medium-font">{calanderData?.date}</span>
+                                            <span className="color-6 primary-medium-font">{event?.date}</span>
                                         </div>
                                         <div style={{ display: 'flex', alignItems: 'center', color: '#b18927' }}>
                                             <FontAwesomeIcon icon={faClock} style={{ marginRight: '8px' }} />
-                                            <span className="color-6 primary-medium-font">{calanderData?.time}</span>
+                                            <span className="color-6 primary-medium-font">{event?.time}</span>
                                         </div>
                                     </div>
-                                    <h2 className="calibri-bold color-6">{calanderData?.name}</h2>
+                                    <h2 className="calibri-bold color-6">{event?.name}</h2>
                                     <p className="color-16"
-                                        dangerouslySetInnerHTML={{ __html: calanderData?.detail }}
+                                        dangerouslySetInnerHTML={{ __html: event?.detail }}
                                     ></p>
                                     <div className="d-flex align-items-center gap-3">
                                         <button style={{

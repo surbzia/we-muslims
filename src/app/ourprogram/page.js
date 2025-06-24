@@ -1,243 +1,202 @@
 "use client";
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
 import Image from "next/image";
 import Link from "next/link";
-import {
-    programs, programs2, programs3, programs4, programs5, programs6, testemonialarrow,
-
-} from "@/Constant/Index";
+import { testemonialarrow } from "@/Constant/Index";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faTwitter, faFacebookF, faInstagram, faLinkedinIn, faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { MyContext } from "@/Components/MyContextProvider";
 import { request } from "@/services/request";
 import api from "@/services/apis";
 import Spinner from "@/Components/Spinner";
+import ProgramCategorySidebar from "@/Components/ProgramCategorySidebar";
 
 const Ourprogram = () => {
-    const { categories } = useContext(MyContext);
-    const [selected, setSelected] = useState(categories[0]);
-
-
     const [program, setProgram] = useState(null);
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [images, setImages] = useState([]);
     const [tags, setTags] = useState([]);
     const [quote, setQuote] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const getProgram = async () => {
-        setLoading(true);
-        setProgram(null);
-        const { data } = await request.get(api.program(`?category_id=${selected.id}`));
-        setProgram(data);
-        setImages(data?.images != null ? JSON.parse(data?.images) : []);
-        setQuote(data?.quote != null ? JSON.parse(data?.quote) : null);
-        setTags(data?.tags != null ? JSON.parse(data?.tags) : null);
-        setLoading(false);
-    }
+        try {
+            setLoading(true);
+            setError(null);
+            setProgram(null);
+            setImages([]);
+            setQuote(null);
+            setTags([]);
+
+            if (!selectedCategory?.id) {
+                setLoading(false);
+                return;
+            }
+
+            const { data } = await request.get(api.program(`?category_id=${selectedCategory?.id}`));
+
+
+            setProgram(data);
+            setImages(data?.images ? JSON.parse(data.images) : []);
+            setQuote(data?.quote ? JSON.parse(data.quote) : null);
+            setTags(data?.tags ? JSON.parse(data.tags) : []);
+        } catch (err) {
+            console.error("Error fetching program:", err);
+            setError(err.message || "Failed to load program");
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         getProgram();
-    }, [selected]);
+    }, [selectedCategory]);
 
 
-    const activities = [{
-        img: programs2, date: '23 June, 2025', title: 'Charity Of The Month Golden Futures...'
-    }, {
-        img: programs3, date: '23 June, 2025', title: 'Partner For Good Corporate Sponsor'
-    }, {
-        img: programs4, date: '23 June, 2025', title: 'Every Contribution Counts Difference'
-    }];
+    const renderProgramContent = () => {
+        if (loading) return <Spinner />;
 
-    return (<>
-        <PageHeader pagename="Our Programs" />
-        <section className="about-one">
-            <div className="container">
-                <div className="row mt-5 mb-5 pt-5">
+        if (program == null) return <div className="container"></div>;
 
-                    <div className="col-lg-8">
-                        {!loading ? (
+        return (
+            <div className="position-relative main-wrapper-program radius-30">
+                <Image
+                    src={program?.thumbnail_url}
+                    className="img-fluid w-100 radius-30"
+                    alt="Program Thumbnail"
+                    height={400}
+                    width={800}
+                    priority
+                />
 
-                            <>
-                                {program != null ? (<div className="position-relative main-wrapper-program radius-30">
+                <div className="wrapper-content-programm">
+                    <h2 className="dark-color mt-3 calibri-bold level-5">
+                        {program?.title}
+                    </h2>
+
+                    <div
+                        className="color-16 line-height-wrapper"
+                        dangerouslySetInnerHTML={{ __html: program?.detail }}
+                    />
+
+                    {quote?.comment && (
+                        <div className="specialized-content position-relative mt-4">
+                            <div className="arrowimg position-absolute p-3 bg-white">
+                                <Image
+                                    src={testemonialarrow}
+                                    className="img-fluid"
+                                    alt="Quote icon"
+                                    width={24}
+                                    height={24}
+                                />
+                            </div>
+                            <h4 className="color-16 ps-4 level-6 calibri-bold">
+                                {quote.comment}
+                            </h4>
+                            {quote.comment_by && (
+                                <div className="clippath mb-0">
+                                    <h5 className="mb-0">{quote.comment_by}</h5>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {images.length > 0 && (
+                        <div className="row mt-5">
+                            {images.map((image, index) => (
+                                <div className="col-lg-6 mb-3" key={index}>
                                     <Image
-                                        src={program?.thumbnail_url}
+                                        src={image?.full_path}
                                         className="img-fluid w-100 radius-30"
-                                        alt="Lang Icon"
-                                        height={200}
-                                        width={200}
-                                    />{" "}
-                                    <div className="wrapper-content-programm">
-                                        <h2 className="dark-color mt-3 calibri-bold level-5">
-                                            {program?.title}
-                                        </h2>
-                                        <p className="color-16 line-height-wrapper" dangerouslySetInnerHTML={{ __html: program?.detail }}>
-                                        </p>
+                                        alt={`Program image ${index + 1}`}
+                                        width={400}
+                                        height={300}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
-                                        {quote != null && quote?.comment ? (
-                                            <div className="specialized-content position-relative">
-                                                <div className="arrowimg position-absolute  p-3 bg-white
-                                    "><Image
-                                                        src={testemonialarrow}
-                                                        className="img-fluid w-100 radius-30"
-                                                        alt="Lang Icon"
-                                                    />{" "}</div>
-                                                <h4 className="color-16 ps-4 level-6 calibri-bold level-5">
-                                                    {quote?.comment}
-                                                </h4>
-                                                <div className="clippath mb-0"><h5
-                                                    className="mb-0">{quote?.comment_by}</h5></div>
-                                            </div>) : ""}
+                    <div className="row mt-4">
+                        {tags.length > 0 && (
+                            <div className="col-lg-6 mb-3 mb-lg-0">
+                                <div className="d-flex align-items-center flex-wrap gap-3">
+                                    <h4 className="level-6 calibri-bold">Tags:</h4>
+                                    {tags.map((tag, index) => (
+                                        <button
+                                            key={index}
+                                            className="border radius-40 px-3 py-1 color-16 calibri-bold bg-transparent"
+                                        >
+                                            {tag}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
 
-
-                                        {images.length > 0 ? (<div className="row mt-5">
-                                            {images.map((image, index) => (<div className="col-lg-6" key={index}>
-                                                <Image
-                                                    src={image?.full_path}
-                                                    className="img-fluid w-100 radius-30"
-                                                    alt="Lang Icon"
-                                                    width={200}
-                                                    height={200}
-                                                />
-                                            </div>))}
-
-                                        </div>) : ""}
-
-
-                                        <div className="row mt-3">
-
-                                            {tags.length > 0 ? (<div className="col-lg-6">
-                                                <div className="d-flex align-items-center gap-3">
-                                                    <h4 className=" level-6 calibri-bold level-5">Tags:</h4>
-                                                    {tags.map((tag, index) => (<button key={index}
-                                                        className="border radius-40 px-4 py-2 color-16 calibri-bold bg-transparent">{tag}</button>))}
-                                                </div>
-
-                                            </div>) : ""}
-
-
-                                            <div
-                                                className="col-lg-6 d-flex align-items-center gap-3 justify-content-end">
-                                                <h4 className=" level-6 calibri-bold level-5">Share:</h4>
-                                                <div className="program-lists ">
-                                                    <ul className="list-unstyled d-flex ps-0 mb-0 gap-2">
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faTwitter} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faFacebookF} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faYoutube} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faInstagram} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faLinkedinIn} />
-                                                            </Link>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>) : (
-                                    <p>No Data Found</p>
-                                )}</>
-
-                        ) : (<Spinner />)}
-                    </div>
-                    <div className="col-lg-4">
-                        <div className="position-relative radius-20 p-4 bg-17">
-                            <div className="programs-container">
-                                <h3 className="heading">Our Programs</h3>
-                                <form className="program-form">
-                                    {categories.map((program, key) => (<label key={key} className="program-label">
-                                        <input
-                                            type="radio"
-                                            name="program"
-                                            value={program.title}
-                                            checked={selected.id === program.id}
-                                            onChange={() => setSelected(program)}
-                                        />
-                                        <span
-                                            className={`program-btn ${selected.id === program.id ? 'active' : 'bg-16'}`}>
-                                            {program.title}
-                                        </span>
-                                    </label>))}
-                                </form>
-                                {program != null ? (
-                                    <Link href={`/donation?program_id=${program?.id}&category_id=${selected?.id}`} >
-                                        <button className="donate-btn">Donate Now</button>
-                                    </Link>
-                                ) : ""}
-
+                        <div className="col-lg-6 d-flex align-items-center gap-3 justify-content-lg-end">
+                            <h4 className="level-6 calibri-bold mb-0">Share:</h4>
+                            <div className="program-lists">
+                                <ul className="list-unstyled d-flex ps-0 mb-0 gap-2">
+                                    {[
+                                        { icon: faTwitter, name: "Twitter" },
+                                        { icon: faFacebookF, name: "Facebook" },
+                                        { icon: faYoutube, name: "YouTube" },
+                                        { icon: faInstagram, name: "Instagram" },
+                                        { icon: faLinkedinIn, name: "LinkedIn" },
+                                    ].map((social, index) => (
+                                        <li key={index}>
+                                            <Link
+                                                href="#"
+                                                className="icon-badge radius-40 border p-3 dark-color"
+                                                aria-label={`Share on ${social.name}`}
+                                            >
+                                                <FontAwesomeIcon icon={social.icon} />
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
                             </div>
                         </div>
-                        {/* <div className="position-relative radius-20 mt-3 p-4 bg-17">
-                                <div className="programs-container">
-                                    <h3 className="heading">Recent Activity</h3>
-                                    <div className="activity-list space-y-4 mt-4">
-                                        {activities.map((item, index) => (
-                                            <div key={index} className="d-flex gap-3 items-start">
-                                                <Image
-                                                    src={item.img}
-                                                    alt={item.title}
-                                                    width={150}
-                                                    height={64}
-                                                    className="radius-20 img-fluid "
-                                                />
-                                                <div>
-                                                    <div className="text-sm color-16 calibri-bold">
-                                                        <FontAwesomeIcon icon={faCalendarAlt} className="color-2 pe-2"/>
-                                                        {item.date}
-                                                    </div>
-                                                    <div className="heading">
-                                                        {item.title}
-                                                    </div>
-                                                </div>
-                                            </div>))}
-                                    </div>
-                                </div>
-                            </div> */}
-
                     </div>
                 </div>
             </div>
-        </section>
-    </>);
+        );
+    };
+
+    return (
+        <>
+            <PageHeader pagename="Our Programs" />
+
+            <section className="about-one">
+                <div className="container">
+                    <div className="row mt-5 mb-5 pt-5">
+                        <div className="col-lg-8">
+                            {renderProgramContent()}
+                        </div>
+
+                        <div className="col-lg-4">
+                            <div className="position-relative radius-20 p-4 bg-17 mb-4">
+
+                                <ProgramCategorySidebar
+                                    program={program}
+                                    onCategorySelect={(category) => setSelectedCategory(category)}
+                                />
+                            </div>
+                            {/* <RecentActivities activities={activities} /> */}
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </>
+    );
 };
 
 export default Ourprogram;

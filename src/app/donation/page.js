@@ -135,7 +135,7 @@ const Donation = () => {
 			<section className="donation-page pt-5 pb-5 mt-4 mb-4">
 				<div className="container">
 					<div className="row">
-						<div className="col-lg-8">
+						<div className="col-lg-8 m-auto">
 							<div className="border p-3 radius-20">
 								<div className="warning mb-4">
 									<div>
@@ -441,17 +441,6 @@ const Donation = () => {
 											</div>
 									</form>
 								)}
-							</div>
-						</div>
-						<div className="col-lg-4">
-							<div className="border radius-20 p-4 mt-5">
-								<Image src={donation1} className="img-fluid w-100" alt="" />
-								<h4 className="calibri-bold mt-2">
-									Give health support for every homeless poor children
-								</h4>
-								<p className="mt-3 color-16">
-									Join our community of dedicated supporters by becoming a member.
-								</p>
 							</div>
 						</div>
 					</div>

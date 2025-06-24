@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
 import Header from "@/Components/Header";
@@ -16,6 +16,9 @@ import {
 import Image from "next/image";
 import { FaCalendar, FaMap } from "react-icons/fa";
 import Link from "next/link";
+import {useParams} from "next/navigation";
+import {request} from "@/services/request";
+import api from "@/services/apis";
 
 const tabs = ["Daily", "Weekly", "Monthly"];
 
@@ -57,11 +60,37 @@ const DailyEvents = () => {
 
     const filteredEvents = eventsData.filter(event => event.category === activeTab);
 
+
+
+
+
+    const [loading, setLoading] = useState(false);
+    const [event, setEvents] = useState([]);
+
+    const getEvents = async () => {
+        if (!id) return;
+        try {
+            setLoading(true);
+            setEvents([]);
+            const { data } = await request.get(api.events( ' '));
+            setEvents(data);
+        } catch (error) {
+            console.log("Error fetching calendar data:", error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        setEvents();
+    }, []);
+
+
+
+
     return (
         <div>
             <PageHeader pagename="Events" />
-
-            {/* Combined Filter Navbar */}
             <div style={{ textAlign: "center", marginTop: "30px" }}>
                 <h2 className="calibri-bold level-2 color-6">Events List</h2>
                 <div className="mt-3" style={{ display: "inline-flex", gap: "10px" }}>
@@ -151,8 +180,6 @@ const DailyEvents = () => {
                             </div>
                         ))}
                     </div>
-
-                    {/* Optional Load More button */}
                     <div className="row mb-3 mt-4 pt-3">
                         <div className="col-lg-2 mx-auto">
                             <button className="btn-wrapper border view">

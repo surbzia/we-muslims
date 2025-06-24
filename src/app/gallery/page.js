@@ -10,10 +10,11 @@ import { MyContext } from "@/Components/MyContextProvider";
 import { request } from "@/services/request";
 import api from "@/services/apis";
 import Spinner from "@/Components/Spinner";
+import ProgramCategorySidebar from "@/Components/ProgramCategorySidebar";
 
 const Gallery = () => {
-    const { categories } = useContext(MyContext);
-    const [selected, setSelected] = useState(categories[0]);
+
+    const [selectedCategory, setSelectedCategory] = useState(null);
     const [albums, setAlbums] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedAlbum, setSelectedAlbum] = useState(null);
@@ -22,7 +23,7 @@ const Gallery = () => {
     const getData = async () => {
         setLoading(true);
         setAlbums([]);
-        const { data } = await request.get(api.gallery(`?category_id=${selected.id}`));
+        const { data } = await request.get(api.gallery(`?category_id=${selectedCategory?.id}`));
         setAlbums(data);
         setLoading(false);
     }
@@ -54,7 +55,7 @@ const Gallery = () => {
 
     useEffect(() => {
         getData();
-    }, [selected]);
+    }, [selectedCategory]);
 
     // Close modal when clicking outside content
     useEffect(() => {
@@ -106,26 +107,30 @@ const Gallery = () => {
 
                         <div className="col-lg-4">
                             <div className="position-relative radius-20 p-4 bg-17">
-                                <div className="programs-container">
-                                    <h3 className="heading">Our Gallery Albums</h3>
-                                    <form className="program-form">
-                                        {categories.map((program, key) => (
-                                            <label key={key} className="program-label">
-                                                <input
-                                                    type="radio"
-                                                    name="program"
-                                                    value={program.title}
-                                                    checked={selected.id === program.id}
-                                                    onChange={() => setSelected(program)}
-                                                />
-                                                <span className={`program-btn ${selected.id === program.id ? 'active' : 'bg-16'}`}>
-                                                    {program.title}
-                                                </span>
-                                            </label>
-                                        ))}
-                                    </form>
-                                    <button className="donate-btn">Donate Now</button>
-                                </div>
+                                <ProgramCategorySidebar
+                                    program={null}
+                                    onCategorySelect={(category) => setSelectedCategory(category)}
+                                />
+                                {/*<div className="programs-container">*/}
+                                {/*    <h3 className="heading">Our Gallery Albums</h3>*/}
+                                {/*    <form className="program-form">*/}
+                                {/*        {categories.map((program, key) => (*/}
+                                {/*            <label key={key} className="program-label">*/}
+                                {/*                <input*/}
+                                {/*                    type="radio"*/}
+                                {/*                    name="program"*/}
+                                {/*                    value={program.title}*/}
+                                {/*                    checked={selected.id === program.id}*/}
+                                {/*                    onChange={() => setSelected(program)}*/}
+                                {/*                />*/}
+                                {/*                <span className={`program-btn ${selected.id === program.id ? 'active' : 'bg-16'}`}>*/}
+                                {/*                    {program.title}*/}
+                                {/*                </span>*/}
+                                {/*            </label>*/}
+                                {/*        ))}*/}
+                                {/*    </form>*/}
+                                {/*    <button className="donate-btn">Donate Now</button>*/}
+                                {/*</div>*/}
                             </div>
                         </div>
                     </div>

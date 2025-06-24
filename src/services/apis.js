@@ -5,7 +5,7 @@ const api = {
     gallery: (query)=> `${BASE_URL}/gallery${query}`,
     program: (query) => `${BASE_URL}/program${query}`,
     submitQuery: `${BASE_URL}/contact/submit`,
-    calander: (query = ' ') => `${BASE_URL}/calander${query}`,
+    events: (query = ' ') => `${BASE_URL}/events${query}`,
     donate: `${BASE_URL}/donate`,
 }
 export default api;
