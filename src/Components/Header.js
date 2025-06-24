@@ -151,7 +151,7 @@ const Header = () => {
 											{ name: "Gallery", path: "/gallery" },
 											{ name: "Get Involved", path: "/getinvolved" },
 											{ name: "Contact Us", path: "/contact" },
-											{ name: "Calendar", path: "/calender" },
+											{ name: "Events", path: "/events" },
 										].map((link) => (
 											<li key={link.path} className="single-item">
 												<Link

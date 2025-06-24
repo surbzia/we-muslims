@@ -1,242 +1,169 @@
 "use client";
 
-import React, {useContext, useEffect, useState} from "react";
-import Header from "@/Components/Header";
+import React, { useState } from "react";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
-import Image from "next/image";
-import Link from "next/link";
+import Header from "@/Components/Header";
 import {
-    programs, programs2, programs3, programs4, programs5, programs6, testemonialarrow,
-
+    galleryimg3,
+    maineventimg,
+    maineventimg1,
+    maineventimg2,
+    maineventimg3,
+    maineventimg4,
+    maineventimg5,
 } from "@/Constant/Index";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {
-    faTwitter, faFacebookF, faInstagram, faLinkedinIn, faYoutube,
-} from "@fortawesome/free-brands-svg-icons";
-import {faCalendarAlt} from '@fortawesome/free-solid-svg-icons';
-import {MyContext} from "@/Components/MyContextProvider";
-import {request} from "@/services/request";
-import api from "@/services/apis";
-import Spinner from "@/Components/Spinner";
+import Image from "next/image";
+import { FaCalendar, FaMap } from "react-icons/fa";
+import Link from "next/link";
 
-const Ourprogram = () => {
-    const {categories} = useContext(MyContext);
-    const [selected, setSelected] = useState(categories[0]);
+const tabs = ["Daily", "Weekly", "Monthly"];
 
+const DailyEvents = () => {
+    const [activeTab, setActiveTab] = useState("Daily");
 
-    const [program, setProgram] = useState(null);
-    const [images, setImages] = useState([]);
-    const [tags, setTags] = useState([]);
-    const [quote, setQuote] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const eventsData = [
+        {
+            id: 1,
+            category: "Daily",
+            image: maineventimg5,
+            title: "Food For Thoughts",
+            desc: "Some short description...",
+            location: "Lorem ipsum Street 145, USA",
+            readMoreLink: "/events/2",
+            calendarLink: "/events/2",
+        },
+        {
+            id: 2,
+            category: "Weekly",
+            image: maineventimg4,
+            title: "MBA Meetup",
+            desc: "Another event description...",
+            location: "Lorem ipsum Street 145, USA",
+            readMoreLink: "/events/2",
+            calendarLink: "/events/2",
+        },
+        {
+            id: 3,
+            category: "Monthly",
+            image: maineventimg3,
+            title: "Janaza Announcements",
+            desc: "A longer explanation...",
+            location: "Lorem ipsum Street 145, USA",
+            readMoreLink: "/events/2",
+            calendarLink: "/events/2",
+        },
+    ];
 
-    const getProgram = async () => {
-        setLoading(true);
-        setProgram([]);
-        const {data} = await request.get(api.program(`?category_id=${selected.id}`));
-        setProgram(data);
-        setImages(data?.images != null ? JSON.parse(data?.images) : []);
-        setQuote(data?.quote != null ? JSON.parse(data?.quote) : null);
-        setTags(data?.tags != null ? JSON.parse(data?.tags) : null);
-        setLoading(false);
-    }
+    const filteredEvents = eventsData.filter(event => event.category === activeTab);
 
-    useEffect(() => {
-        getProgram();
-    }, [selected]);
+    return (
+        <div>
+            <PageHeader pagename="Events" />
 
+            {/* Combined Filter Navbar */}
+            <div style={{ textAlign: "center", marginTop: "30px" }}>
+                <h2 className="calibri-bold level-2 color-6">Events List</h2>
+                <div className="mt-3" style={{ display: "inline-flex", gap: "10px" }}>
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab}
+                            onClick={() => setActiveTab(tab)}
+                            style={{
+                                padding: "10px 40px",
+                                borderRadius: "25px",
+                                border: "1px solid #ccc",
+                                color: activeTab === tab ? "#fff" : "#333",
+                                backgroundColor: activeTab === tab ? "#18665b" : "#fff",
+                                fontWeight: activeTab === tab ? "bold" : "normal",
+                                cursor: "pointer",
+                                transition: "all 0.3s ease",
+                            }}
+                        >
+                            {tab}
+                        </button>
+                    ))}
+                </div>
+            </div>
 
-    const activities = [{
-        img: programs2, date: '23 June, 2025', title: 'Charity Of The Month Golden Futures...'
-    }, {
-        img: programs3, date: '23 June, 2025', title: 'Partner For Good Corporate Sponsor'
-    }, {
-        img: programs4, date: '23 June, 2025', title: 'Every Contribution Counts Difference'
-    }];
-
-    return (<>
-            <Header/>
-            <PageHeader pagename="Our Programs"/>
-            <section className="about-one">
+            {/* Event Grid */}
+            <section className="event-wrapper pt-5 mt-4 mb-5 pb-4">
                 <div className="container">
-                <div className="row mt-5 mb-5 pt-5">
-
-                        <div className="col-lg-8">
-                        {!loading ? (
-
-                            <>
-                                {program != null ? (<div className="position-relative main-wrapper-program radius-30">
-                                    <Image
-                                        src={program?.thumbnail_url}
-                                        className="img-fluid w-100 radius-30"
-                                        alt="Lang Icon"
-                                        height={200}
-                                        width={200}
-                                    />{" "}
-                                    <div className="wrapper-content-programm">
-                                        <h2 className="dark-color mt-3 calibri-bold level-5">
-                                            {program?.title}
-                                        </h2>
-                                        <p className="color-16 line-height-wrapper" dangerouslySetInnerHTML={{ __html: program?.detail }}>
-                                        </p>
-
-                                        {quote != null && quote?.comment ? (
-                                            <div className="specialized-content position-relative">
-                                                <div className="arrowimg position-absolute  p-3 bg-white
-                                    "><Image
-                                                        src={testemonialarrow}
-                                                        className="img-fluid w-100 radius-30"
-                                                        alt="Lang Icon"
-                                                    />{" "}</div>
-                                                <h4 className="color-16 ps-4 level-6 calibri-bold level-5">
-                                                    {quote?.comment}
-                                                </h4>
-                                                <div className="clippath mb-0"><h5
-                                                    className="mb-0">{quote?.comment_by}</h5></div>
-                                            </div>) : ""}
-
-
-                                        {images.length > 0 ? (<div className="row mt-5">
-                                            {images.map((image, index) => (<div className="col-lg-6" key={index}>
+                    <div className="row">
+                        {filteredEvents.map((event) => (
+                            <div className="col-lg-6 mt-3" key={event.id}>
+                                <div className="event-content-wrapper position-relative">
+                                    <div className="date-wrapper">
+                                        <h4 className="calibri-bold level-6 color-6 mb-0 text-white">July</h4>
+                                        <h4 className="calibri-bold level-8 color-6 mb-0 text-white">2025</h4>
+                                    </div>
+                                    <div className="row align-items-center">
+                                        <div className="col-lg-6">
+                                            <div className="position-relative">
                                                 <Image
-                                                    src={image?.full_path}
+                                                    src={event.image}
                                                     className="img-fluid w-100 radius-30"
-                                                    alt="Lang Icon"
-                                                    width={200}
-                                                    height={200}
+                                                    alt="Event Image"
                                                 />
-                                            </div>))}
-
-                                        </div>) : ""}
-
-
-                                        <div className="row mt-3">
-
-                                            {tags.length > 0 ? (<div className="col-lg-6">
-                                                <div className="d-flex align-items-center gap-3">
-                                                    <h4 className=" level-6 calibri-bold level-5">Tags:</h4>
-                                                    {tags.map((tag, index) => (<button key={index}
-                                                        className="border radius-40 px-4 py-2 color-16 calibri-bold bg-transparent">{tag}</button>))}
-                                                </div>
-
-                                            </div>) : ""}
-
-
-                                            <div
-                                                className="col-lg-6 d-flex align-items-center gap-3 justify-content-end">
-                                                <h4 className=" level-6 calibri-bold level-5">Share:</h4>
-                                                <div className="program-lists ">
-                                                    <ul className="list-unstyled d-flex ps-0 mb-0 gap-2">
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faTwitter} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faFacebookF} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faYoutube} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faInstagram} />
-                                                            </Link>
-                                                        </li>
-                                                        <li>
-                                                            <Link
-                                                                href="#"
-                                                                className="icon-badge  radius-40 border p-4 dark-color"
-                                                            >
-                                                                <FontAwesomeIcon icon={faLinkedinIn} />
-                                                            </Link>
-                                                        </li>
-                                                    </ul>
+                                                <div className="calender-wrapper">
+                                                    <Link
+                                                        href={event.calendarLink}
+                                                    >
+                                                        <FaCalendar className="color-6" />
+                                                    </Link>
                                                 </div>
                                             </div>
                                         </div>
-
-                                    </div>
-                                </div>) : (
-                                    <p>No Data Found</p>
-                                )}</>
-
-                        ) : (<Spinner />)}
-                        </div>
-                        <div className="col-lg-4">
-                            <div className="position-relative radius-20 p-4 bg-17">
-                                <div className="programs-container">
-                                    <h3 className="heading">Our Programs</h3>
-                                    <form className="program-form">
-                                        {categories.map((program, key) => (<label key={key} className="program-label">
-                                                <input
-                                                    type="radio"
-                                                    name="program"
-                                                    value={program.title}
-                                                    checked={selected.id === program.id}
-                                                    onChange={() => setSelected(program)}
-                                                />
-                                                <span
-                                                    className={`program-btn ${selected.id === program.id ? 'active' : 'bg-16'}`}>
-                                                    {program.title}
-                                                </span>
-                                            </label>))}
-                                    </form>
-                                    <Link href="/donation">
-                                        <button className="donate-btn">Donate Now</button>
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="position-relative radius-20 mt-3 p-4 bg-17">
-                                <div className="programs-container">
-                                    <h3 className="heading">Recent Activity</h3>
-                                    <div className="activity-list space-y-4 mt-4">
-                                        {activities.map((item, index) => (
-                                            <div key={index} className="d-flex gap-3 items-start">
-                                                <Image
-                                                    src={item.img}
-                                                    alt={item.title}
-                                                    width={150}
-                                                    height={64}
-                                                    className="radius-20 img-fluid "
-                                                />
-                                                <div>
-                                                    <div className="text-sm color-16 calibri-bold">
-                                                        <FontAwesomeIcon icon={faCalendarAlt} className="color-2 pe-2"/>
-                                                        {item.date}
-                                                    </div>
-                                                    <div className="heading">
-                                                        {item.title}
-                                                    </div>
-                                                </div>
-                                            </div>))}
+                                        <div className="col-lg-6">
+                                            <h3 className="calibri-bold level-5 color-6">{event.title}</h3>
+                                            <p className="color-16">{event.desc}</p>
+                                            <div className="map-event d-flex align-items-center gap-2">
+                                                <FaMap className="color-15" />
+                                                <h4 className="calibri-bold level-7 mb-0">{event.location}</h4>
+                                            </div>
+                                            <div className="d-flex align-items-center gap-3 mt-3">
+                                                <Link href={event.readMoreLink}>
+                                                    <button className="form-btn">Read More</button>
+                                                </Link>
+                                                <Link href={event.readMoreLink}>
+                                                    <button
+                                                        className="wrapper-share"
+                                                        style={{
+                                                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+                                                            borderRadius: "30px",
+                                                            padding: 0,
+                                                            border: "none",
+                                                            background: "transparent",
+                                                            cursor: "pointer",
+                                                        }}
+                                                    >
+                                                        <Image
+                                                            src={galleryimg3}
+                                                            className="img-fluid w-100 radius-30"
+                                                            alt="Share Icon"
+                                                        />
+                                                    </button>
+                                                </Link>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        ))}
+                    </div>
 
+                    {/* Optional Load More button */}
+                    <div className="row mb-3 mt-4 pt-3">
+                        <div className="col-lg-2 mx-auto">
+                            <button className="btn-wrapper border view">
+                                Load More
+                            </button>
                         </div>
                     </div>
                 </div>
             </section>
-            <Footer/>
-        </>);
+        </div>
+    );
 };
 
-export default Ourprogram;
+export default DailyEvents;
