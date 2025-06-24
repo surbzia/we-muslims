@@ -407,7 +407,7 @@ section.about-two {
 
 .program-btn {
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	background: #ffffff;
 	color: #333;
@@ -430,16 +430,16 @@ section.about-two {
 	justify-content: flex-start;
 }
 
-.program-btn.active::before {
+.program-btn::before {
 	content: "←";
 	margin-right: 8px;
 }
 
-.program-btn:not(.active)::after {
-	content: "→";
-	margin-left: 8px;
-	font-weight: bold;
-}
+/*.program-btn:not(.active)::after {*/
+/*	content: "→";*/
+/*	margin-left: 8px;*/
+/*	font-weight: bold;*/
+/*}*/
 
 .donate-btn {
 	margin-top: 24px;
