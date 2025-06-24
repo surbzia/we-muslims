@@ -62,7 +62,7 @@ const DailyEvents = () => {
     return (
         <div>
             <Header />
-            <PageHeader pagename="Events" />
+            <PageHeader description="this is description"  pagename="Events" />
 
             {/* Combined Filter Navbar */}
             <div style={{ textAlign: "center", marginTop: "30px" }}>

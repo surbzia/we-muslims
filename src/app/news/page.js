@@ -57,7 +57,7 @@ const Ourprogram = () => {
 
     return (<>
             <Header/>
-            <PageHeader pagename="Our Programs"/>
+            <PageHeader description="this is description"  pagename="Our Programs"/>
             <section className="about-one">
                 <div className="container">
                 <div className="row mt-5 mb-5 pt-5">

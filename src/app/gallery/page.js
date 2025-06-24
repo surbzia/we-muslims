@@ -70,7 +70,7 @@ const Gallery = () => {
 
     return (
         <>
-            <PageHeader pagename="Gallery" />
+            <PageHeader description="this is description"  pagename="Gallery" />
             <section className="about-one">
                 <div className="container">
                     <div className="row mt-5 mb-5 pt-5">

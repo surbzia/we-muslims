@@ -79,7 +79,7 @@
 //     return (
 //         <div>
 //             <Header />
-//             <PageHeader pagename="Events" />
+//             <PageHeader description="this is description"  pagename="Events" />
 //             <EventNavbar />
 //             <section className="event-wrapper pt-5 mt-4 mb-5 pb-4">
 //                 <div className="container">

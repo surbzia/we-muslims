@@ -131,7 +131,7 @@ const Donation = () => {
 
 	return (
 		<>
-			<PageHeader pagename="Donation" />
+			<PageHeader description="this is description"  pagename="Donation" />
 			<section className="donation-page pt-5 pb-5 mt-4 mb-4">
 				<div className="container">
 					<div className="row">

@@ -57,7 +57,7 @@ const Contact = () => {
 
 	return (
 		<>
-			<PageHeader pagename="Contact Us" />
+			<PageHeader description="this is description"  pagename="Contact Us" />
 			<section className="contact-us">
 				<div className="container">
 					<div className="row mt-5 pt-4 mb-5 pb-4">

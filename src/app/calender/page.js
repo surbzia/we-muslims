@@ -38,7 +38,7 @@ const Calander = () => {
     }, []);
     return (
         <>
-            <PageHeader pagename="Calander " />
+            <PageHeader description="this is description"  pagename="Calander " />
             <section className="calender pt-5 pb-5 mt-5 mb-5">
                 <div className="container">
                     <div className="row">

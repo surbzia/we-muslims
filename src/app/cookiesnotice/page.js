@@ -11,7 +11,7 @@ const Notices = () => {
     return (
         <>
             <Header />
-            <PageHeader pagename="Cookies Notice" />
+            <PageHeader description="this is description"  pagename="Cookies Notice" />
             <section className="content-pricavy-cookies pt-4 mt-4 pb-4 mb-4">
                 <div className="container">
                     <div className="row">

@@ -23,7 +23,7 @@ const Getinvolved = () => {
 	const pageContent = content.getInvolved.SinglePage;
 	return (
 		<>
-			<PageHeader pagename="Get Involved" />
+			<PageHeader  description="this is description" pagename="Get Involved" />
 			<section className="getinvolved-sec">
 				<div className="container">
 					<div className="row align-items-center mt-4 mb-4 pt-4 pb-4">

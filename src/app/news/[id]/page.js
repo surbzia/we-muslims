@@ -11,7 +11,7 @@ const Privacy = () => {
     return (
         <>
             <Header />
-            <PageHeader pagename="Privacy Policy" />
+            <PageHeader description="this is description"  pagename="Privacy Policy" />
             <section className="content-pricavy-cookies pt-4 mt-4 pb-4 mb-4">
                 <div className="container">
                     <div className="row">

@@ -90,7 +90,7 @@ const DailyEvents = () => {
 
     return (
         <div>
-            <PageHeader pagename="Events" />
+            <PageHeader description="this is description"  pagename="Events" />
             <div style={{ textAlign: "center", marginTop: "30px" }}>
                 <h2 className="calibri-bold level-2 color-6">Events List</h2>
                 <div className="mt-3" style={{ display: "inline-flex", gap: "10px" }}>

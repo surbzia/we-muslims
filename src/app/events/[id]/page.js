@@ -39,7 +39,7 @@ const EventDetail = () => {
 
     return (
         <>
-            <PageHeader pagename="Event Detail" />
+            <PageHeader  description="this is description" pagename="Event Detail" />
             <section className="calender pt-5 pb-5 mt-5 mb-5">
                 <div className="container">
                     <div className="row">
