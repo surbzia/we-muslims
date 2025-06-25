@@ -13,7 +13,7 @@ import {
 	about2,
 	about3,
 	about4,
-	about5,
+	about5, charity, line, line1,
 	meetimg,
 	meetimg1,
 	meetimg2,
@@ -24,9 +24,10 @@ import {
 	FaFacebookF,
 	FaTwitter,
 	FaInstagram,
-	FaBehance,
+	FaBehance, FaChevronLeft, FaChevronRight,
 } from "react-icons/fa";
 import {MyContext} from "@/Components/MyContextProvider";
+import Slider from "react-slick";
 
 const AboutUs = () => {
 	const [showModal, setShowModal] = useState(false);
@@ -35,6 +36,43 @@ const AboutUs = () => {
 	const pageContent = content.aboutUs;
 
 	console.log(pageContent['SectionOne']['images']);
+
+	const PrevArrow = ({ onClick }) => (
+		<div className="custom-arrow prev" onClick={onClick}>
+			<FaChevronLeft />
+		</div>
+	);
+
+	const NextArrow = ({ onClick }) => (
+		<div className="custom-arrow next" onClick={onClick}>
+			<FaChevronRight />
+		</div>
+	);
+
+	const settings = {
+		dots: false,
+		infinite: true,
+		speed: 500,
+		slidesToShow: 5,
+		slidesToScroll: 1,
+		nextArrow: <NextArrow />,
+		prevArrow: <PrevArrow />,
+		responsive: [
+			{
+				breakpoint: 1024,
+				settings: {
+					slidesToShow: 2,
+				},
+			},
+			{
+				breakpoint: 600,
+				settings: {
+					slidesToShow: 1,
+				},
+			},
+		],
+	};
+
 
 	return (
 		<>
@@ -171,8 +209,6 @@ const AboutUs = () => {
 							</div>
 						</div>
 					</div>
-
-
 					{pageContent['TeamSection']['teams'].map((teamObj, index) => (
 						<div className="row" key={index}>
 							<div className="col-lg-8 mx-auto">
@@ -228,7 +264,30 @@ const AboutUs = () => {
 							</div>
 						</div>
 					))}
+				</div>
+				<div className="container">
+					<h3>Partners</h3>
 
+					<div className="mt-5 pt-4 pb-3 mb-5">
+						<Slider {...settings}>
+							{pageContent['TeamSection']['partners'].map((partner, index) => (
+
+								<div className="px-2" key={index}>
+									<div className="charity-content">
+										<div className="position-relative">
+											<Image
+												src={partner.file_url}
+												className="img-fluid wrappercharity-img w-100 radius-20"
+												alt="programm"
+												height={200}
+												width={200}
+											/>
+										</div>
+									</div>
+								</div>
+							))}
+						</Slider>
+					</div>
 				</div>
 			</section>
 		</>

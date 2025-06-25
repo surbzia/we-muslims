@@ -19,11 +19,12 @@ import Link from "next/link";
 import {useParams} from "next/navigation";
 import {request} from "@/services/request";
 import api from "@/services/apis";
+import Spinner from "@/Components/Spinner";
 
-const tabs = ["Daily", "Weekly", "Monthly"];
+const tabs = ["daily", "weekly", "monthly"];
 
 const DailyEvents = () => {
-    const [activeTab, setActiveTab] = useState("Daily");
+    const [activeTab, setActiveTab] = useState("daily");
 
     const eventsData = [
         {
@@ -65,15 +66,24 @@ const DailyEvents = () => {
 
 
     const [loading, setLoading] = useState(false);
-    const [event, setEvents] = useState([]);
+    const [loadMore, setLoadMore] = useState(false);
+    const [page, setPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
+    const [events, setEvents] = useState([]);
 
     const getEvents = async () => {
-        if (!id) return;
         try {
-            setLoading(true);
-            setEvents([]);
-            const { data } = await request.get(api.events( ' '));
-            setEvents(data);
+            if(!loadMore){
+                setLoading(true);
+            }
+            const { data } = await request.get(api.events( `?by=${activeTab}&page=${page}`));
+            if(loadMore){
+                setEvents(prev => [...prev, ...data.data]);
+            }else{
+                setEvents(data.data);
+            }
+            setPage(data.current_page);
+            setLastPage(data.last_page);
         } catch (error) {
             console.log("Error fetching calendar data:", error);
         } finally {
@@ -82,9 +92,8 @@ const DailyEvents = () => {
     }
 
     useEffect(() => {
-        setEvents();
-    }, []);
-
+        getEvents();
+    }, [activeTab, page]);
 
 
 
@@ -97,8 +106,12 @@ const DailyEvents = () => {
                     {tabs.map((tab) => (
                         <button
                             key={tab}
-                            onClick={() => setActiveTab(tab)}
+                            onClick={() => {
+                                setPage(1);
+                                setLoadMore(false); setActiveTab(tab)}}
+                            className="text-capitalize"
                             style={{
+
                                 padding: "10px 40px",
                                 borderRadius: "25px",
                                 border: "1px solid #ccc",
@@ -115,28 +128,31 @@ const DailyEvents = () => {
                 </div>
             </div>
 
-            {/* Event Grid */}
+
             <section className="event-wrapper pt-5 mt-4 mb-5 pb-4">
-                <div className="container">
+                {loading?(<Spinner/>):(  <div className="container">
                     <div className="row">
-                        {filteredEvents.map((event) => (
-                            <div className="col-lg-6 mt-3" key={event.id}>
+                        {events.length > 0? events.map((event, key) => (
+                            <div className="col-lg-6 mt-3" key={key}>
                                 <div className="event-content-wrapper position-relative">
                                     <div className="date-wrapper">
-                                        <h4 className="calibri-bold level-6 color-6 mb-0 text-white">July</h4>
-                                        <h4 className="calibri-bold level-8 color-6 mb-0 text-white">2025</h4>
+                                        <h4 className="calibri-bold level-6 color-6 mb-0 text-white">{event?.month}</h4>
+                                        <h4 className="calibri-bold level-8 color-6 mb-0 text-white">{event?.year}</h4>
                                     </div>
                                     <div className="row align-items-center">
                                         <div className="col-lg-6">
                                             <div className="position-relative">
                                                 <Image
-                                                    src={event.image}
+                                                    src={event.logo_url}
                                                     className="img-fluid w-100 radius-30"
                                                     alt="Event Image"
+                                                    width={200}
+                                                    height={200}
+
                                                 />
                                                 <div className="calender-wrapper">
                                                     <Link
-                                                        href={event.calendarLink}
+                                                        href={`/events/${event.id}`}
                                                     >
                                                         <FaCalendar className="color-6" />
                                                     </Link>
@@ -144,17 +160,17 @@ const DailyEvents = () => {
                                             </div>
                                         </div>
                                         <div className="col-lg-6">
-                                            <h3 className="calibri-bold level-5 color-6">{event.title}</h3>
-                                            <p className="color-16">{event.desc}</p>
+                                            <h3 className="calibri-bold level-5 color-6">{event.name}</h3>
+                                            <p className="color-16">{event.short_detail}</p>
                                             <div className="map-event d-flex align-items-center gap-2">
                                                 <FaMap className="color-15" />
                                                 <h4 className="calibri-bold level-7 mb-0">{event.location}</h4>
                                             </div>
                                             <div className="d-flex align-items-center gap-3 mt-3">
-                                                <Link href={event.readMoreLink}>
+                                                <Link   href={`/events/${event.id}`}>
                                                     <button className="form-btn">Read More</button>
                                                 </Link>
-                                                <Link href={event.readMoreLink}>
+                                                <Link   href={`/events/${event.id}`}>
                                                     <button
                                                         className="wrapper-share"
                                                         style={{
@@ -178,16 +194,20 @@ const DailyEvents = () => {
                                     </div>
                                 </div>
                             </div>
-                        ))}
+                        )):""}
                     </div>
-                    <div className="row mb-3 mt-4 pt-3">
+                    {lastPage > page?(<div className="row mb-3 mt-4 pt-3">
                         <div className="col-lg-2 mx-auto">
-                            <button className="btn-wrapper border view">
+                            <button className="btn-wrapper border view" onClick={()=> {
+                                setLoadMore(true);
+                                setPage(page + 1);
+                            }}>
                                 Load More
                             </button>
                         </div>
-                    </div>
-                </div>
+                    </div>):''}
+
+                </div>)}
             </section>
         </div>
     );

@@ -19,6 +19,16 @@ import { MyContext } from "@/Components/MyContextProvider";
 import { request } from "@/services/request";
 import api from "@/services/apis";
 import { useSearchParams } from "next/navigation";
+import StripePayment from "@/Components/StripePayment";
+
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import convertToSubcurrency from "@/lib/convertToSubcurrency";
+
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
+	throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
+}
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY);
 
 const Donation = () => {
 	const { categories } = useContext(MyContext);
@@ -29,11 +39,11 @@ const Donation = () => {
 		last_name: '',
 		email: '',
 		message: '',
-		amount: '',
-		custom_amount: '',
-		payment_oken: '',
-		payment_method: 'Test Donation',
-		frequency: 'One Time',
+		amount: 12,
+		custom_amount: 12,
+		payment_token: '',
+		payment_method: 'Offline Donation',
+		frequency: 'one_time',
 		category_id: query.get("category_id") || '',
 		program_id: query.get("program_id") || '',
 		event_id: query.get("event_id") || '',
@@ -49,13 +59,13 @@ const Donation = () => {
 
 	const payment_methods = [
 		{ value: "Offline Donation", label: "Offline Donation" },
-		{ value: "Credit Card", label: "Credit Card" },
+		{ value: "credit_card", label: "Credit Card" },
 	];
 
 	const donationFrequencies = [
-		{ value: "One Time", label: "One Time" },
-		{ value: "Quarterly", label: "Quarterly" },
-		{ value: "Yearly", label: "Yearly" },
+		{ value: "one_time", label: "One Time" },
+		{ value: "quarterly", label: "Quarterly" },
+		{ value: "yearly", label: "Yearly" },
 	];
 
 	// Handle input changes
@@ -66,11 +76,11 @@ const Donation = () => {
 
 	// Get programs when category changes
 	const getPrograms = async (e) => {
-		const categoryId = e.target.value;
-		setFormData(prev => ({ ...prev, categoryId, programId: '' }));
+		const category_id = e.target.value;
+		setFormData(prev => ({ ...prev, category_id, program_id: '' }));
 
-		if (categoryId) {
-			const { data } = await request.get(api.program(`?loop=true&category_id=${categoryId}`));
+		if (category_id) {
+			const { data } = await request.get(api.program(`?loop=true&category_id=${category_id}`));
 			setPrograms(data);
 		} else {
 			setPrograms([]);
@@ -83,21 +93,20 @@ const Donation = () => {
 		setIsSubmitting(true);
 		setSubmitError(null);
 
-		if (!formData.amount && !formData.custom_amount) {
+		let amountToSend = formData.amount === "custom" ? formData.custom_amount : formData.amount;
+		if (!amountToSend) {
 			setSubmitError("Please select or enter a donation amount");
 			setIsSubmitting(false);
 			return;
 		}
 
-		const donationData = {
+		const submitData = {
 			...formData,
-			amount: formData.amount === "custom" ? formData.custom_amount : formData.amount,
+			amount: amountToSend,
 		};
 
 		try {
-			console.log("Submitting donation data:", donationData);
-
-			const response = await request.post(api.donate, donationData);
+			const response = await request.post(api.donate, submitData);
 			setSubmitSuccess(true);
 			setFormData({
 				first_name: '',
@@ -106,26 +115,26 @@ const Donation = () => {
 				message: '',
 				amount: '',
 				custom_amount: '',
-				payment_method: 'Test Donation',
-				frequency: 'One Time',
-				category_id: null,
-				program_id: null,
-				event_id: null
+				payment_token: '',
+				payment_method: 'Offline Donation',
+				frequency: 'one_time',
+				category_id: '',
+				program_id: '',
+				event_id: ''
 			});
 			setPrograms([]);
 		} catch (error) {
-			console.error("Donation failed:", error);
 			setSubmitError(error.message || "Failed to process donation. Please try again.");
 		} finally {
 			setIsSubmitting(false);
 		}
 	};
 
-	// Initialize with programId from URL
+	// Initialize with program_id from URL
 	useEffect(() => {
-		const programIdFromUrl = query.get("programId");
-		if (programIdFromUrl) {
-			setFormData(prev => ({ ...prev, programId: programIdFromUrl }));
+		const program_id = query.get("program_id");
+		if (program_id) {
+			setFormData(prev => ({ ...prev, program_id }));
 		}
 	}, [query]);
 
@@ -135,7 +144,7 @@ const Donation = () => {
 			<section className="donation-page pt-5 pb-5 mt-4 mb-4">
 				<div className="container">
 					<div className="row">
-						<div className="col-lg-8 m-auto">
+						<div className="col-lg-8">
 							<div className="border p-3 radius-20">
 								<div className="warning mb-4">
 									<div>
@@ -313,7 +322,7 @@ const Donation = () => {
 													<div className="custom-select-wrapper">
 														<select
 															className="custom-select"
-															name="categoryId"
+															name="category_id"
 															value={formData.category_id}
 															onChange={(e) => {
 																handleChange(e);
@@ -322,7 +331,7 @@ const Donation = () => {
 														>
 															<option value="">Select Donation Type</option>
 															{categories.map((category) => (
-																<option key={category.id} selected={category.id == formData.category_id} value={category.id}>
+																<option key={category.id} value={category.id}>
 																	{category.title}
 																</option>
 															))}
@@ -333,13 +342,13 @@ const Donation = () => {
 													<div className="custom-select-wrapper">
 														<select
 															className="custom-select"
-															name="programId"
+															name="program_id"
 															value={formData.program_id}
 															onChange={handleChange}
 														>
 															<option value="">Donate To (Programs)</option>
 															{programs.map((program) => (
-																<option key={program.id} selected={program.id == formData.program_id} value={program.id}>
+																<option key={program.id} value={program.id}>
 																	{program.title}
 																</option>
 															))}
@@ -409,38 +418,34 @@ const Donation = () => {
 											</div>
 
 											{/* Payment Info Section */}
-											<div className="row mt-4">
-												<div className="col-lg-12">
-													<h3 className="calibri-bold mb-3">Payment Info </h3>
-												</div>
-											</div>
-											<div className="row">
-												<div className="col-lg-12">
-													{formData.payment_method === "Credit Card" && (
-														<PaymentMethodStripeElement StripeResponse={(response) => setFormData(prev => ({ ...prev, payment_token: response.payment_method }))} />
-													)}
-												</div>
-											</div>
 
-											{/* Submit Button */}
-											<div className="row mt-4">
-												<div className="col-lg-12">
-													<button
-														type="submit"
-														className="btn-wrapper w-100"
-														disabled={isSubmitting}
-													>
-														{isSubmitting ? "Processing..." : "Submit Donation"}
-													</button>
-													{submitError && (
-														<div className="alert alert-danger mt-3">
-															{submitError}
-														</div>
-													)}
-												</div>
-											</div>
 									</form>
 								)}
+							</div>
+						</div>
+						<div className="col-lg-4">
+							<div className="row">
+								<div className="col-lg-12">
+									<div className="row mt-4">
+										<div className="col-lg-12">
+											<h3 className="calibri-bold mb-3">Payment Info </h3>
+										</div>
+									</div>
+									<div className="row">
+										{formData.payment_method === "credit_card" && (
+											<Elements
+												stripe={stripePromise}
+												options={{
+													mode: "payment",
+													amount: convertToSubcurrency(formData.amount === "custom" ? formData.custom_amount : formData.amount),
+													currency: "usd",
+												}}
+											>
+												<StripePayment amount={formData.amount === "custom" ? formData.custom_amount : formData.amount} />
+											</Elements>
+										)}
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

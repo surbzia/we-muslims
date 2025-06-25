@@ -24,7 +24,7 @@ const EventDetail = () => {
         try {
             setLoading(true);
             setEvent(null);
-            const { data } = await request.get(api.events(`?id=${id}`)); // <-- use id
+            const { data } = await request.get(api.eventsDetail(id));
             setEvent(data);
         } catch (error) {
             console.log("Error fetching calendar data:", error);
