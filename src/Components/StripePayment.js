@@ -8,29 +8,35 @@ import {
 } from "@stripe/react-stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
 import api from "@/services/apis";
+import { request } from "@/services/request";
 
-const StripePayment = ({ amount }) => {
+const StripePayment = ({ formData, amount, setErrorsFromServer }) => {
     const stripe = useStripe();
     const elements = useElements();
     const [errorMessage, setErrorMessage] = useState();
     const [clientSecret, setClientSecret] = useState("");
+    const [customerID, setCustomerID] = useState("");
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        setClientSecret("");
         fetch(api.getPaymentIntent, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
+            body: JSON.stringify({
+                amount: convertToSubcurrency(amount, 1),
+                email: formData.email,
+                first_name: formData.first_name,
+                last_name: formData.last_name
+            }),
         })
             .then((res) => res.json())
             .then((data) => {
-
                 setClientSecret(data.client_secret)
+                setCustomerID(data.customer_id)
             });
-
-        console.log(clientSecret);
     }, [amount]);
 
     const handleSubmit = async (event) => {
@@ -48,19 +54,34 @@ const StripePayment = ({ amount }) => {
             return;
         }
 
-        const { error } = await stripe.confirmPayment({
-            elements,
-            clientSecret,
-            confirmParams: {
-                return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
-            },
-        });
+        try {
+            const data = {
+                ...formData,
+                client_secret: clientSecret
+            }
+            const response = await request.post(api.donate, data);
+            if (response.success) {
+                const { error } = await stripe.confirmPayment({
+                    elements,
+                    clientSecret,
+                    confirmParams: {
+                        return_url: `${process.env.NEXT_PUBLIC_SITE_URL}/donation-success?amount=${amount}&donationId=${response.donationId}`,
+                    },
+                });
 
-        if (error) {
-            setErrorMessage(error.message);
-        } else {
+                if (error) {
+                    setErrorMessage(error.message);
+                    setLoading(false);
+                }
+            }
+        } catch (error) {
+            console.log("Error submitting form:", error.errors);
+            setErrorsFromServer(error.errors);
+            setLoading(false);
+            return;
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
 

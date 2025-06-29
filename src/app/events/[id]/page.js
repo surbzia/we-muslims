@@ -12,10 +12,10 @@ import { faMapMarkerAlt, faCalendarAlt, faClock } from '@fortawesome/free-solid-
 import api from "@/services/apis";
 import { request } from "@/services/request";
 import Spinner from "@/Components/Spinner";
-import { useParams } from "next/navigation"; // <-- useParams instead of useRouter
+import { useParams } from "next/navigation"; 
 
 const EventDetail = () => {
-    const { id } = useParams(); // <-- get id from params
+    const { id } = useParams();
     const [loading, setLoading] = useState(false);
     const [event, setEvent] = useState(null);
 

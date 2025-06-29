@@ -8,6 +8,7 @@ const api = {
     events: (query = ' ') => `${BASE_URL}/events${query}`,
     eventsDetail: (id) => `${BASE_URL}/events/${id}`,
     donate: `${BASE_URL}/donate`,
+    donationUpdatePaymentStatus: `${BASE_URL}/donation/update-payment-status`,
     getPaymentIntent: `${BASE_URL}/stripe/get-payment-intent`,
 }
 export default api;

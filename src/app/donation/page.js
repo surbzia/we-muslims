@@ -50,28 +50,34 @@ const Donation = () => {
 	});
 
 	const [programs, setPrograms] = useState([]);
-	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [submitError, setSubmitError] = useState(null);
-	const [submitSuccess, setSubmitSuccess] = useState(false);
+	const [errors, setErrors] = useState({});
+	const [formFilled, setFormFilled] = useState(false);
 
 	// Donation options
 	const amounts = ["10", "25", "50", "100", "250", "custom"];
 
 	const payment_methods = [
-		{ value: "Offline Donation", label: "Offline Donation" },
+		{ value: "offline", label: "Offline Donation" },
 		{ value: "credit_card", label: "Credit Card" },
 	];
 
 	const donationFrequencies = [
 		{ value: "one_time", label: "One Time" },
+		{ value: "monthly", label: "Monthly" },
 		{ value: "quarterly", label: "Quarterly" },
 		{ value: "yearly", label: "Yearly" },
 	];
 
-	// Handle input changes
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData(prev => ({ ...prev, [name]: value }));
+		if (errors[name]) {
+			setErrors(prev => {
+				const newErrors = { ...prev };
+				delete newErrors[name];
+				return newErrors;
+			});
+		}
 	};
 
 	// Get programs when category changes
@@ -87,64 +93,88 @@ const Donation = () => {
 		}
 	};
 
-	// Handle form submission
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		setIsSubmitting(true);
-		setSubmitError(null);
-
-		let amountToSend = formData.amount === "custom" ? formData.custom_amount : formData.amount;
-		if (!amountToSend) {
-			setSubmitError("Please select or enter a donation amount");
-			setIsSubmitting(false);
-			return;
-		}
-
-		const submitData = {
-			...formData,
-			amount: amountToSend,
-		};
-
-		try {
-			const response = await request.post(api.donate, submitData);
-			setSubmitSuccess(true);
-			setFormData({
-				first_name: '',
-				last_name: '',
-				email: '',
-				message: '',
-				amount: '',
-				custom_amount: '',
-				payment_token: '',
-				payment_method: 'Offline Donation',
-				frequency: 'one_time',
-				category_id: '',
-				program_id: '',
-				event_id: ''
-			});
-			setPrograms([]);
-		} catch (error) {
-			setSubmitError(error.message || "Failed to process donation. Please try again.");
-		} finally {
-			setIsSubmitting(false);
-		}
-	};
-
-	// Initialize with program_id from URL
 	useEffect(() => {
 		const program_id = query.get("program_id");
+		const path = query.get("path");
+		const amount = query.get("amount");
 		if (program_id) {
 			setFormData(prev => ({ ...prev, program_id }));
 		}
+		if (path && path === "home") {
+			setFormData(prev => ({ ...prev, amount }));
+			if (amount && !amounts.includes(amount)) {
+				setFormData(prev => ({ ...prev, amount: "custom", custom_amount: amount }));
+			}
+		}
 	}, [query]);
+
+	// Helper function to render error message
+	const renderErrorMessage = (fieldName) => {
+		if (errors[fieldName]) {
+			return (
+				<div className="text-danger small mt-1">
+					{errors[fieldName]}
+				</div>
+			);
+		}
+		return null;
+	};
+
+
+	const handleFilledForm = () => {
+		const newErrors = {};
+
+		// Validate amount
+		if (!formData.amount || (formData.amount === "custom" && (!formData.custom_amount || isNaN(formData.custom_amount) || Number(formData.custom_amount) <= 0))) {
+			newErrors.custom_amount = "Please enter a valid donation amount.";
+		}
+
+		// Validate payment method
+		if (!formData.payment_method) {
+			newErrors.payment_method = "Please select a payment method.";
+		}
+
+		// Validate frequency
+		if (!formData.frequency) {
+			newErrors.frequency = "Please select a donation frequency.";
+		}
+
+		// Validate category
+		if (!formData.category_id) {
+			newErrors.category_id = "Please select a donation type.";
+		}
+
+		// Validate first name
+		if (!formData.first_name.trim()) {
+			newErrors.first_name = "First name is required.";
+		}
+
+		// Validate last name
+		if (!formData.last_name.trim()) {
+			newErrors.last_name = "Last name is required.";
+		}
+
+		// Validate email
+		if (!formData.email.trim()) {
+			newErrors.email = "Email is required.";
+		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+			newErrors.email = "Please enter a valid email address.";
+		}
+
+		setErrors(newErrors);
+
+		if (Object.keys(newErrors).length === 0) {
+			setFormFilled(true);
+		}
+	}
 
 	return (
 		<>
-			<PageHeader description="this is description"  pagename="Donation" />
+			<PageHeader description="this is description" pagename="Donation" />
 			<section className="donation-page pt-5 pb-5 mt-4 mb-4">
 				<div className="container">
 					<div className="row">
-						<div className="col-lg-8">
+						<div className="col-lg-8 m-auto">
 							<div className="border p-3 radius-20">
 								<div className="warning mb-4">
 									<div>
@@ -161,293 +191,295 @@ const Donation = () => {
 									</h4>
 								</div>
 
-								{submitSuccess ? (
-									<div className="alert alert-success">
-										<h4>Thank you for your donation!</h4>
-										<p>Your donation has been successfully processed.</p>
-									</div>
-								) : (
-									<form onSubmit={handleSubmit}>
-										{/* Donation Amount Section */}
-										<div className="wrapper-donation1 border-bottom pb-2">
-											<div className="row mt-4">
-												<div className="col-lg-12 mb-4">
-													<div className="wrapper-dollar">
-														<Image
-															src={dollar}
-															className="img-fluid dollar"
-															alt=""
-														/>
-														<h4 className="mb-0 calibri-bold level-5">
-																{formData.amount === "custom" && formData.custom_amount !== ""
-																	? formData.custom_amount
-																	: formData.amount !== ""
-																		? formData.amount
-																		: "0"}
-															</h4>
-														</div>
-													</div>
-
-													<div className="col-lg-12 mb-4">
-														<div className="donation-box">
-															<div
-																className="donation-amounts"
-																style={{
-																	display: "flex",
-																	flexWrap: "wrap",
-																	gap: "1rem",
-																	marginBottom: "1rem",
-																}}
-															>
-																{amounts.map((amt) => (
-																	<div key={amt}>
-																		<input
-																			type="radio"
-																			name="amount"
-																			id={`donation-${amt}`}
-																			value={amt}
-																			className="donation-radio"
-																			checked={formData.amount === amt}
-																			onChange={() => {
-																				setFormData(prev => ({
-																					...prev,
-																					amount: amt,
-																					custom_amount: amt === "custom" ? prev.custom_amount : ""
-																				}));
-																			}}
-																		/>
-																		<label
-																			htmlFor={`donation-${amt}`}
-																			className="donation-option"
-																		>
-																			{amt === "custom"
-																				? "Custom Amount"
-																				: `$${amt}`}
-																		</label>
-																	</div>
-																))}
-															</div>
-
-															{formData.amount === "custom" && (
-																<div className="row">
-																	<div className="col-lg-6">
-																		<div className="donation-input-group">
-																			<span>$</span>
-																			<input
-																				type="number"
-																				name="custom_amount"
-																				placeholder="100"
-																				value={formData.custom_amount}
-																				onChange={(e) => {
-																					setFormData(prev => ({
-																						...prev,
-																						custom_amount: e.target.value,
-																						amount: "custom"
-																					}));
-																				}}
-																			/>
-																		</div>
-																	</div>
-																</div>
-															)}
-														</div>
-													</div>
-												</div>
-											</div>
-
-											{/* Payment Method Section */}
-											<div className="row mt-3 border-bottom pb-3">
-												<div className="col-lg-12">
-													<h3 className="calibri-bold mb-3">
-														Select Payment Method
-													</h3>
-													<div className="payment-method-group">
-														{payment_methods.map((method) => (
-															<label
-																key={method.value}
-																className={`payment-method-option ${formData.payment_method === method.value ? "active" : ""
-																	}`}
-															>
-																<input
-																	type="radio"
-																	name="payment_method"
-																	value={method.value}
-																	checked={formData.payment_method === method.value}
-																	onChange={handleChange}
-																/>
-																{method.label}
-															</label>
-														))}
-													</div>
-												</div>
-											</div>
-
-											{/* Donation Frequency Section */}
-											<div className="row mt-4 border-bottom pb-3">
-												<div className="col-lg-12">
-													<h3 className="calibri-bold mb-3">
-														Choose your donation frequency
-													</h3>
-													<div className="payment-method-group">
-														{donationFrequencies.map((freq) => (
-															<label
-																key={freq.value}
-																className={`payment-method-option ${formData.frequency === freq.value ? "active" : ""
-																	}`}
-															>
-																<input
-																	type="radio"
-																	name="frequency"
-																	value={freq.value}
-																	checked={formData.frequency === freq.value}
-																	onChange={handleChange}
-																/>
-																{freq.label}
-															</label>
-														))}
-													</div>
-												</div>
-											</div>
-
-											{/* Program Selection Section */}
-											<div className="row mt-4">
-												<div className="col-lg-12">
-													<h3 className="calibri-bold mb-3">
-														I Would Like To Donate To:{" "}
-													</h3>
-												</div>
-											</div>
-											<div className="row">
-												<div className="col-lg-6">
-													<div className="custom-select-wrapper">
-														<select
-															className="custom-select"
-															name="category_id"
-															value={formData.category_id}
-															onChange={(e) => {
-																handleChange(e);
-																getPrograms(e);
-															}}
-														>
-															<option value="">Select Donation Type</option>
-															{categories.map((category) => (
-																<option key={category.id} value={category.id}>
-																	{category.title}
-																</option>
-															))}
-														</select>
-													</div>
-												</div>
-												<div className="col-lg-6">
-													<div className="custom-select-wrapper">
-														<select
-															className="custom-select"
-															name="program_id"
-															value={formData.program_id}
-															onChange={handleChange}
-														>
-															<option value="">Donate To (Programs)</option>
-															{programs.map((program) => (
-																<option key={program.id} value={program.id}>
-																	{program.title}
-																</option>
-															))}
-														</select>
-													</div>
-												</div>
-											</div>
-
-											{/* Personal Info Section */}
-											<div className="row mt-4">
-												<div className="col-lg-12">
-													<h3 className="calibri-bold mb-3">Personal Info </h3>
-												</div>
-											</div>
-											<div className="row">
-												<div className="col-lg-6">
-													<div className="mb-3">
-														<input
-															type="text"
-															name="first_name"
-															className="form-control bg-transparent"
-															placeholder="Your Name"
-															value={formData.first_name}
-															onChange={handleChange}
-															required
-														/>
-													</div>
-												</div>
-												<div className="col-lg-6">
-													<div className="mb-3">
-														<input
-															type="text"
-															name="last_name"
-															className="form-control bg-transparent"
-															placeholder="Last name"
-															value={formData.last_name}
-															onChange={handleChange}
-															required
-														/>
-													</div>
-												</div>
-												<div className="col-lg-12">
-													<div className="mb-3">
-														<input
-															type="email"
-															name="email"
-															className="form-control bg-transparent"
-															placeholder="Email Address"
-															value={formData.email}
-															onChange={handleChange}
-															required
-														/>
-													</div>
-												</div>
-												<div className="col-lg-12">
-													<div className="mb-3">
-														<textarea
-															name="message"
-															className="form-control bg-transparent radius-20"
-															placeholder="Your Message"
-															rows={4}
-															value={formData.message}
-															onChange={handleChange}
-														></textarea>
-													</div>
-												</div>
-											</div>
-
-											{/* Payment Info Section */}
-
-									</form>
-								)}
-							</div>
-						</div>
-						<div className="col-lg-4">
-							<div className="row">
-								<div className="col-lg-12">
+								<div className="wrapper-donation1 border-bottom pb-2">
 									<div className="row mt-4">
-										<div className="col-lg-12">
-											<h3 className="calibri-bold mb-3">Payment Info </h3>
+										<div className="col-lg-12 mb-4">
+											<div className="wrapper-dollar">
+												<Image
+													src={dollar}
+													className="img-fluid dollar"
+													alt=""
+												/>
+												<h4 className="mb-0 calibri-bold level-5">
+													{formData.amount === "custom" && formData.custom_amount !== ""
+														? formData.custom_amount
+														: formData.amount !== ""
+															? formData.amount
+															: "0"}
+												</h4>
+											</div>
+										</div>
+
+										<div className="col-lg-12 mb-4">
+											<div className="donation-box">
+												<div
+													className="donation-amounts"
+													style={{
+														display: "flex",
+														flexWrap: "wrap",
+														gap: "1rem",
+														marginBottom: "1rem",
+													}}
+												>
+													{amounts.map((amt) => (
+														<div key={amt}>
+															<input
+																type="radio"
+																name="amount"
+																id={`donation-${amt}`}
+																value={amt}
+																className="donation-radio"
+																checked={formData.amount === amt}
+																onChange={() => {
+																	setFormData(prev => ({
+																		...prev,
+																		amount: amt,
+																		custom_amount: amt === "custom" ? prev.custom_amount : ""
+																	}));
+																}}
+															/>
+															<label
+																htmlFor={`donation-${amt}`}
+																className="donation-option"
+															>
+																{amt === "custom"
+																	? "Custom Amount"
+																	: `$${amt}`}
+															</label>
+														</div>
+													))}
+												</div>
+
+												{formData.amount === "custom" && (
+													<div className="row">
+														<div className="col-lg-6">
+															<div className="donation-input-group">
+																<span>$</span>
+																<input
+																	type="number"
+																	name="custom_amount"
+																	placeholder="100"
+																	value={formData.custom_amount}
+																	onChange={(e) => {
+																		setFormData(prev => ({
+																			...prev,
+																			custom_amount: e.target.value,
+																			amount: "custom"
+																		}));
+																	}}
+																/>
+															</div>
+															{renderErrorMessage('custom_amount')}
+														</div>
+													</div>
+												)}
+												{renderErrorMessage('amount')}
+											</div>
 										</div>
 									</div>
-									<div className="row">
-										{formData.payment_method === "credit_card" && (
-											<Elements
-												stripe={stripePromise}
-												options={{
-													mode: "payment",
-													amount: convertToSubcurrency(formData.amount === "custom" ? formData.custom_amount : formData.amount),
-													currency: "usd",
+								</div>
+
+								{/* Payment Method Section */}
+								<div className="row mt-3 border-bottom pb-3">
+									<div className="col-lg-12">
+										<h3 className="calibri-bold mb-3">
+											Select Payment Method
+										</h3>
+										<div className="payment-method-group">
+											{payment_methods.map((method) => (
+												<label
+													key={method.value}
+													className={`payment-method-option ${formData.payment_method === method.value ? "active" : ""
+														}`}
+												>
+													<input
+														type="radio"
+														name="payment_method"
+														value={method.value}
+														checked={formData.payment_method === method.value}
+														onChange={handleChange}
+													/>
+													{method.label}
+												</label>
+											))}
+										</div>
+										{renderErrorMessage('payment_method')}
+									</div>
+								</div>
+
+								{/* Donation Frequency Section */}
+								<div className="row mt-4 border-bottom pb-3">
+									<div className="col-lg-12">
+										<h3 className="calibri-bold mb-3">
+											Choose your donation frequency
+										</h3>
+										<div className="payment-method-group">
+											{donationFrequencies.map((freq) => (
+												<label
+													key={freq.value}
+													className={`payment-method-option ${formData.frequency === freq.value ? "active" : ""
+														}`}
+												>
+													<input
+														type="radio"
+														name="frequency"
+														value={freq.value}
+														checked={formData.frequency === freq.value}
+														onChange={handleChange}
+													/>
+													{freq.label}
+												</label>
+											))}
+										</div>
+										{renderErrorMessage('frequency')}
+									</div>
+								</div>
+
+								{/* Program Selection Section */}
+								<div className="row mt-4">
+									<div className="col-lg-12">
+										<h3 className="calibri-bold mb-3">
+											I Would Like To Donate To:{" "}
+										</h3>
+									</div>
+								</div>
+								<div className="row">
+									<div className="col-lg-6">
+										<div className="custom-select-wrapper">
+											<select
+												className="custom-select"
+												name="category_id"
+												value={formData.category_id}
+												onChange={(e) => {
+													handleChange(e);
+													getPrograms(e);
 												}}
 											>
-												<StripePayment amount={formData.amount === "custom" ? formData.custom_amount : formData.amount} />
-											</Elements>
-										)}
+												<option value="">Select Donation Type</option>
+												{categories.map((category) => (
+													<option key={category.id} value={category.id}>
+														{category.title}
+													</option>
+												))}
+											</select>
+											{renderErrorMessage('category_id')}
+										</div>
 									</div>
+									<div className="col-lg-6">
+										<div className="custom-select-wrapper">
+											<select
+												className="custom-select"
+												name="program_id"
+												value={formData.program_id}
+												onChange={handleChange}
+											>
+												<option value="">Donate To (Programs)</option>
+												{programs.map((program) => (
+													<option key={program.id} value={program.id}>
+														{program.title}
+													</option>
+												))}
+											</select>
+											{renderErrorMessage('program_id')}
+										</div>
+									</div>
+								</div>
+
+								{/* Personal Info Section */}
+								<div className="row mt-4">
+									<div className="col-lg-12">
+										<h3 className="calibri-bold mb-3">Personal Info </h3>
+									</div>
+								</div>
+								<div className="row">
+									<div className="col-lg-6">
+										<div className="mb-3">
+											<input
+												type="text"
+												name="first_name"
+												className={`form-control bg-transparent ${errors.first_name ? 'is-invalid' : ''}`}
+												placeholder="Your Name"
+												value={formData.first_name}
+												onChange={handleChange}
+												required
+											/>
+											{renderErrorMessage('first_name')}
+										</div>
+									</div>
+									<div className="col-lg-6">
+										<div className="mb-3">
+											<input
+												type="text"
+												name="last_name"
+												className={`form-control bg-transparent ${errors.last_name ? 'is-invalid' : ''}`}
+												placeholder="Last name"
+												value={formData.last_name}
+												onChange={handleChange}
+												required
+											/>
+											{renderErrorMessage('last_name')}
+										</div>
+									</div>
+									<div className="col-lg-12">
+										<div className="mb-3">
+											<input
+												type="email"
+												name="email"
+												className={`form-control bg-transparent ${errors.email ? 'is-invalid' : ''}`}
+												placeholder="Email Address"
+												value={formData.email}
+												onChange={handleChange}
+												required
+											/>
+											{renderErrorMessage('email')}
+										</div>
+									</div>
+									<div className="col-lg-12">
+										<div className="mb-3">
+											<textarea
+												name="message"
+												className={`form-control bg-transparent radius-20 ${errors.message ? 'is-invalid' : ''}`}
+												placeholder="Your Message"
+												rows={4}
+												value={formData.message}
+												onChange={handleChange}
+											></textarea>
+											{renderErrorMessage('message')}
+										</div>
+									</div>
+									{formFilled ? (<>
+										<div className="col-lg-12">
+											<div className="row mt-4">
+												<div className="col-lg-12">
+													<h3 className="calibri-bold mb-3">Payment Info </h3>
+												</div>
+											</div>
+											<div className="row">
+												{formData.payment_method === "credit_card" && (
+													<Elements
+														stripe={stripePromise}
+														options={{
+															mode: "payment",
+															amount: convertToSubcurrency(formData.amount === "custom" ? formData.custom_amount : formData.amount),
+															currency: "usd",
+														}}
+													>
+														<StripePayment
+															setErrorsFromServer={(errors) => setErrors(errors)}
+															formData={formData}
+															amount={formData.amount === "custom" ? formData.custom_amount : formData.amount}
+														/>
+													</Elements>
+												)}
+											</div>
+										</div>
+									</>) : (<div className="col-lg-12">
+										<button className="btn-wrapper w-100" onClick={handleFilledForm}>Click to processed</button>
+									</div>)}
 								</div>
 							</div>
 						</div>
+
 					</div>
 				</div>
 			</section>

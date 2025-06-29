@@ -1,14 +1,27 @@
 "use client";
 
-import React, {useContext, useState} from "react";
-import {MyContext} from "@/Components/MyContextProvider";
+import React, { useContext, useState } from "react";
+import { MyContext } from "@/Components/MyContextProvider";
+import { useRouter } from "next/navigation";
 
 const DonationForm = () => {
 	const { content } = useContext(MyContext);
 	const pageContent = content.home.DonateSection;
 	const [selectedAmount, setSelectedAmount] = useState("");
+	const [amountType, setAmountType] = useState("fixed"); // "fixed" or "custom"
 
 	const amounts = ["10", "25", "50", "100", "250", "custom"];
+
+	const router = useRouter();
+
+
+	const handleCustomDonation = () => {
+		if (selectedAmount) {
+			const params = new URLSearchParams({ amount: selectedAmount, path: 'home' });
+			router.push(`/donation?${params.toString()}`);
+		}
+	};
+
 
 	return (
 		<section className="donation">
@@ -45,8 +58,11 @@ const DonationForm = () => {
 												id={`donation-${amt}`}
 												value={amt}
 												className="donation-radio"
-												checked={selectedAmount === amt}
-												onChange={() => setSelectedAmount(amt)}
+												checked={amt === selectedAmount}
+												onChange={() => {
+													setSelectedAmount(amt);
+													setAmountType(amt === "custom" ? "custom" : "fixed");
+												}}
 											/>
 											<label
 												htmlFor={`donation-${amt}`}
@@ -58,21 +74,21 @@ const DonationForm = () => {
 									))}
 								</div>
 								<div className="row">
-									{selectedAmount === "custom" ? (
+									{amountType === "custom" ? (
 										<>
 											<div className="col-lg-6">
 												<div className="donation-input-group">
 													<span>$</span>
-													<input type="number" placeholder="100" />
+													<input type="number" value={selectedAmount} onChange={(e) => setSelectedAmount(e.target.value)} placeholder="100" />
 												</div>
 											</div>
 											<div className="col-lg-6">
-												<button className="donation-submit">DONATE NOW</button>
+												<button onClick={handleCustomDonation} className="donation-submit">DONATE NOW</button>
 											</div>
 										</>
 									) : (
 										<div className="col-lg-12">
-											<button className="donation-submit">DONATE NOW</button>
+												<button onClick={handleCustomDonation} className="donation-submit">DONATE NOW</button>
 										</div>
 									)}
 								</div>
