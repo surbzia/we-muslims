@@ -1,84 +1,13 @@
 import { gallery, gallery1, gallery2, gallery3 } from "@/Constant/Index";
 import Image from "next/image";
 import Link from "next/link";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import Slider from "react-slick";
-import {useContext} from "react";
-import {MyContext} from "@/Components/MyContextProvider";
+import { FaChevronRight } from "react-icons/fa";
+import { useContext } from "react";
+import { MyContext } from "@/Components/MyContextProvider";
 
 const Gallery = () => {
-
 	const { content } = useContext(MyContext);
 	const pageContent = content.home['GallerySection'];
-
-
-	const PrevArrow = ({ onClick }) => (
-		<div className="custom-arrow prev" onClick={onClick}>
-			<FaChevronLeft />
-		</div>
-	);
-
-	const NextArrow = ({ onClick }) => (
-		<div className="custom-arrow next" onClick={onClick}>
-			<FaChevronRight />
-		</div>
-	);
-
-	const settings = {
-		dots: false,
-		infinite: true,
-		speed: 500,
-		slidesToShow: 1,
-		slidesToScroll: 1,
-		nextArrow: <NextArrow />,
-		prevArrow: <PrevArrow />,
-	};
-
-	// 👇 Grouped slides array (each slide = 1 set of 4 images arranged in 3 columns)
-	const slides = [
-		[
-			{
-				col: 3,
-				items: [
-					{ src: gallery, title: "Health" },
-					{ src: gallery1, title: "Education" },
-				],
-			},
-			{
-				col: 3,
-				items: [
-					{ src: gallery2, title: "Donation", imgclassadd: "wrapper-oldimg" },
-				],
-			},
-			{
-				col: 6,
-				items: [
-					{ src: gallery3, title: "Medical", imgclassadd: "wrapper-oldimg" },
-				],
-			},
-		],
-		[
-			{
-				col: 3,
-				items: [
-					{ src: gallery, title: "Health" },
-					{ src: gallery1, title: "Education" },
-				],
-			},
-			{
-				col: 3,
-				items: [
-					{ src: gallery2, title: "Donation", imgclassadd: "wrapper-oldimg" },
-				],
-			},
-			{
-				col: 6,
-				items: [
-					{ src: gallery3, title: "Medical", imgclassadd: "wrapper-oldimg" },
-				],
-			},
-		],
-	];
 
 	return (
 		<section className="gallery pb-3">
@@ -98,41 +27,77 @@ const Gallery = () => {
 				</div>
 
 				<div className="slider-wrapper mt-5 pt-5 pb-5 mb-5">
-					<Slider {...settings}>
-						{slides.map((slide, index) => (
-							<div
-								className="row d-flex align-items-center justify-content-between"
-								key={index}
-							>
-								{slide.map((column, colIndex) => (
-									<div className={`col-lg-${column.col}`} key={colIndex}>
-										{column.items.map((item, itemIndex) => (
-											<div
-												className={`img-gallery position-relative ${
-													itemIndex > 0 ? "mt-3" : ""
-												}`}
-												key={itemIndex}
-											>
-												<Image
-													src={item.src}
-													className={`${item.imgclassadd} img-fluid  w-100 radius-20`}
-													alt={item.title}
-												/>
-												<div className="galley-content">
-													<h5 className="text-white primary-medium-font level-6">
-														{item.title}
-													</h5>
-													<Link href="/" className="arrow-link color-6">
-														<FaChevronRight size={14} />
-													</Link>
-												</div>
-											</div>
-										))}
-									</div>
-								))}
+					<div className="row d-flex align-items-center justify-content-between">
+						{/* Column 1 */}
+						<div className="col-lg-3">
+							<div className="img-gallery position-relative">
+								<Image
+									src={gallery}
+									className="img-fluid w-100 radius-20"
+									alt="Health"
+								/>
+								<div className="galley-content">
+									<h5 className="text-white primary-medium-font level-6">
+										Health
+									</h5>
+									<Link href="/" className="arrow-link color-6">
+										<FaChevronRight size={14} />
+									</Link>
+								</div>
 							</div>
-						))}
-					</Slider>
+							<div className="img-gallery position-relative mt-3">
+								<Image
+									src={gallery1}
+									className="img-fluid w-100 radius-20"
+									alt="Education"
+								/>
+								<div className="galley-content">
+									<h5 className="text-white primary-medium-font level-6">
+										Education
+									</h5>
+									<Link href="/" className="arrow-link color-6">
+										<FaChevronRight size={14} />
+									</Link>
+								</div>
+							</div>
+						</div>
+						{/* Column 2 */}
+						<div className="col-lg-3">
+							<div className="img-gallery position-relative">
+								<Image
+									src={gallery2}
+									className="wrapper-oldimg img-fluid w-100 radius-20"
+									alt="Donation"
+								/>
+								<div className="galley-content">
+									<h5 className="text-white primary-medium-font level-6">
+										Donation
+									</h5>
+									<Link href="/" className="arrow-link color-6">
+										<FaChevronRight size={14} />
+									</Link>
+								</div>
+							</div>
+						</div>
+						{/* Column 3 */}
+						<div className="col-lg-6">
+							<div className="img-gallery position-relative">
+								<Image
+									src={gallery3}
+									className="wrapper-oldimg img-fluid w-100 radius-20"
+									alt="Medical"
+								/>
+								<div className="galley-content">
+									<h5 className="text-white primary-medium-font level-6">
+										Medical
+									</h5>
+									<Link href="/" className="arrow-link color-6">
+										<FaChevronRight size={14} />
+									</Link>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
