@@ -3,10 +3,17 @@
 import React, {useContext, useEffect, useState} from "react";
 import Link from "next/link";
 import {MyContext} from "@/Components/MyContextProvider";
+import { useSearchParams } from "next/navigation";
 
 const ProgramCategorySidebar = ({program = null, onCategorySelect}) => {
     const {categories} = useContext(MyContext);
     const [selected, setSelected] = useState(categories?.[0] || null);
+    const query = useSearchParams();
+
+    useEffect(() => {
+        const category_id = query.get('category_id');
+        setSelected({ id: category_id > 0 ? category_id : 0 });
+    }, []);
 
     useEffect(() => {
         if (selected && onCategorySelect) {

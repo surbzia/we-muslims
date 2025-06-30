@@ -11,6 +11,7 @@ import { request } from "@/services/request";
 import api from "@/services/apis";
 import Spinner from "@/Components/Spinner";
 import ProgramCategorySidebar from "@/Components/ProgramCategorySidebar";
+import { useSearchParams } from "next/navigation";
 
 const Gallery = () => {
 
@@ -53,6 +54,7 @@ const Gallery = () => {
         setCurrentMediaIndex(idx);
     }
 
+
     useEffect(() => {
         getData();
     }, [selectedCategory]);
@@ -70,7 +72,7 @@ const Gallery = () => {
 
     return (
         <>
-            <PageHeader description="this is description"  pagename="Gallery" />
+            <PageHeader description="this is description" pagename="Gallery" />
             <section className="about-one">
                 <div className="container">
                     <div className="row mt-5 mb-5 pt-5">
