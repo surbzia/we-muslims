@@ -8,9 +8,11 @@ import { useSearchParams } from "next/navigation";
 import { request } from "@/services/request";
 import api from "@/services/apis";
 import { useRouter } from "next/router";
+import { useStripe } from "@stripe/react-stripe-js";
 
 const DonationSuccess = () => {
     const searchParams = useSearchParams();
+    const stripe = useStripe();
     const router = useRouter();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -18,9 +20,12 @@ const DonationSuccess = () => {
 
     const updateDonationStatus = async (donationId, payment_intent) => {
         try {
+            const paymentIntent = await stripe.paymentIntents.retrieve(payment_intent);
+            const paymentMethodId = paymentIntent.payment_method;
             const response = await request.get(api.donationUpdatePaymentStatus, {
                 donationId: donationId,
                 payment_id: payment_intent,
+                payment_method_id: paymentMethodId,
             });
 
             if (response.success) {
