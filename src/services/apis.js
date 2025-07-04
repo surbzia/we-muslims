@@ -10,5 +10,6 @@ const api = {
     donate: `${BASE_URL}/donate`,
     donationUpdatePaymentStatus: `${BASE_URL}/donation/update-payment-status`,
     getPaymentIntent: `${BASE_URL}/stripe/get-payment-intent`,
+    attachPaymentMethod: `${BASE_URL}/stripe/attach-payment-method`,
 }
 export default api;

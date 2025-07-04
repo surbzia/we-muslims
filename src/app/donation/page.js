@@ -24,6 +24,7 @@ import StripePayment from "@/Components/StripePayment";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import convertToSubcurrency from "@/lib/convertToSubcurrency";
+import StripeCardElement from "@/Components/StripeCardElement";
 
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
 	throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
@@ -456,25 +457,30 @@ const Donation = () => {
 											</div>
 											<div className="row">
 												{formData.payment_method === "credit_card" && (
-													<Elements
-														stripe={stripePromise}
-														options={{
-															mode: "payment",
-															amount: convertToSubcurrency(formData.amount === "custom" ? formData.custom_amount : formData.amount),
-															currency: "usd",
-														}}
-													>
-														<StripePayment
-															setErrorsFromServer={(errors) => setErrors(errors)}
-															formData={formData}
-															amount={formData.amount === "custom" ? formData.custom_amount : formData.amount}
-														/>
-													</Elements>
+													// <Elements
+													// 	stripe={stripePromise}
+													// 	options={{
+													// 		mode: "payment",
+													// 		amount: convertToSubcurrency(formData.amount === "custom" ? formData.custom_amount : formData.amount),
+													// 		currency: "usd",
+													// 	}}
+													// >
+													// 	<StripePayment
+													// setErrorsFromServer={(errors) => setErrors(errors)}
+													// formData={formData}
+													// amount={formData.amount === "custom" ? formData.custom_amount : formData.amount}
+													// 	/>
+													// </Elements>
+
+													<StripeCardElement
+														setErrorsFromServer={(errors) => setErrors(errors)}
+														formData={formData}
+														amount={formData.amount === "custom" ? formData.custom_amount : formData.amount} />
 												)}
 											</div>
 										</div>
 									</>) : (<div className="col-lg-12">
-										<button className="btn-wrapper w-100" onClick={handleFilledForm}>Click to processed</button>
+											<button className="btn-wrapper w-100" onClick={handleFilledForm}>Click to load Payment</button>
 									</div>)}
 								</div>
 							</div>
