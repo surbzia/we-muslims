@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import api from "@/services/apis";
 import { request } from "@/services/request";
-import PageLoader from "./PageLoader";
+import PageLoader from "@/Components/PageLoader";
 
 // Create a context
 export const MyContext = createContext();

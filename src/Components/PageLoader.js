@@ -1,5 +1,5 @@
 import React from "react";
-import "../assets/css/PageLoader.css";
+
 
 const PageLoader = () => {
   return (
