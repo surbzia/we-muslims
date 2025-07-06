@@ -1,4 +1,4 @@
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const BASE_URL = `${process.env.NEXT_PUBLIC_BASE_URL}/v1/api`;
 const api = {
     setting: `${BASE_URL}/settings`,
     content: (query)=> `${BASE_URL}/page?for=${query}`,

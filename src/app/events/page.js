@@ -20,6 +20,7 @@ import {useParams} from "next/navigation";
 import {request} from "@/services/request";
 import api from "@/services/apis";
 import Spinner from "@/Components/Spinner";
+import ShareButton from "@/Components/ShareButton";
 
 const tabs = ["daily", "weekly", "monthly"];
 
@@ -170,25 +171,7 @@ const DailyEvents = () => {
                                                 <Link   href={`/events/${event.id}`}>
                                                     <button className="form-btn">Read More</button>
                                                 </Link>
-                                                <Link   href={`/events/${event.id}`}>
-                                                    <button
-                                                        className="wrapper-share"
-                                                        style={{
-                                                            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-                                                            borderRadius: "30px",
-                                                            padding: 0,
-                                                            border: "none",
-                                                            background: "transparent",
-                                                            cursor: "pointer",
-                                                        }}
-                                                    >
-                                                        <Image
-                                                            src={galleryimg3}
-                                                            className="img-fluid w-100 radius-30"
-                                                            alt="Share Icon"
-                                                        />
-                                                    </button>
-                                                </Link>
+                                                <ShareButton link={`/events/${event.id}`} />
                                             </div>
                                         </div>
                                     </div>

@@ -40,8 +40,8 @@ const Donation = () => {
 		last_name: '',
 		email: '',
 		message: '',
-		amount: 12,
-		custom_amount: 12,
+		amount: 10,
+		custom_amount: 10,
 		payment_token: '',
 		payment_method: 'Offline Donation',
 		frequency: 'one_time',
@@ -52,9 +52,7 @@ const Donation = () => {
 
 	const [programs, setPrograms] = useState([]);
 	const [errors, setErrors] = useState({});
-	const [formFilled, setFormFilled] = useState(false);
 
-	// Donation options
 	const amounts = ["10", "25", "50", "100", "250", "custom"];
 
 	const payment_methods = [
@@ -109,7 +107,6 @@ const Donation = () => {
 		}
 	}, [query]);
 
-	// Helper function to render error message
 	const renderErrorMessage = (fieldName) => {
 		if (errors[fieldName]) {
 			return (
@@ -120,54 +117,6 @@ const Donation = () => {
 		}
 		return null;
 	};
-
-
-	const handleFilledForm = () => {
-		const newErrors = {};
-
-		// Validate amount
-		if (!formData.amount || (formData.amount === "custom" && (!formData.custom_amount || isNaN(formData.custom_amount) || Number(formData.custom_amount) <= 0))) {
-			newErrors.custom_amount = "Please enter a valid donation amount.";
-		}
-
-		// Validate payment method
-		if (!formData.payment_method) {
-			newErrors.payment_method = "Please select a payment method.";
-		}
-
-		// Validate frequency
-		if (!formData.frequency) {
-			newErrors.frequency = "Please select a donation frequency.";
-		}
-
-		// Validate category
-		if (!formData.category_id) {
-			newErrors.category_id = "Please select a donation type.";
-		}
-
-		// Validate first name
-		if (!formData.first_name.trim()) {
-			newErrors.first_name = "First name is required.";
-		}
-
-		// Validate last name
-		if (!formData.last_name.trim()) {
-			newErrors.last_name = "Last name is required.";
-		}
-
-		// Validate email
-		if (!formData.email.trim()) {
-			newErrors.email = "Email is required.";
-		} else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-			newErrors.email = "Please enter a valid email address.";
-		}
-
-		setErrors(newErrors);
-
-		if (Object.keys(newErrors).length === 0) {
-			setFormFilled(true);
-		}
-	}
 
 	return (
 		<>
@@ -448,40 +397,36 @@ const Donation = () => {
 											{renderErrorMessage('message')}
 										</div>
 									</div>
-									{formFilled ? (<>
-										<div className="col-lg-12">
-											<div className="row mt-4">
-												<div className="col-lg-12">
-													<h3 className="calibri-bold mb-3">Payment Info </h3>
-												</div>
-											</div>
-											<div className="row">
-												{formData.payment_method === "credit_card" && (
-													// <Elements
-													// 	stripe={stripePromise}
-													// 	options={{
-													// 		mode: "payment",
-													// 		amount: convertToSubcurrency(formData.amount === "custom" ? formData.custom_amount : formData.amount),
-													// 		currency: "usd",
-													// 	}}
-													// >
-													// 	<StripePayment
-													// setErrorsFromServer={(errors) => setErrors(errors)}
-													// formData={formData}
-													// amount={formData.amount === "custom" ? formData.custom_amount : formData.amount}
-													// 	/>
-													// </Elements>
-
-													<StripeCardElement
-														setErrorsFromServer={(errors) => setErrors(errors)}
-														formData={formData}
-														amount={formData.amount === "custom" ? formData.custom_amount : formData.amount} />
-												)}
+									<div className="col-lg-12">
+										<div className="row mt-4">
+											<div className="col-lg-12">
+												<h3 className="calibri-bold mb-3">Payment Info </h3>
 											</div>
 										</div>
-									</>) : (<div className="col-lg-12">
-											<button className="btn-wrapper w-100" onClick={handleFilledForm}>Click to load Payment</button>
-									</div>)}
+										<div className="row">
+											{formData.payment_method === "credit_card" && (
+									// <Elements
+									// 	stripe={stripePromise}
+									// 	options={{
+									// 		mode: "payment",
+									// 		amount: convertToSubcurrency(formData.amount === "custom" ? formData.custom_amount : formData.amount),
+									// 		currency: "usd",
+									// 	}}
+									// >
+									// 	<StripePayment
+									// setErrorsFromServer={(errors) => setErrors(errors)}
+									// formData={formData}
+									// amount={formData.amount === "custom" ? formData.custom_amount : formData.amount}
+									// 	/>
+									// </Elements>
+
+												<StripeCardElement
+													setErrorsFromServer={(errors) => setErrors(errors)}
+													formData={formData}
+													amount={formData.amount === "custom" ? formData.custom_amount : formData.amount} />
+											)}
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

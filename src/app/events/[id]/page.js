@@ -13,6 +13,7 @@ import api from "@/services/apis";
 import { request } from "@/services/request";
 import Spinner from "@/Components/Spinner";
 import { useParams } from "next/navigation"; 
+import ShareButton from "@/Components/ShareButton";
 
 const EventDetail = () => {
     const { id } = useParams();
@@ -48,25 +49,7 @@ const EventDetail = () => {
                                 <>
                                     <div className="calender-image position-relative">
                                         <div className="position-absolute right-0 bottom-0 m-4">
-                                            <Link href="">
-                                                <button
-                                                    className="wrapper-share"
-                                                    style={{
-                                                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
-                                                        borderRadius: "30px",
-                                                        padding: 0,
-                                                        border: "none",
-                                                        background: "transparent",
-                                                        cursor: "pointer",
-                                                    }}
-                                                >
-                                                    <Image
-                                                        src={galleryimg3}
-                                                        className="img-fluid w-100 radius-30"
-                                                        alt="Share Icon"
-                                                    />
-                                                </button>
-                                            </Link>
+                                            <ShareButton link={`/events/${event?.id}`} />
                                         </div>
                                         <Image src={event?.logo_url} width={200} height={200} loading="lazy" className="img-fluid w-100" alt="" />
                                         <div className="eduction-content position-absolute top-0 left-0 m-3">
