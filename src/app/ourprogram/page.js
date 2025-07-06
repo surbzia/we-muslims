@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
@@ -15,15 +16,44 @@ import { request } from "@/services/request";
 import api from "@/services/apis";
 import Spinner from "@/Components/Spinner";
 import ProgramCategorySidebar from "@/Components/ProgramCategorySidebar";
+import ShareLinks from "@/Components/ShareLinks";
 
 const Ourprogram = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams();
     const [program, setProgram] = useState(null);
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [categories, setCategories] = useState([]); // Added categories state
     const [images, setImages] = useState([]);
     const [tags, setTags] = useState([]);
     const [quote, setQuote] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    // Fetch categories (you might need to adjust this based on your API)
+    const fetchCategories = async () => {
+        try {
+            const response = await request.get(api.categories); // Adjust this endpoint
+            setCategories(response.data);
+        } catch (err) {
+            console.error("Error fetching categories:", err);
+        }
+    };
+
+    useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    // Handle initial category from URL
+    useEffect(() => {
+        const urlCategoryId = searchParams.get('category_id');
+        if (urlCategoryId && categories.length > 0) {
+            const categoryFromUrl = categories.find(cat => cat.id.toString() === urlCategoryId);
+            if (categoryFromUrl) {
+                setSelectedCategory(categoryFromUrl);
+            }
+        }
+    }, [searchParams, categories]);
 
     const getProgram = async () => {
         try {
@@ -39,8 +69,13 @@ const Ourprogram = () => {
                 return;
             }
 
-            const { data } = await request.get(api.program(`?category_id=${selectedCategory?.id}`));
+            // Update URL with current category_id
+            const newUrl = `?category_id=${selectedCategory.id}`;
+            if (searchParams.get('category_id') !== selectedCategory.id.toString()) {
+                router.replace(newUrl, { scroll: false });
+            }
 
+            const { data } = await request.get(api.program(`?category_id=${selectedCategory?.id}`));
 
             setProgram(data);
             setImages(data?.images ? JSON.parse(data.images) : []);
@@ -58,6 +93,9 @@ const Ourprogram = () => {
         getProgram();
     }, [selectedCategory]);
 
+    const handleCategorySelect = (category) => {
+        setSelectedCategory(category);
+    };
 
     const renderProgramContent = () => {
         if (loading) return <Spinner />;
@@ -141,28 +179,7 @@ const Ourprogram = () => {
                         )}
 
                         <div className="col-lg-6 d-flex align-items-center gap-3 justify-content-lg-end">
-                            <h4 className="level-6 calibri-bold mb-0">Share:</h4>
-                            <div className="program-lists">
-                                <ul className="list-unstyled d-flex ps-0 mb-0 gap-2">
-                                    {[
-                                        { icon: faTwitter, name: "Twitter" },
-                                        { icon: faFacebookF, name: "Facebook" },
-                                        { icon: faYoutube, name: "YouTube" },
-                                        { icon: faInstagram, name: "Instagram" },
-                                        { icon: faLinkedinIn, name: "LinkedIn" },
-                                    ].map((social, index) => (
-                                        <li key={index}>
-                                            <Link
-                                                href="#"
-                                                className="icon-badge radius-40 border p-3 dark-color"
-                                                aria-label={`Share on ${social.name}`}
-                                            >
-                                                <FontAwesomeIcon icon={social.icon} />
-                                            </Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                            <ShareLinks link={`/ourprogram?category_id=${program.id}`} />
                         </div>
                     </div>
                 </div>
@@ -172,7 +189,7 @@ const Ourprogram = () => {
 
     return (
         <>
-            <PageHeader description="this is description"  pagename="Our Programs" />
+            <PageHeader description="this is description" pagename="Our Programs" />
 
             <section className="about-one">
                 <div className="container">
@@ -183,18 +200,16 @@ const Ourprogram = () => {
 
                         <div className="col-lg-4">
                             <div className="position-relative radius-20 p-4 bg-17 mb-4">
-
                                 <ProgramCategorySidebar
                                     program={program}
-                                    onCategorySelect={(category) => setSelectedCategory(category)}
+                                    onCategorySelect={handleCategorySelect}
+                                    selectedCategory={selectedCategory}
                                 />
                             </div>
-                            {/* <RecentActivities activities={activities} /> */}
                         </div>
                     </div>
                 </div>
             </section>
-
         </>
     );
 };

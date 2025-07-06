@@ -25,11 +25,9 @@ export default function GoogleTranslate() {
 
         addScript();
 
-        // Wait for the Google Translate widget to be rendered before accessing it
         const interval = setInterval(() => {
             const elements = document.querySelector('.goog-te-gadget');
             if (elements) {
-                console.log(elements.children);
                 clearInterval(interval);
             }
         }, 500);

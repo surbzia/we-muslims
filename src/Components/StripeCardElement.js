@@ -4,13 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import api from '@/services/apis';
 import { request } from '@/services/request';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'; // Changed import
 
 export default function StripeCardElement({ formData, amount, setErrorsFromServer, onSuccess }) {
     const cardElementRef = useRef(null);
     const stripeRef = useRef(null);
 
-    const router = useRouter();
+    const router = useRouter(); // Now using the correct router
     const elementsRef = useRef(null);
     const [paymentMethod, setPaymentMethod] = useState(null);
     const [loading, setLoading] = useState(false);
