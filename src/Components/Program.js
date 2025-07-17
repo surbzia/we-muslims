@@ -1,5 +1,5 @@
 "use client";
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Slider from "react-slick";
 import {
 	charity,
@@ -12,8 +12,7 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
-import {MyContext} from "@/Components/MyContextProvider";
-
+import { MyContext } from "@/Components/MyContextProvider";
 
 const PrevArrow = ({ onClick }) => (
 	<div className="custom-arrow prev" onClick={onClick}>
@@ -28,11 +27,9 @@ const NextArrow = ({ onClick }) => (
 );
 
 const Program = () => {
-
 	const { content } = useContext(MyContext);
-	const pageContent = content.home['ProgramSection'];
+	const pageContent = content.home["ProgramSection"];
 	const data = pageContent.data ?? [];
-
 
 	const settings = {
 		dots: false,
@@ -66,10 +63,12 @@ const Program = () => {
 						<div className="content">
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
-								<h4 className="primary-bold-font color-6 level-2">{pageContent['top_heading']}</h4>
+								<h4 className="primary-bold-font color-6 level-2">
+									{pageContent["top_heading"]}
+								</h4>
 							</div>
 							<h2 className="primary-semibold-font color-6 level-3">
-								{pageContent['heading']}
+								{pageContent["heading"]}
 							</h2>
 						</div>
 					</div>
@@ -111,7 +110,8 @@ const Program = () => {
 										<div className="col-lg-8">
 											<div className="d-flex align-content-center gap-2">
 												<h4 className="color-12 level-7 mb-0 primary-semibold-font">
-													{program?.raised_amount}of {program.total_amount_required}
+													{program?.raised_amount}of{" "}
+													{program.total_amount_required}
 												</h4>
 												<span className="wrapper-linn primary-semibold-font level-7">
 													Raised
@@ -126,7 +126,7 @@ const Program = () => {
 										<div className="col-lg-4">
 											<Link
 												href="/"
-												className="header-link-donate ps-3 level-7 link-here primary-semibold-font text-decoration-none"
+												className="header-link-donate mt-2 ps-3 level-7 link-here primary-semibold-font text-decoration-none"
 											>
 												Donate
 											</Link>

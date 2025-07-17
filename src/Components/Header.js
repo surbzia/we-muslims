@@ -1,77 +1,58 @@
 "use client";
 
-import { hamburger, logo, signupimg } from "@/Constant/Index";
+import { signupimg } from "@/Constant/Index";
 import Image from "next/image";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import { MyContext } from "./MyContextProvider";
 import GoogleTranslate from "./GoogleTranslate";
 
-
 const Header = () => {
 	const { setting } = useContext(MyContext);
-	const [language, setLanguage] = useState("ENG");
 	const [showModal, setShowModal] = useState(false);
-	const router = useRouter();
+	const [menuOpen, setMenuOpen] = useState(false);
 	const pathname = usePathname();
-
-	const toggleLanguage = () => {
-		setLanguage((prevLang) => (prevLang === "ENG" ? "اردو" : "ENG"));
-	};
 
 	useEffect(() => {
 		if (pathname === "/") {
 			const alreadyShown = localStorage.getItem("welcomeModalShown");
 			if (!alreadyShown) {
-				setShowModal(true);
-				localStorage.setItem("welcomeModalShown", "true");
+				setTimeout(() => {
+					setShowModal(true);
+					localStorage.setItem("welcomeModalShown", "true");
+				}, 500); // small delay for smooth appearance
 			}
 		}
 	}, [pathname]);
 
+	const toggleMenu = () => setMenuOpen((prev) => !prev);
 	const closeModal = () => setShowModal(false);
+	const closeMenu = () => setMenuOpen(false);
+
+	const navLinks = [
+		{ name: "About Us", path: "/aboutus" },
+		{ name: "Program", path: "/ourprogram" },
+		{ name: "Gallery", path: "/gallery" },
+		{ name: "Get Involved", path: "/getinvolved" },
+		{ name: "Contact Us", path: "/contact" },
+		{ name: "Events", path: "/events" },
+	];
 
 	return (
 		<>
+			{/* Welcome Modal */}
 			{showModal && (
-				<div
-					className="modal-backdrop"
-					style={{
-						position: "fixed",
-						top: 0,
-						left: 0,
-						width: "100vw",
-						height: "100vh",
-						backgroundColor: "rgba(0, 0, 0, 0.2)",
-						backdropFilter: "blur(5px)",
-						WebkitBackdropFilter: "blur(5px)",
-						zIndex: 9999,
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-					}}
-				>
-					<div
-						className="modal-content"
-						style={{
-							backgroundColor: "#fff",
-							borderRadius: "10px",
-							maxWidth: "800px",
-							textAlign: "center",
-							boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
-							padding: "0",
-						}}
-					>
+				<div className="modal-backdrop">
+					<div className="modal-content">
 						<button
 							type="button"
-							className="btn-close position-absolute right-0 top-0 p-3"
+							className="btn-close position-absolute top-0 end-0 p-3"
 							onClick={closeModal}
 						></button>
 						<div className="row align-items-center">
-							{/* Left Image */}
-							<div className="col-lg-6 d-none p-0 d-lg-block">
+							<div className="col-lg-6 d-none d-lg-block p-0">
 								<Image
 									src={signupimg}
 									alt="Signup"
@@ -80,115 +61,111 @@ const Header = () => {
 									height={800}
 								/>
 							</div>
-
-							{/* Right Form */}
-							<div className="col-lg-6 ">
-								<div className="p-4">
-									<h5 className="color-12 level-7 calibri-bold text-start" >Lorem ipsum dolor sit amet</h5>
-									<h5 className="modal-title mb-3 text-start level-6 calibri-bold dark-color">
-										Subscribe to Mission Ummah
-									</h5>
-									<form>
-										<div className="mb-3">
-											<input
-												type="text"
-												className="form-control bg-transparent"
-												placeholder="Enter Email Or Phone Number"
-												required
-											/>
-										</div>
-										<button type="submit" className="form-btn w-100">
-											Submit
-										</button>
-										<p className="color-16 mt-3">Lorem ipsum, dolor sit amet consectetur adipisicing elit. </p>
-										<div className="d-flex align-content-center justify-content-center gap-3">
-											<FaFacebook className="color-12" />
-											<FaTwitter className="color-12" />
-											<FaInstagram className="color-12" />
-										</div>
-									</form>
-								</div>
+							<div className="col-lg-6 p-4">
+								<h5 className="text-start color-12 level-7">
+									Lorem ipsum dolor sit amet
+								</h5>
+								<h5 className="modal-title mb-3 text-start level-6 dark-color">
+									Subscribe to Mission Ummah
+								</h5>
+								<form>
+									<input
+										type="text"
+										className="form-control bg-transparent mb-3"
+										placeholder="Enter Email Or Phone Number"
+										required
+									/>
+									<button type="submit" className="form-btn w-100">
+										Submit
+									</button>
+									<p className="color-16 mt-3">
+										Lorem ipsum, dolor sit amet consectetur adipisicing elit.
+									</p>
+									<div className="d-flex justify-content-center gap-3">
+										<FaFacebook className="color-12" />
+										<FaTwitter className="color-12" />
+										<FaInstagram className="color-12" />
+									</div>
+								</form>
 							</div>
 						</div>
-
 					</div>
+					<style jsx>{`
+						.modal-backdrop {
+							position: fixed;
+							top: 0;
+							left: 0;
+							width: 100%;
+							height: 100%;
+							background-color: rgba(0, 0, 0, 0.6);
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							z-index: 1050;
+						}
+						.modal-content {
+							background: #fff;
+							border-radius: 10px;
+							width: 90%;
+							max-width: 800px;
+							position: relative;
+							overflow: hidden;
+						}
+					`}</style>
 				</div>
 			)}
 
+			{/* Header */}
 			<header className="site-header">
 				<div className="container">
-					<div className="header-wrapper py-3">
-						<div className="header-start row align-items-center">
-							<div className="col-lg-2">
-								<div className="logo-wrapper d-flex align-items-center justify-content-between">
-									<div className="header-logo">
-										<figure className="header-logo">
-											<Link href="/">
-												{setting != null ? (
-													<Image
-														src={setting?.header_logo_full_url ?? null}
-														className="logo-here light-image"
-														alt="Logo"
-														width={60} // Required
-														height={60} // Required
-													/>
-												) : ""}
-											</Link>
-										</figure>
+					<div className="d-flex justify-content-between align-items-center py-3">
+						{/* Logo */}
+						<Link href="/" className="d-flex align-items-center">
+							{setting ? (
+								<Image
+									src={setting.header_logo_full_url}
+									alt="Logo"
+									width={60}
+									height={60}
+									className="logo-here"
+								/>
+							) : (
+								""
+							)}
+						</Link>
 
-									</div>
-								</div>
-							</div>
+						{/* Hamburger Icon */}
+						<button className="hamburger d-lg-none" onClick={toggleMenu}>
+							<span className={`bar ${menuOpen ? "open" : ""}`}></span>
+							<span className={`bar ${menuOpen ? "open" : ""}`}></span>
+							<span className={`bar ${menuOpen ? "open" : ""}`}></span>
+						</button>
 
-							<div className="col-lg-7">
-								<div className="d-lg-flex align-items-center justify-content-center gap-2 d-none">
-									<ul className="header-link list-unstyled d-md-flex flex-lg-row align-items-center gap-4 mb-0 z-index-1 d-none">
-
-
-										{[
-											{ name: "About Us", path: "/aboutus" },
-											{ name: "Program", path: "/ourprogram" },
-											{ name: "Gallery", path: "/gallery" },
-											{ name: "Get Involved", path: "/getinvolved" },
-											{ name: "Contact Us", path: "/contact" },
-											{ name: "Events", path: "/events" },
-										].map((link) => (
-											<li key={link.path} className="single-item">
-												<Link
-													href={link.path}
-													className={`header-link level-7 link-here color-6  primary-semibold-font text-decoration-none ${pathname === link.path ? "active-link" : "color-6 "
-														}`}
-												>
-													{link.name}
-												</Link>
-											</li>
-										))}
-									</ul>
-								</div>
-							</div>
-
-							<div className="col-lg-3 d-flex align-items-center justify-content-center gap-3">
-								<Link href="/donation">
-									<button className="btn-wrapper">Donate</button>
-								</Link>
-								<GoogleTranslate />
-
-								{/* <div
-									className="language-toggle ms-3 fw-bold"
-									onClick={toggleLanguage}
-									style={{ cursor: "pointer" }}
-								>
-									{language}
-									<Image
-										src={hamburger}
-										className="img-fluid ps-2"
-										alt="Lang Icon"
-										width={20}
-										height={20}
-									/>
-								</div> */}
-							</div>
-						</div>
+						{/* Navigation */}
+						<nav className={`main-nav ${menuOpen ? "open" : ""}`}>
+							<ul className="nav-list d-lg-flex align-items-center gap-4 list-unstyled mb-0">
+								{navLinks.map((link) => (
+									<li key={link.path} onClick={closeMenu}>
+										<Link
+											href={link.path}
+											className={`header-link level-7 link-here color-6 primary-semibold-font text-decoration-none ${
+												pathname === link.path ? "active-link" : "color-6"
+											}`}
+										>
+											{link.name}
+										</Link>
+									</li>
+								))}
+								<li className="ps-lg-5 ps-md-5">
+									<Link href="/donation" onClick={closeMenu}>
+										<button className="btn-wrapper mt-lg-0 mt-3">Donate</button>
+									</Link>
+								</li>
+								<li>
+									<GoogleTranslate />
+								</li>
+							</ul>
+						</nav>
 					</div>
 				</div>
 			</header>

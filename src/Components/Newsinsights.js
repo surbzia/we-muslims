@@ -29,7 +29,7 @@ const settings = {
 	infinite: true,
 	speed: 500,
 	slidesToShow: 3,
-	slidesToScroll: 1,
+	slidesToScroll: 3,
 	nextArrow: <NextArrow />,
 	prevArrow: <PrevArrow />,
 	responsive: [
@@ -45,9 +45,8 @@ const settings = {
 };
 
 const Newsinsights = () => {
-
 	const { content } = useContext(MyContext);
-	const pageContent = content.home['NewsSection'];
+	const pageContent = content.home["NewsSection"];
 	const data = pageContent.data ?? [];
 	return (
 		<section className="newinsgths pb-3">
@@ -58,11 +57,11 @@ const Newsinsights = () => {
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
 								<h4 className="primary-bold-font color-6 level-2">
-									{pageContent['top_heading']}
+									{pageContent["top_heading"]}
 								</h4>
 							</div>
 							<h2 className="primary-semibold-font color-6 level-3">
-								{pageContent['note']}
+								{pageContent["note"]}
 							</h2>
 						</div>
 					</div>
@@ -87,7 +86,9 @@ const Newsinsights = () => {
 									<div className="p-4">
 										<div className="d-flex align-items-center gap-2 text-muted mb-2">
 											<FaCalendarAlt size={14} />
-											<span className="level-7">{item.formated_created_at}</span>
+											<span className="level-7">
+												{item.formated_created_at}
+											</span>
 										</div>
 
 										<h4 className="dark-color primary-semibold-font level-5 pe-5 mb-2">
@@ -96,7 +97,10 @@ const Newsinsights = () => {
 												: item.name}
 										</h4>
 
-										<Link href={`/news/${item.id}`} className="text-decoration-none">
+										<Link
+											href={`/news/${item.id}`}
+											className="text-decoration-none"
+										>
 											<span className="primary-semibold-font color-6 level-7 border-bottom">
 												Read More
 											</span>
@@ -107,7 +111,7 @@ const Newsinsights = () => {
 										<div className="d-flex align-items-center gap-2">
 											<FaUserAlt size={14} />
 											<span className="text-uppercase level-7">
-												{item.author ?? 'n/a'}
+												{item.author ?? "n/a"}
 											</span>
 										</div>
 										<div className="d-flex align-items-center gap-2">

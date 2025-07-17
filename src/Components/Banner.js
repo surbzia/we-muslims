@@ -1,16 +1,15 @@
 "use client";
 
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import Image from "next/image";
 import Slider from "react-slick";
 import { bannerimg } from "@/Constant/Index"; // ✅ Imported constants
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import {MyContext} from "@/Components/MyContextProvider";
+import { MyContext } from "@/Components/MyContextProvider";
 
 const Banner = () => {
-
 	const { content } = useContext(MyContext);
 
 	const images = content.home.Banner.images;

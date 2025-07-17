@@ -20,6 +20,9 @@ import program1 from "../assets/img/program1.png";
 import program2 from "../assets/img/program2.png";
 import program3 from "../assets/img/program3.png";
 import support from "../assets/img/support.png";
+import support1 from "../assets/img/support1.png";
+import support2 from "../assets/img/support2.png";
+
 import event from "../assets/img/event.png";
 import event5 from "../assets/img/event5.png";
 import event4 from "../assets/img/event4.png";
@@ -69,7 +72,6 @@ import contectimg1 from "../assets/img/contectimg1.png";
 import contectimg2 from "../assets/img/contectimg2.png";
 import contectimg3 from "../assets/img/contectimg3.png";
 
-
 import socailcontent from "../assets/img/socailcontent.png";
 import socailcontent1 from "../assets/img/socailcontent1.png";
 import socailcontent2 from "../assets/img/socailcontent2.png";
@@ -84,19 +86,18 @@ import maineventimg5 from "../assets/img/maineventimg5.png";
 
 import calenderimgwrapper from "../assets/img/calenderimgwrapper.png";
 
-
-
-
-
-
-
-
-
-
 export {
 	calenderimgwrapper,
-	maineventimg,maineventimg1,maineventimg2,maineventimg3,maineventimg4,maineventimg5,
-	socailcontent, socailcontent3, socailcontent2, socailcontent1,
+	maineventimg,
+	maineventimg1,
+	maineventimg2,
+	maineventimg3,
+	maineventimg4,
+	maineventimg5,
+	socailcontent,
+	socailcontent3,
+	socailcontent2,
+	socailcontent1,
 	contectimg,
 	contectimg1,
 	contectimg2,
@@ -155,6 +156,8 @@ export {
 	program2,
 	program3,
 	support,
+	support1,
+	support2,
 	event,
 	event5,
 	event4,
