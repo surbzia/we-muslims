@@ -1,7 +1,7 @@
 // ✅ About Us page: app/aboutus/page.js
 "use client";
 
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Header from "@/Components/Header";
 import Footer from "@/Components/Footer";
 import PageHeader from "@/Components/PageHeader";
@@ -13,7 +13,10 @@ import {
 	about2,
 	about3,
 	about4,
-	about5, charity, line, line1,
+	about5,
+	charity,
+	line,
+	line1,
 	meetimg,
 	meetimg1,
 	meetimg2,
@@ -24,9 +27,11 @@ import {
 	FaFacebookF,
 	FaTwitter,
 	FaInstagram,
-	FaBehance, FaChevronLeft, FaChevronRight,
+	FaBehance,
+	FaChevronLeft,
+	FaChevronRight,
 } from "react-icons/fa";
-import {MyContext} from "@/Components/MyContextProvider";
+import { MyContext } from "@/Components/MyContextProvider";
 import Slider from "react-slick";
 
 const AboutUs = () => {
@@ -35,7 +40,7 @@ const AboutUs = () => {
 	const { content } = useContext(MyContext);
 	const pageContent = content.aboutUs;
 
-	console.log(pageContent['SectionOne']['images']);
+	console.log(pageContent["SectionOne"]["images"]);
 
 	const PrevArrow = ({ onClick }) => (
 		<div className="custom-arrow prev" onClick={onClick}>
@@ -73,7 +78,6 @@ const AboutUs = () => {
 		],
 	};
 
-
 	return (
 		<>
 			<PageHeader description="this is description" pagename="About Us" />
@@ -84,24 +88,24 @@ const AboutUs = () => {
 							<div className="position-relative">
 								<div className="position-about">
 									<Image
-										src={pageContent['SectionOne']['images'][0]}
-										className="img-fluid w-100 "
+										src={pageContent["SectionOne"]["images"][0]}
+										className="img-fluid w-100 about-img-w"
 										alt="Lang Icon"
 										width={200}
 										height={200}
 									/>{" "}
 								</div>
 								<Image
-									src={pageContent['SectionOne']['images'][1]}
-									className="img-fluid w-100 about-main"
+									src={pageContent["SectionOne"]["images"][1]}
+									className="img-fluid w-100 about-img-w about-main"
 									alt="Lang Icon"
 									width={200}
 									height={200}
 								/>{" "}
 								<div className="position-about1">
 									<Image
-										src={pageContent['SectionOne']['images'][2]}
-										className="img-fluid w-100 "
+										src={pageContent["SectionOne"]["images"][2]}
+										className="img-fluid about-img-w w-100 "
 										alt="Lang Icon"
 										width={200}
 										height={200}
@@ -115,28 +119,27 @@ const AboutUs = () => {
 									{" "}
 									<Image src={about5} className="img-fluid " alt="Lang Icon" />
 									<h4 className="level-7 mb-0 color-12 primary-semibold-font">
-										{pageContent['SectionOne']['top_heading']}
+										{pageContent["SectionOne"]["top_heading"]}
 									</h4>
 								</div>
 								<h2 className="dark-color primary-semibold-font level-2">
-									{pageContent['SectionOne']['heading']}
+									{pageContent["SectionOne"]["heading"]}
 								</h2>
-								<p>
-									{pageContent['SectionOne']['note_one']}
-								</p>
+								<p>{pageContent["SectionOne"]["note_one"]}</p>
 							</div>
 							<div className="about-content ps-lg-5 ms-lg-5 ps-md-5 ms-md-5 mt-4">
-								<p>
-									{pageContent['SectionOne']['note_two']}
-								</p>
+								<p>{pageContent["SectionOne"]["note_two"]}</p>
 								<div className="d-flex align-items-start gap-3">
-									<Image width={200}
-										   height={200} src={pageContent['SectionOne']['sub_section_image'][0]} className="img-fluid " alt="Lang Icon" />
+									<Image
+										width={200}
+										height={200}
+										src={pageContent["SectionOne"]["sub_section_image"][0]}
+										className="img-fluid "
+										alt="Lang Icon"
+									/>
 									<div>
-										<h4>{pageContent['SectionOne']['sub_heading']}</h4>
-										<p>
-											{pageContent['SectionOne']['sub_heading_note']}
-										</p>
+										<h4>{pageContent["SectionOne"]["sub_heading"]}</h4>
+										<p>{pageContent["SectionOne"]["sub_heading_note"]}</p>
 									</div>
 								</div>
 							</div>
@@ -149,10 +152,10 @@ const AboutUs = () => {
 					<div className="row align-items-center">
 						<div className="col-lg-6 paragraph-pading">
 							<h2 className="text-white primary-semibold-font level-2">
-								{pageContent['VideoSection']['heading']}
+								{pageContent["VideoSection"]["heading"]}
 							</h2>
 							<p className="text-white mt-3 mb-3">
-								{pageContent['VideoSection']['note']}
+								{pageContent["VideoSection"]["note"]}
 							</p>
 							<div className="row mb-3">
 								<div className="col-lg-5 ">
@@ -165,8 +168,13 @@ const AboutUs = () => {
 							</div>
 						</div>
 						<div className="col-lg-6 position-relative video-wrapper">
-							<Image src={pageContent['VideoSection']['image'][0]} width={1000}
-								height={500} className="img-fluid" alt="About Image" />
+							<Image
+								src={pageContent["VideoSection"]["image"][0]}
+								width={1000}
+								height={500}
+								className="img-fluid"
+								alt="About Image"
+							/>
 							<div
 								className="play-button-wrapper"
 								onClick={() => setShowModal(true)}
@@ -191,7 +199,10 @@ const AboutUs = () => {
 								×
 							</span>
 							<video controls autoPlay>
-								<source src={pageContent['VideoSection']['video'][0]} type="video/mp4" />
+								<source
+									src={pageContent["VideoSection"]["video"][0]}
+									type="video/mp4"
+								/>
 								Your browser does not support the video tag.
 							</video>
 						</div>
@@ -204,12 +215,12 @@ const AboutUs = () => {
 						<div className="col-lg-8 mx-auto ">
 							<div className="text-center mt-5 mb-5 pt-3 pb-3">
 								<h2 className="primary-semibold-font text-center level-2 dark-color">
-									{pageContent['TeamSection']['heading']}
+									{pageContent["TeamSection"]["heading"]}
 								</h2>
 							</div>
 						</div>
 					</div>
-					{pageContent['TeamSection']['teams'].map((teamObj, index) => (
+					{pageContent["TeamSection"]["teams"].map((teamObj, index) => (
 						<div className="row" key={index}>
 							<div className="col-lg-8 mx-auto">
 								<div className="text-center mt-5 mb-5 pt-3 pb-3">
@@ -238,24 +249,45 @@ const AboutUs = () => {
 												</h5>
 
 												<div className="d-flex align-items-center mt-3">
-													<Link target="_blank" href={member.facebook_url} className="text-black mx-2">
-																<FaFacebookF />
-															</Link>
-															<span className="border-start mx-2" style={{ height: "20px" }}></span>
+													<Link
+														target="_blank"
+														href={member.facebook_url}
+														className="text-black mx-2"
+													>
+														<FaFacebookF />
+													</Link>
+													<span
+														className="border-start mx-2"
+														style={{ height: "20px" }}
+													></span>
 
-													<Link target="_blank" href={member.x_url} className="text-black mx-2">
-																<FaTwitter />
-															</Link>
-															<span className="border-start mx-2" style={{ height: "20px" }}></span>
+													<Link
+														target="_blank"
+														href={member.x_url}
+														className="text-black mx-2"
+													>
+														<FaTwitter />
+													</Link>
+													<span
+														className="border-start mx-2"
+														style={{ height: "20px" }}
+													></span>
 
-													<Link target="_blank" href={member.instagram_url} className="text-black mx-2">
-																<FaInstagram />
-															</Link>
-															<span className="border-start mx-2" style={{ height: "20px" }}></span>
+													<Link
+														target="_blank"
+														href={member.instagram_url}
+														className="text-black mx-2"
+													>
+														<FaInstagram />
+													</Link>
+													<span
+														className="border-start mx-2"
+														style={{ height: "20px" }}
+													></span>
 
-														{/*<Link href={member.linkedin_url} className="text-black mx-2">*/}
-														{/*	<FaBehance />*/}
-														{/*</Link>*/}
+													{/*<Link href={member.linkedin_url} className="text-black mx-2">*/}
+													{/*	<FaBehance />*/}
+													{/*</Link>*/}
 												</div>
 											</div>
 										))}
@@ -268,10 +300,9 @@ const AboutUs = () => {
 				<div className="container">
 					<h3>Partners</h3>
 
-					<div className="mt-5 pt-4 pb-3 mb-5">
+					<div className="mt-lg-5 pt-lg-4 pb-lg-3 mb-lg-5 mt-md-5 pt-md-4 pb-md-3 mb-md-5">
 						<Slider {...settings}>
-							{pageContent['TeamSection']['partners'].map((partner, index) => (
-
+							{pageContent["TeamSection"]["partners"].map((partner, index) => (
 								<div className="px-2" key={index}>
 									<div className="charity-content">
 										<div className="position-relative">

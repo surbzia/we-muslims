@@ -1,7 +1,6 @@
 "use client";
 
-
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
@@ -13,7 +12,7 @@ import {
 	event4,
 	event5,
 } from "@/Constant/Index";
-import {MyContext} from "@/Components/MyContextProvider";
+import { MyContext } from "@/Components/MyContextProvider";
 
 const eventData = [
 	{
@@ -62,20 +61,22 @@ const eventData = [
 
 const Events = () => {
 	const { content } = useContext(MyContext);
-	const pageContent = content.home['EventSection'];
+	const pageContent = content.home["EventSection"];
 	const data = pageContent.data ?? [];
 	return (
 		<section className="newinsgths pb-3">
 			<div className="container">
-				<div className="row mt-5 pt-5">
+				<div className="row mt-lg-5 pt-lg-5 mt-md-5 pt-md-5 mt-2 pt-2">
 					<div className="col-lg-7 mx-auto text-center">
 						<div className="content">
 							<div className="d-flex align-items-center justify-content-center gap-3">
 								<span className="line-wrapper"></span>
-								<h4 className="primary-bold-font color-6 level-2">{pageContent['top_heading']}</h4>
+								<h4 className="primary-bold-font color-6 level-2">
+									{pageContent["top_heading"]}
+								</h4>
 							</div>
 							<h2 className="primary-semibold-font color-6 level-3">
-								{pageContent['note']}
+								{pageContent["note"]}
 							</h2>
 						</div>
 					</div>

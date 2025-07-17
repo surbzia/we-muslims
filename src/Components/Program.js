@@ -74,7 +74,7 @@ const Program = () => {
 					</div>
 				</div>
 
-				<div className="mt-5 pt-4 pb-3 mb-5">
+				<div className="mt-5 pt-4 pb-3 mb-5 margin-wrapper-progress">
 					<Slider {...settings}>
 						{data.map((program, index) => (
 							<div className="px-2" key={index}>
